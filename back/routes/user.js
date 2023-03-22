@@ -2,12 +2,18 @@ const router = require("express").Router();
 
 const { User, Character } = require("../models");
 
-const getLatestNft = async (_limit) => {
+const getLatestNft = async (_page, _pageLen) => {
   const data = await Character.findAll({
-    limit: 10,
+    order: [["createdAt", "DESC"]],
+    offset: _page * _pageLen,
+    limit: _pageLen,
   });
-  console.log(data);
+  return data;
 };
-getLatestNft();
+
+router.post("/recentAll", async (req, res) => {
+  const data = await getLatestNft(req.body.page, req.body.pageLen);
+  res.send(data);
+});
 
 module.exports = router;

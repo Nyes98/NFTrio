@@ -53,7 +53,6 @@ const HeaderBox = styled.div`
     width: 40px;
     margin-right: 10px;
   }
-
   color: white;
 `;
 

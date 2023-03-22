@@ -13,7 +13,7 @@ module.exports = class Character extends Sequelize.Model {
         name: {
           type: Sequelize.STRING(64),
         },
-        class: {
+        job: {
           type: Sequelize.STRING(64),
         },
         gender: {
@@ -30,6 +30,10 @@ module.exports = class Character extends Sequelize.Model {
         },
         skill: {
           type: Sequelize.STRING(255),
+        },
+        price: {
+          type: Sequelize.TEXT,
+          allowNull: true,
         },
       },
       {
@@ -48,6 +52,10 @@ module.exports = class Character extends Sequelize.Model {
     db.Character.belongsTo(db.User, {
       foreignKey: "owner_address",
       sourceKey: "address",
+    });
+    db.Character.hasMany(db.NFTMarket, {
+      foreignKey: "nft_hash",
+      targetKey: "hash",
     });
     db.Character.hasMany(db.User, {
       foreignKey: "formation_1",
