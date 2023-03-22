@@ -10,6 +10,7 @@ import PickContainer from "./components/pick/Container";
 import SaleContainer from "./components/sale/Container";
 import RankContainer from "./components/rank/Container";
 import MyPageContainer from "./components/mypage/Container";
+import NftContainer from "./components/nftTest/Container";
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
         <Route path="/mypage" element={<MyPageContainer />} />
       </Routes>
       <FooterContainer></FooterContainer>
+      <Routes>
+        <Route path="/test" element={<NftContainer />}></Route>
+      </Routes>
     </div>
   );
 }
