@@ -1,8 +1,29 @@
 import styled from "styled-components";
 
-type Props = {};
+interface recent {
+  // attack: number;
+  // createAt: string;
+  // deletedAt?: string;
+  // gender: number;
+  // hash: string;
+  // health: number;
+  // id: number;
+  // img: string;
+  // job: string;
+  // name: string;
+  // owner_address?: string;
+  // price: string;
+  // skill: string;
+  // speed: number;
+  // updatedAt: string;
+}
 
-const MainComponent: React.FC<Props> = ({}) => {
+type Props = {
+  recent10?: Array<any>;
+};
+
+const MainComponent: React.FC<Props> = ({ recent10 }) => {
+  console.log(recent10);
   return (
     <Wrap>
       <MainBoard>

@@ -3,11 +3,13 @@ const router = require("express").Router();
 const { User, Character, NFTMarket } = require("../models");
 
 const getLatestNft = async (_page, _pageLen) => {
+  console.log(_page, _pageLen);
   const data = await Character.findAll({
     order: [["createdAt", "DESC"]],
     offset: _page * _pageLen,
     limit: _pageLen,
   });
+  console.log("data", data);
   return data;
 };
 // const setList = async () => {
@@ -28,7 +30,9 @@ const getTopPriceNft = async () => {
 };
 
 router.post("/recentAll", async (req, res) => {
+  console.log(req.body);
   const data = await getLatestNft(req.body.page, req.body.pageLen);
+  console.log(data);
   res.send(data);
 });
 

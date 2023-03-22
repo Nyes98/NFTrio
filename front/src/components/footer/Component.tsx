@@ -12,11 +12,8 @@ const FooterComponent: React.FC<Props> = ({}) => {
           <LinkBox>
             <div>
               Github Link :{" "}
-              <a
-                href=" https://github.com/Nyes98/NFTrio-TeamProject"
-                className="nftrio-a"
-              >
-                https://github.com/Nyes98/NFTrio-TeamProject
+              <a href=" https://github.com/Nyes98/NFTrio" className="nftrio-a">
+                https://github.com/Nyes98/NFTrio
               </a>
             </div>
             <div>
