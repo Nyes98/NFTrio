@@ -5,7 +5,7 @@ module.exports = class NFTMarket extends Sequelize.Model {
     return super.init(
       {
         price: {
-          type: Sequelize.TEXT,
+          type: Sequelize.INTEGER,
         },
       },
       {
