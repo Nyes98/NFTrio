@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-interface recent {
+interface recentI {
   // attack: number;
   // createAt: string;
   // deletedAt?: string;
@@ -19,11 +19,11 @@ interface recent {
 }
 
 type Props = {
-  recent10?: Array<any>;
+  recentArr1?: Array<any>;
+  recentArr2?: Array<any>;
 };
 
-const MainComponent: React.FC<Props> = ({ recent10 }) => {
-  console.log(recent10);
+const MainComponent: React.FC<Props> = ({ recentArr1, recentArr2 }) => {
   return (
     <Wrap>
       <MainBoard>
@@ -49,56 +49,38 @@ const MainComponent: React.FC<Props> = ({ recent10 }) => {
               <div>INFO</div>
               <div>FLOOR PRICE</div>
             </BoardTitle>
-            <BoardInfo>
-              <div>
-                <div>1</div>
+            {recentArr1?.map((item, index) => (
+              <BoardInfo key={`Arr1-${index}`}>
                 <div>
-                  <img src="./imgs/imsi.png" alt="imsi" />
+                  <div>{index + 1}</div>
+                  <div>
+                    <img src={`/imgs/${item.img}`} alt="imsi" />
+                  </div>
+                  <div>{item.name}</div>
                 </div>
-                <div>NFT 이름 얼마나 길어도 되는지 확인좀</div>
-              </div>
 
-              <div>1.5 ETH</div>
-            </BoardInfo>{" "}
-            <BoardInfo>
-              <div>
-                <div>2</div>
-                <div>
-                  <img src="./imgs/imsi.png" alt="imsi" />
-                </div>
-                <div>NFT 이름</div>
-              </div>
-
-              <div>1.5 ETH</div>
-            </BoardInfo>
+                <div>{item.price}</div>
+              </BoardInfo>
+            ))}
           </BoardWrap>
           <BoardWrap>
             <BoardTitle>
               <div>INFO</div>
               <div>FLOOR PRICE</div>
             </BoardTitle>
-            <BoardInfo>
-              <div>
-                <div>1</div>
+            {recentArr2?.map((item, index) => (
+              <BoardInfo key={`Arr2-${index}`}>
                 <div>
-                  <img src="./imgs/imsi.png" alt="imsi" />
+                  <div>{index + 6}</div>
+                  <div>
+                    <img src={`/imgs/${item.img}`} alt="imsi" />
+                  </div>
+                  <div>{item.name}</div>
                 </div>
-                <div>NFT 이름 얼마나 길어도 되는지 확인좀</div>
-              </div>
 
-              <div>1.5 ETH</div>
-            </BoardInfo>{" "}
-            <BoardInfo>
-              <div>
-                <div>2</div>
-                <div>
-                  <img src="./imgs/imsi.png" alt="imsi" />
-                </div>
-                <div>NFT 이름</div>
-              </div>
-
-              <div>1.5 ETH</div>
-            </BoardInfo>
+                <div>{item.price}</div>
+              </BoardInfo>
+            ))}
           </BoardWrap>
         </BoardHalf>
       </SailBoard>
