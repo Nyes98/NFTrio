@@ -9,9 +9,16 @@ type Props = {
   classdd: boolean;
   buyBtn: number;
   mouseIn: (item: number) => void;
-  number: number[];
   BuyMordalHandler: () => void;
   buyMordal: boolean;
+  nftCount?: number;
+  handleSelect: (e: any) => void;
+  PriceSort: (e: any) => void;
+  ClassSort: (e: any) => void;
+  nftArr?: Array<any>;
+  floorPrice?: number;
+  topPrice?: number;
+  totalPrice: number;
 };
 
 const SaleComponent: React.FC<Props> = ({
@@ -21,9 +28,16 @@ const SaleComponent: React.FC<Props> = ({
   classdd,
   buyBtn,
   mouseIn,
-  number,
   BuyMordalHandler,
   buyMordal,
+  nftCount,
+  handleSelect,
+  PriceSort,
+  ClassSort,
+  nftArr,
+  floorPrice,
+  topPrice,
+  totalPrice,
 }) => {
   return (
     <MainBoard>
@@ -33,10 +47,10 @@ const SaleComponent: React.FC<Props> = ({
       </NftImg>
       <SaleWrap>
         <div className="nftrio-h">
-          <h3>NFT 이름</h3>
+          <h3>Trio</h3>
         </div>
         <NftInfo>
-          <div>Items 523</div>
+          <div>Items {nftCount}</div>
           <div>Chain Ethereum</div>
           <div>Category Game</div>
         </NftInfo>
@@ -45,15 +59,15 @@ const SaleComponent: React.FC<Props> = ({
         </NftInfo>
         <NftPrice>
           <PriceInfo>
-            <div>850 ETH</div>
+            <div>{totalPrice} ETH</div>
             <div>total volume</div>
           </PriceInfo>
           <PriceInfo>
-            <div>0.715ETH</div>
+            <div>{floorPrice}ETH</div>
             <div>floor price</div>
           </PriceInfo>
           <PriceInfo>
-            <div>1.666ETH</div>
+            <div>{topPrice}ETH</div>
             <div>top price</div>
           </PriceInfo>
           <PriceInfo>
@@ -63,16 +77,16 @@ const SaleComponent: React.FC<Props> = ({
         </NftPrice>
         <Sort>
           Items
-          <select>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
+          <select onChange={handleSelect}>
+            <option value={25}>25</option>
+            <option value={50}>50</option>
+            <option value={100}>100</option>
           </select>
         </Sort>
         <BottomSaleWrap>
           <Filter>
             <DropTitle onClick={priceClick}>
-              <div>price</div>
+              <div>Price</div>
               {pricedd ? (
                 <img src="./imgs/up.svg" alt="up" />
               ) : (
@@ -82,14 +96,14 @@ const SaleComponent: React.FC<Props> = ({
 
             {pricedd ? (
               <DropMenu>
-                <div>low to high</div>
-                <div>high to low</div>
+                <div onClick={() => PriceSort(1)}>low to high</div>
+                <div onClick={() => PriceSort(2)}>high to low</div>
               </DropMenu>
             ) : (
               <></>
             )}
             <DropTitle onClick={classClick}>
-              <div>class</div>
+              <div>Class</div>
               {classdd ? (
                 <img src="./imgs/up.svg" alt="up" />
               ) : (
@@ -99,34 +113,36 @@ const SaleComponent: React.FC<Props> = ({
 
             {classdd ? (
               <DropMenu>
-                <div>Warrior</div>
-                <div>Assassin</div>
-                <div>Archer</div>
-                <div>Wizard</div>
+                <div onClick={() => ClassSort(1)}>Warrior</div>
+                <div onClick={() => ClassSort(2)}>Assassin</div>
+                <div onClick={() => ClassSort(3)}>Archer</div>
+                <div onClick={() => ClassSort(4)}>Wizard</div>
               </DropMenu>
             ) : (
               <></>
             )}
           </Filter>
           <SailList>
-            {number?.map((item, index) => {
+            {nftArr?.map((item, index) => {
               return (
                 <SailItem
                   className={"nftrio-button fg-white bg-melon ac-pink "}
-                  onMouseEnter={() => mouseIn(item)}
+                  onMouseEnter={() => mouseIn(item.id)}
                   onMouseLeave={() => mouseIn(0)}
-                  item={item}
+                  item={item.id}
                   key={`Sail-${index}`}
                 >
                   <div>
                     <img
                       className={buyBtn == item ? "on" : ""}
-                      src="./imgs/imsi.png"
+                      src={`imgs/${item.img}`}
                       alt="imimsi"
                     />
                   </div>
-                  <div>NFT이름 #{item}</div>
-                  <div>0.15 ETH</div>
+                  <div>
+                    {item.name} # {item.id}
+                  </div>
+                  <div>{item.price} ETH</div>
                   <div>Last sale : 0.15 ETH</div>
 
                   <BuyBtn

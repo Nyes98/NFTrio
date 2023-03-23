@@ -5,14 +5,24 @@ const request = axios.create({
   withCredentials: true,
 });
 
-export const RecentNFT = async (page: number, pageLen: number) => {
-  return await request.post("/user/recentAll", {
+export const RecentNft = async (
+  page: number,
+  pageLen: number,
+  job?: number,
+  priceFilter?: number
+) => {
+  return await request.post("/nft/recentAll", {
     page: page,
     pageLen: pageLen,
+    job: job,
+    priceFilter: priceFilter,
   });
 };
 
-// ex)
-// export const userRegist = async (registInfo: object) => {
-//   return await request.post("/user/regist", { registInfo: registInfo });
-// };
+export const NftCount = async () => {
+  return await request.post("/nft/nftCount");
+};
+
+export const AllNft = async () => {
+  return await request.post("/nft/all");
+};
