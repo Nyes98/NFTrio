@@ -1,14 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useWeb3 } from "./useWeb3";
 
 interface nftData {
   name: string;
   description: string;
   image: string;
+  tokenId: number;
 }
 
 export const List = ({ account }: { account: string }) => {
   const [list, setList] = useState<Array<nftData>>([]);
+  const [price, setPrice] = useState("");
+  const { web3 } = useWeb3();
   // API Server에서 리스트 받아서 출력하자
 
   const getList = async () => {
@@ -30,26 +34,55 @@ export const List = ({ account }: { account: string }) => {
     console.log("리스트 결과", result);
     setList(result);
   };
+
+  const saleToken = async (_tokenId: number) => {
+    const result = (
+      await axios.post("http://localhost:8080/api/nft/saleToken", {
+        price: price,
+        tokenId: _tokenId,
+        account: account,
+      })
+    ).data;
+    console.log("판매등록", result);
+    web3?.eth.sendTransaction(result);
+    // console.log("세일토큰", saleTk);
+  };
+
   useEffect(() => {
     getList();
   }, [account]);
   return (
     <ul>
-      {list.map((item, idx) => (
-        <Item item={item} key={`item-${idx}`} />
+      {list.map((item: nftData, idx) => (
+        <div key={`comp-${idx}`}>
+          <li>
+            <div>{item.name}</div>
+            <div>{item.description}</div>
+            <div>tokenId: {item.tokenId}</div>
+            <div>
+              <img src={item.image} />
+            </div>
+          </li>
+          <input
+            key={`box-${idx}`}
+            placeholder={"판매 금액"}
+            value={price}
+            type={"number"}
+            onInput={(e: any) => {
+              setPrice(e.target.value);
+              console.log(e.target.value);
+            }}
+          />
+          <button
+            key={`btn-${idx}`}
+            onClick={() => {
+              saleToken(item.tokenId);
+            }}
+          >
+            판매
+          </button>
+        </div>
       ))}
     </ul>
-  );
-};
-
-const Item = ({ item: { name, description, image } }: { item: nftData }) => {
-  return (
-    <li>
-      <div>{name}</div>
-      <div>{description}</div>
-      <div>
-        <img src={image} />
-      </div>
-    </li>
   );
 };

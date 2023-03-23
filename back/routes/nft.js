@@ -115,7 +115,7 @@ router.post("/list", async (req, res) => {
   res.send(data);
 });
 
-router.post("/mint", upload.single("file"), async (req, res) => {
+router.post("/nftMint", upload.single("file"), async (req, res) => {
   const { name, description } = req.body;
   console.log(req.body);
 
@@ -171,6 +171,7 @@ router.post("/mint", upload.single("file"), async (req, res) => {
     data: "",
   };
   obj.nonce = await web3.eth.getTransactionCount(req.body.from);
+  // 얘는 goeril 사용 시 넣으면 터지니까 빼야된다. nonce
   obj.to = process.env.CHAR_CA;
   obj.from = req.body.from;
   obj.data = deployed.methods.safeMint(jsonResult.IpfsHash).encodeABI();
@@ -203,4 +204,22 @@ const temp = async () => {
 };
 // temp();
 
+router.post("/saleToken", async (req, res) => {
+  console.log("가격", req.body.price);
+  console.log("토큰아이디", req.body.tokenId);
+  const deployed = new web3.eth.Contract(saleToken.abi, process.env.SALE_CA);
+  const obj = {
+    to: "",
+    from: "",
+    data: "",
+  };
+  obj.to = process.env.SALE_CA;
+  obj.from = req.body.account;
+  obj.data = await deployed.methods
+    .SalesToken(req.body.tokenId, req.body.price)
+    .encodeABI();
+  res.send(obj);
+  // const saleTokenList = await deployed.methods.getSaleTokenList().call();
+  // console.log("판매목록리스트", saleTokenList);
+});
 module.exports = router;
