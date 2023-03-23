@@ -14,7 +14,6 @@ const s3 = new aws.S3({
   accessKeyId: process.env.S3_KEY,
   secretAccessKey: process.env.S3_SECRET,
 });
-console.log(process.env.S3_KEY, process.env.S3_SECRET);
 const s3Admin = new S3Client({
   region: REGION,
   credentials: {
@@ -66,13 +65,11 @@ const getObject = async (_image) => {
 const getObjectList = async () => {
   try {
     const data = await s3Admin.send(new ListObjectsCommand(bucketParams));
-    console.log("Success");
     const urlList = [];
     data.Contents.map((item) => {
       urlList.push(item.Key);
     });
-    console.log(urlList);
-    return data;
+    return urlList;
   } catch (err) {
     console.log("Error", err);
   }
@@ -95,4 +92,4 @@ const upload = multer({
   }),
 });
 
-module.exports = { upload, getObject, uploadFile, getObjectList };
+module.exports = { upload, getObject, uploadFile, getObjectList, s3 };
