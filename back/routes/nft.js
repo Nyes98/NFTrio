@@ -1,6 +1,7 @@
 const router = require("express").Router();
 
 const { User, Character, NFTMarket } = require("../models");
+const { genCreate } = require("../modules/hashlips/hashlips.js");
 
 const mint = async ({
   hash,
@@ -37,5 +38,6 @@ router.post("/mint", (req, res) => {
   mint({ ...req.body });
   res.send("mint success");
 });
+// genCreate("임의의 해쉬값?");
 
 module.exports = router;
