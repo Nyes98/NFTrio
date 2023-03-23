@@ -134,7 +134,7 @@ const SaleComponent: React.FC<Props> = ({
                 >
                   <div>
                     <img
-                      className={buyBtn == item ? "on" : ""}
+                      className={buyBtn == item.id ? "on" : ""}
                       src={`imgs/${item.img}`}
                       alt="imimsi"
                     />
@@ -146,7 +146,7 @@ const SaleComponent: React.FC<Props> = ({
                   <div>Last sale : 0.15 ETH</div>
 
                   <BuyBtn
-                    className={buyBtn == item ? "on" : ""}
+                    className={buyBtn == item.id ? "on" : ""}
                     onClick={BuyMordalHandler}
                   >
                     구매

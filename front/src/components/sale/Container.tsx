@@ -73,12 +73,12 @@ const SaleContainer = () => {
   };
 
   const mouseIn = (item: number) => {
+    console.log(item);
     setBuyBtn(item);
   };
 
   const handleSelect = (e: any) => {
     setPageLen(parseInt(e.target.value));
-    console.log(pageLen);
   };
 
   useEffect(() => {
