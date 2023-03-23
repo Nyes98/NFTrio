@@ -21,9 +21,14 @@ interface recentI {
 type Props = {
   recentArr1?: Array<any>;
   recentArr2?: Array<any>;
+  topPriceArr?: Array<any>;
 };
 
-const MainComponent: React.FC<Props> = ({ recentArr1, recentArr2 }) => {
+const MainComponent: React.FC<Props> = ({
+  recentArr1,
+  recentArr2,
+  topPriceArr,
+}) => {
   return (
     <Wrap>
       <MainBoard>
@@ -87,60 +92,17 @@ const MainComponent: React.FC<Props> = ({ recentArr1, recentArr2 }) => {
 
       <Title>Top Price NFT</Title>
       <TopSaleWrap>
-        <TopSale>
-          <ImgBox>
-            <img src="./imgs/imsi.png" alt="imsi2" />
-          </ImgBox>
-          <NftInfo>
-            <div>NFT 이름</div>
-            <div>가격</div>
-          </NftInfo>
-        </TopSale>
-        <TopSale>
-          <ImgBox>
-            <img src="./imgs/imsi.png" alt="imsi2" />
-          </ImgBox>
-          <NftInfo>
-            <div>NFT 이름</div>
-            <div>가격</div>
-          </NftInfo>
-        </TopSale>
-        <TopSale>
-          <ImgBox>
-            <img src="./imgs/imsi.png" alt="imsi2" />
-          </ImgBox>
-          <NftInfo>
-            <div>NFT 이름</div>
-            <div>가격</div>
-          </NftInfo>
-        </TopSale>
-        <TopSale>
-          <ImgBox>
-            <img src="./imgs/imsi.png" alt="imsi2" />
-          </ImgBox>
-          <NftInfo>
-            <div>NFT 이름</div>
-            <div>가격</div>
-          </NftInfo>
-        </TopSale>
-        <TopSale>
-          <ImgBox>
-            <img src="./imgs/imsi.png" alt="imsi2" />
-          </ImgBox>
-          <NftInfo>
-            <div>NFT 이름</div>
-            <div>가격</div>
-          </NftInfo>
-        </TopSale>
-        <TopSale>
-          <ImgBox>
-            <img src="./imgs/imsi.png" alt="imsi2" />
-          </ImgBox>
-          <NftInfo>
-            <div>NFT 이름</div>
-            <div>가격</div>
-          </NftInfo>
-        </TopSale>
+        {topPriceArr?.map((item, index) => (
+          <TopSale key={`topPrice-${index}`}>
+            <ImgBox>
+              <img src={`./imgs/${item.img}`} alt="topPrice" />
+            </ImgBox>
+            <NftInfo>
+              <div>{item.name}</div>
+              <div>{item.price} Trio</div>
+            </NftInfo>
+          </TopSale>
+        ))}
       </TopSaleWrap>
     </Wrap>
   );
