@@ -3,3 +3,4 @@ node_modules/
 pakage-lock.json
 yarn.lock
 artifacts/
+back/package-lock.json
