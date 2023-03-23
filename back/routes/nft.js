@@ -290,4 +290,5 @@ router.post("/saleToken", async (req, res) => {
   // const saleTokenList = await deployed.methods.getSaleTokenList().call();
   // console.log("판매목록리스트", saleTokenList);
 });
+
 module.exports = router;
