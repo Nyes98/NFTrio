@@ -69,7 +69,6 @@ const getObjectList = async () => {
     data.Contents.map((item) => {
       urlList.push(item.Key);
     });
-    console.log(urlList);
     return urlList;
   } catch (err) {
     console.log("Error", err);
