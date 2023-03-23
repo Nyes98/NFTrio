@@ -45,7 +45,7 @@ export const Mint = ({ web3, account }: { web3: Web3; account: string }) => {
     formData.append("from", account);
     // 키와 값으로 정의했다. file: file, name:NftName => name이라는 키의 값은 NftName이다.
     const result = (
-      await axios.post("http://localhost:8080/api/nft/mint", formData)
+      await axios.post("http://localhost:8080/api/nft/nftMint", formData)
     ).data;
     console.log("결과", result);
     web3.eth.sendTransaction(result); // metamask에 transaction

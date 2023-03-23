@@ -24,11 +24,9 @@ function App() {
         <Route path="/sale" element={<SaleContainer />} />
         <Route path="/rank" element={<RankContainer />} />
         <Route path="/mypage" element={<MyPageContainer />} />
-      </Routes>
-      <FooterContainer></FooterContainer>
-      <Routes>
         <Route path="/test" element={<NftContainer />}></Route>
       </Routes>
+      <FooterContainer></FooterContainer>
     </div>
   );
 }
