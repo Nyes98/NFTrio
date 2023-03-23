@@ -4,11 +4,11 @@ const Web3 = require("web3");
 const multer = require("multer");
 const { Readable } = require("stream");
 const dotenv = require("dotenv");
+const axios = require("axios");
 
 dotenv.config();
 
 const web3 = new Web3("http://ganache.test.errorcode.help:8545");
-console.log(process.env.API_Key);
 const pinata = new pinataSDK(process.env.API_Key, process.env.API_Secret);
 const upload = multer();
 const saleToken = require("../build/contracts/SaleToken.json");
@@ -18,6 +18,7 @@ const swapToken = require("../build/contracts/Swap.json");
 const { env } = require("process");
 
 router.post("/list", async (req, res) => {
+  // 03.22 확인 결과 이놈이 잘못되고있다.
   console.log(req.body.from);
 
   const deployed = new web3.eth.Contract(saleToken.abi, process.env.SALE_CA);
@@ -26,14 +27,19 @@ router.post("/list", async (req, res) => {
   let data = [];
   if (req.body.from) {
     try {
+      // console.log("아이고난", await deployed.methods);
       const tempArr = await deployed.methods
         .getOwnerTokens(req.body.from)
         .call();
+      console.log("tempArr", tempArr); // 여기까진 로그찍힘
+      console.log("length", tempArr.length);
       for (let i = 0; i < tempArr.length; i++) {
+        console.log("for문 들어옴", tempArr[i].tokenURI);
         try {
-          const { name, description, image } = (
-            await axios.get(tempArr[i].tokenURI)
-          ).data;
+          const {
+            data: { image, name, description },
+          } = await axios.get(tempArr[i].tokenURI);
+          console.log("구조분해할당", image, name, description);
           data.push({
             tokenId: tempArr[i].tokenId,
             price: tempArr[i].price,
@@ -41,8 +47,11 @@ router.post("/list", async (req, res) => {
             description,
             image: image,
           });
-        } catch (error) {}
+        } catch (error) {
+          console.log("Error");
+        }
       }
+      console.log("data", data);
     } catch (error) {}
   } else {
     try {
@@ -90,6 +99,15 @@ router.post("/mint", upload.single("file"), async (req, res) => {
       name,
       description,
       image: `https://gateway.pinata.cloud/ipfs/${imgResult.IpfsHash}`,
+      attributes: [
+        { trait_type: "job", value: "전사" },
+        { trait_type: "gender", value: "여자" },
+        { trait_type: "attack", value: "100" },
+        { trait_type: "health", value: "2000" },
+        { trait_type: "speed", value: "5" },
+        { trait_type: "skill", value: "double attack" },
+        { trait_type: "price", value: "2000TRIO" },
+      ],
     },
     {
       pinataMetadata: {
@@ -104,7 +122,7 @@ router.post("/mint", upload.single("file"), async (req, res) => {
 
   const deployed = new web3.eth.Contract(
     characterToken.abi,
-    process.env.CHAR_CA
+    process.env.CHAR_CA // ERC721 CA
   );
 
   const obj = {
