@@ -1,4 +1,5 @@
 const router = require("express").Router();
+require("../modules/hashlips/hashlips.js");
 
 const {
   upload,
