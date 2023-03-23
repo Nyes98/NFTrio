@@ -14,7 +14,7 @@ export const useWeb3 = (): {
   const logIn = useCallback(async () => {
     try {
       if (window.ethereum) {
-        const _web3: Web3 = new Web3(window.ethereum);
+        const _web3: Web3 = new Web3((window as any).ethereum);
         setWeb3(_web3);
 
         const [_account] = (await window.ethereum.request({

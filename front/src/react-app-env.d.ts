@@ -7,3 +7,8 @@ declare global {
     ethereum?: MetaMaskInpageProvider;
   }
 }
+
+declare module "*.json" {
+  const value: any;
+  export default value;
+}

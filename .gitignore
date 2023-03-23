@@ -1,2 +1,5 @@
 node_modules/
 .env
+pakage-lock.json
+yarn.lock
+artifacts/
