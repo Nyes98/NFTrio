@@ -32,7 +32,7 @@ module.exports = class Character extends Sequelize.Model {
           type: Sequelize.STRING(255),
         },
         price: {
-          type: Sequelize.TEXT,
+          type: Sequelize.INTEGER,
           allowNull: true,
         },
       },

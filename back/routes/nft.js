@@ -38,6 +38,6 @@ router.post("/mint", (req, res) => {
   mint({ ...req.body });
   res.send("mint success");
 });
-// genCreate("임의의 해쉬값?");
+// genCreate("임의의 캐릭터" + Date.now());
 
 module.exports = router;
