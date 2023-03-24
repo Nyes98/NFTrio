@@ -3,13 +3,13 @@ const dotenv = require("dotenv");
 dotenv.config();
 const { s3 } = require("../multer");
 
-const HashLipsArtEngine = require("hashlips_art_engine");
+const HashLipsArtEngine = require("./hashlips_art_engine/index.js");
 
 const configObj = {
   folderName: "nftrio",
   format: {
-    width: 256,
-    height: 256,
+    width: 128,
+    height: 152,
     smoothing: false,
   },
   baseUri: "https://nftrio-bucket.s3.ap-northeast-2.amazonaws.com",
@@ -25,12 +25,13 @@ const configObj = {
     {
       growEditionSizeTo: 1,
       layersOrder: [
-        { name: "Fox_Outline" },
-        { name: "Fox_Nose" },
-        { name: "Fox_Ear" },
-        { name: "Fox_Eye" },
-        { name: "Fox_EyeDeco" },
-        { name: "Fox_FaceDeco" },
+        { name: "Background" },
+        { name: "Maple_Skin" },
+        { name: "Maple_Hair" },
+        { name: "Maple_Face" },
+        { name: "Maple_Cloth" },
+        { name: "Maple_Weapon" },
+        { name: "Maple_Glove" },
       ],
     },
   ],

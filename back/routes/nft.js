@@ -40,7 +40,7 @@ router.post("/mint", (req, res) => {
   mint({ ...req.body });
   res.send("mint success");
 });
-// genCreate("임의의 해쉬값?");
+// genCreate("임의의 캐릭터" + Date.now());
 
 const getNftCount = async () => {
   console.log("요긴오니");
