@@ -15,7 +15,7 @@ const configObj = {
   baseUri: "https://nftrio-bucket.s3.ap-northeast-2.amazonaws.com",
   description: "nftrio-character",
   background: {
-    generate: true,
+    generate: false,
     brightness: "80%",
     static: false,
     default: "#000000",
@@ -25,7 +25,6 @@ const configObj = {
     {
       growEditionSizeTo: 1,
       layersOrder: [
-        { name: "Background" },
         { name: "Maple_Skin" },
         { name: "Maple_Hair" },
         { name: "Maple_Face" },
@@ -61,17 +60,7 @@ const configObj = {
     spacer: " => ",
   },
   namePrefix: "NFTrio Collection",
-  solanaMetadata: {
-    symbol: "YC",
-    seller_fee_basis_points: 1000, // Define how much % you want from secondary market sales 1000 = 10%
-    external_url: "https://www.youtube.com/c/hashlipsnft",
-    creators: [
-      {
-        address: "7fXNuer5sbZtaTEPhtJ5g5gNtuyRoKkvxdjEjEnPN4mC",
-        share: 100,
-      },
-    ],
-  },
+
   gif: {
     export: false,
     repeat: 0,

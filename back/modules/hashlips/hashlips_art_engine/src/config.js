@@ -1,9 +1,9 @@
 const basePath = process.cwd();
 
-require('dotenv').config({ path: `${basePath}/.env` });
+require("dotenv").config({ path: `${basePath}/.env` });
 
 const { NETWORK } = require(`../constants/network.js`);
-const bucketUri = process.env.BUCKET_URI || 'https://topx-dev.s3.amazonaws.com';
+const bucketUri = process.env.BUCKET_URI || "https://topx-dev.s3.amazonaws.com";
 
 const initConfigs = ({
   name,
@@ -29,7 +29,7 @@ const initConfigs = ({
   rarityDelimiter,
   uniqueDnaTorrance,
   preview,
-  preview_gif
+  preview_gif,
 }) => {
   return {
     namePrefix: name,
@@ -85,7 +85,7 @@ const initConfigs = ({
       ratio: 2 / 128,
     },
     background: background || {
-      generate: true,
+      generate: false,
       brightness: "80%",
       static: false,
       default: "#000000",
@@ -106,9 +106,9 @@ const initConfigs = ({
       quality: 100,
       delay: 500,
       imageName: "preview.gif",
-    }
-  }
-}
+    },
+  };
+};
 
 module.exports = {
   initConfigs,
