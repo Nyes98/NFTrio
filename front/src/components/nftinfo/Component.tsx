@@ -1,155 +1,116 @@
 import styled from "styled-components";
 import "../../nftrio.css";
 
+interface InftData {
+  attack: number;
+  gender: number;
+  health: number;
+  id: number;
+  price: number;
+  speed: number;
+  createdAt: string;
+  deletedAt?: string;
+  hash: string;
+  img: string;
+  job: string;
+  name: string;
+  owner_address?: string;
+  skill: string;
+  updatedAt: string;
+}
+
 type Props = {
-  account: string | undefined;
-  CagetoriControl: (num: number) => void;
-  categori: number;
+  nftData?: InftData;
 };
 
-const MyPageComponent: React.FC<Props> = ({
-  account,
-  CagetoriControl,
-  categori,
-}) => {
+const NftInfoComponent: React.FC<Props> = ({ nftData }) => {
   return (
     <MainBoard>
-      <img src="./imgs/mainnft.png" alt="main" />
-      <NftImg>
-        <img src="./imgs/nftmark.png" alt="mark" />
-      </NftImg>
-      <Wrap>
-        <div className="nftrio-h">
-          <h3>My Profile</h3>
-        </div>
-        <NftInfo>
-          <div>
-            <img src="./imgs/ethereum.svg" alt="eth" />
-          </div>
-          <div>{account}</div>
-        </NftInfo>
-        <Categori>
-          <div onClick={() => CagetoriControl(1)}>Collected 4</div>
-          <div onClick={() => CagetoriControl(2)}>Created 1</div>
-        </Categori>
-
-        <Title>
-          <div>ITEM</div>
-          <div>LISTING PRICE</div>
-          <div>COST</div>
-          <div>DIFFERENCE</div>
-        </Title>
-        <InfoLine>
-          <div>
-            <div>
-              <img src="imgs/imsi.png" alt="imsi" />
-              nft이름
+      <InfoWrap>
+        {nftData ? (
+          <NftImg>
+            <img src={`../imgs/${nftData?.img}`} alt="nftImg" />
+          </NftImg>
+        ) : (
+          <></>
+        )}
+        <NftText>
+          <NftName>NFTrio</NftName>
+          <NftNum>{nftData?.id}</NftNum>
+          <NftOwner>주인주소{nftData?.owner_address}</NftOwner>
+          <NftPrice>
+            <div>Current Price</div>
+            <div>{nftData?.price} Trio</div>
+            <div className="nftrio-button fg-dark bg-melon ac-white">
+              Buy Nft
             </div>
-          </div>
-          <div>
-            <img src="/imgs/dot.svg" alt="" />
-            Not listed
-          </div>
-          <div>--</div>
-          <div>--</div>
-        </InfoLine>
-      </Wrap>
+          </NftPrice>
+          <NftPriceHistory>
+            <div>Price History</div>
+            <div>zz</div>
+          </NftPriceHistory>
+        </NftText>
+      </InfoWrap>
     </MainBoard>
   );
 };
 
-export default MyPageComponent;
-
-const Title = styled.div`
-  display: flex;
-  font-size: 0.6rem;
-
-  div {
-    width: 15%;
-  }
-
-  div:first-child {
-    width: 50%;
-  }
-`;
-
-const InfoLine = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 0.6rem;
-
-  div {
-    width: 15%;
-  }
-
-  div:first-child {
-    width: 50%;
-    display: flex;
-    align-items: center;
-    font-size: 0.7rem;
-    img {
-      width: 30px;
-      margin-right: 30px;
-    }
-  }
-
-  div:nth-child(2) {
-    img {
-      margin-bottom: 3px;
-      margin-right: 3px;
-      width: 7px;
-      filter: invert(97%) sepia(2%) saturate(844%) hue-rotate(179deg)
-        brightness(83%) contrast(92%);
-    }
-  }
-`;
+export default NftInfoComponent;
 
 const MainBoard = styled.div`
-  position: relative;
-
-  img {
-    width: 100%;
-  }
+  max-width: 1800px;
+  margin: auto;
 `;
-const Categori = styled.div`
+const InfoWrap = styled.div`
   display: flex;
-  font-size: 0.8rem;
+  justify-content: space-between;
   margin: 20px 0;
-  div {
-    margin-right: 20px;
-    cursor: pointer;
-  }
 `;
 const NftImg = styled.div`
-  position: absolute;
-  top: 200px;
-  left: 55px;
-  background-color: white;
-  border: 3px solid pink;
+  width: 30%;
+  border: 1px solid black;
   border-radius: 15px;
-  width: 200px;
-  height: 200px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+
   img {
-    margin-top: 20px;
-    width: 100px;
+    width: 60%;
+  }
+`;
+const NftText = styled.div`
+  width: 65%;
+`;
+
+const NftName = styled.div``;
+const NftNum = styled.div``;
+const NftOwner = styled.div``;
+const NftPrice = styled.div`
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 30px 0;
+
+  div:first-child {
+    font-size: 0.5rem;
+  }
+  div:last-child {
+    font-size: 1rem;
+    margin: 10px 0;
+    width: 230px;
+    border-radius: 20px;
   }
 `;
 
-const NftInfo = styled.div`
-  margin: 10px 0;
-  display: flex;
-  font-size: 0.6rem;
+const NftPriceHistory = styled.div`
+  margin: 30px 0;
+  border: 1px solid black;
+  border-radius: 10px;
+
   div {
-    margin-right: 10px;
-    img {
-      width: 10px;
-      filter: invert(52%) sepia(11%) saturate(4%) hue-rotate(321deg)
-        brightness(94%) contrast(88%);
-    }
+    padding: 20px;
   }
-`;
-const Wrap = styled.div`
-  max-width: 1800px;
-  margin: 80px auto;
+
+  div:first-child {
+    border-bottom: 1px solid black;
+  }
 `;

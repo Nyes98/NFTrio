@@ -1,27 +1,25 @@
-import MyPageComponent from "./Component";
-import { useWeb3 } from "../../modules/useWeb3";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { NftInfo } from "../../api";
+import NftInfoComponent from "./Component";
 
-const MyPageContainer = () => {
-  const { web3, chainId, account, logIn } = useWeb3();
+const NftInfoContainer = () => {
+  const params = useParams();
+  const [nftData, setNftData] = useState();
 
-  const [categori, setCategori] = useState(1);
-
-  const CagetoriControl = (num: number) => {
-    setCategori(num);
+  const callNftInfo = async () => {
+    if (params.nftHash) {
+      const data = await NftInfo(params.nftHash);
+      setNftData(data.data);
+      console.log(data);
+    }
   };
 
   useEffect(() => {
-    logIn();
+    callNftInfo();
   }, []);
 
-  return (
-    <MyPageComponent
-      account={account}
-      CagetoriControl={CagetoriControl}
-      categori={categori}
-    ></MyPageComponent>
-  );
+  return <NftInfoComponent nftData={nftData}></NftInfoComponent>;
 };
 
-export default MyPageContainer;
+export default NftInfoContainer;
