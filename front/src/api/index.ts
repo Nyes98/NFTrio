@@ -26,3 +26,7 @@ export const NftCount = async () => {
 export const AllNft = async () => {
   return await request.post("/nft/all");
 };
+
+export const NftInfo = async (hash: string) => {
+  return await request.post("/nft/nftInfo", { hash: hash });
+};

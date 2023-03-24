@@ -35,13 +35,13 @@ const FooterComponent: React.FC<Props> = ({}) => {
         <div>
           <div>Our Skill Stack</div>
           <StackBox>
-            <img src="./imgs/skill1.png" alt="stack1" />
-            <img src="./imgs/skill2.png" alt="stack1" />
-            <img src="./imgs/skill3.png" alt="stack1" />
-            <img src="./imgs/skill4.png" alt="stack1" />
-            <img src="./imgs/skill5.png" alt="stack1" />
-            <img src="./imgs/skill6.png" alt="stack1" />
-            <img src="./imgs/skill7.png" alt="stack1" />
+            <img src="../imgs/skill1.png" alt="stack1" />
+            <img src="../imgs/skill2.png" alt="stack1" />
+            <img src="../imgs/skill3.png" alt="stack1" />
+            <img src="../imgs/skill4.png" alt="stack1" />
+            <img src="../imgs/skill5.png" alt="stack1" />
+            <img src="../imgs/skill6.png" alt="stack1" />
+            <img src="../imgs/skill7.png" alt="stack1" />
           </StackBox>
         </div>
       </HighBox>
