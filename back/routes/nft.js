@@ -149,6 +149,7 @@ router.post("/sellNft", async (req, res) => {
   const data = await SellNft(req.body.price, req.body.selHash);
   res.send(data);
 });
+// genCreate("임의의 해쉬값");
 
 const pinataSDK = require("@pinata/sdk");
 const Web3 = require("web3");
