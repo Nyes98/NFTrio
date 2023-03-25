@@ -21,6 +21,7 @@ const NftSellMordalContainer: React.FC<Props> = ({ selHash }) => {
 
   const InputSellPrice = (e: any) => {
     setSellPrice(e.target.value);
+    console.log(selHash);
     console.log(sellPrice);
   };
 
@@ -29,7 +30,7 @@ const NftSellMordalContainer: React.FC<Props> = ({ selHash }) => {
   };
 
   const SellNftF = async () => {
-    const data = await SellNft(sellPrice);
+    const data = await SellNft(sellPrice, selHash);
     console.log(data);
   };
 

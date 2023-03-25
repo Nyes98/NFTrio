@@ -26,7 +26,7 @@ const MyPageComponent: React.FC<Props> = ({
   SelectHash,
   selHash,
 }) => {
-  console.log(userNftData?.length);
+  console.log(userNftData);
   return (
     <MainBoard>
       <img src="../imgs/mainnft.png" alt="main" />
