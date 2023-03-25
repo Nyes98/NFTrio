@@ -35,6 +35,7 @@ export const MyNft = async (owner: string) => {
   return await request.post("/nft/myNft", { owner: owner });
 };
 
-export const SellNft = async (price: number) => {
-  return await request.post("/nft/sellNft", { price: price });
+export const SellNft = async (price: number, selHash: string) => {
+  console.log(selHash);
+  return await request.post("/nft/sellNft", { price: price, selHash: selHash });
 };
