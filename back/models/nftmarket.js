@@ -23,7 +23,7 @@ module.exports = class NFTMarket extends Sequelize.Model {
   static associate(db) {
     db.NFTMarket.belongsTo(db.Character, {
       foreignKey: "nft_hash",
-      sourceKey: "hash",
+      targetKey: "hash",
     });
   }
 };

@@ -1,0 +1,17 @@
+export default interface InftData {
+  attack: number;
+  gender: number;
+  health: number;
+  id: number;
+  price: number;
+  speed: number;
+  createdAt: string;
+  deletedAt?: string;
+  hash: string;
+  img: string;
+  job: string;
+  name: string;
+  owner_address?: string;
+  skill: string;
+  updatedAt: string;
+}

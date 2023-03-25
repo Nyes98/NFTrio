@@ -30,3 +30,11 @@ export const AllNft = async () => {
 export const NftInfo = async (hash: string) => {
   return await request.post("/nft/nftInfo", { hash: hash });
 };
+
+export const MyNft = async (owner: string) => {
+  return await request.post("/nft/myNft", { owner: owner });
+};
+
+export const SellNft = async (price: number) => {
+  return await request.post("/nft/sellNft", { price: price });
+};

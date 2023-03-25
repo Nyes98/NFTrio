@@ -22,7 +22,7 @@ const HeaderComponent: React.FC<Props> = ({ move, account, logIn, web3 }) => {
           <div onClick={() => move("rank")}>Rank</div>
           <div>
             {account?.length ? (
-              <div onClick={() => move("mypage")}>
+              <div onClick={() => move(`mypage/${account}`)}>
                 <img src="../imgs/skill7.png" alt="aflogin" />
               </div>
             ) : (

@@ -24,7 +24,7 @@ function App() {
         <Route path="/pick" element={<PickContainer />} />
         <Route path="/sale" element={<SaleContainer />} />
         <Route path="/rank" element={<RankContainer />} />
-        <Route path="/mypage" element={<MyPageContainer />} />
+        <Route path="/mypage/:owner" element={<MyPageContainer />} />
         <Route path="/test" element={<NftContainer />}></Route>
         <Route path="/nftinfo/:nftHash" element={<NftInfoContainer />}></Route>
       </Routes>
