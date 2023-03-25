@@ -84,6 +84,20 @@ const getNftInfo = async (_hash) => {
   return data;
 };
 
+const getMyNft = async (_owner) => {
+  const data = await Character.findAll({
+    where: { owner_address: _owner },
+  });
+  return data;
+};
+
+const SellNft = async (_price) => {
+  const data = await NFTMarket.create({
+    price: _price,
+  });
+  return data;
+};
+
 router.post("/recentAll", async (req, res) => {
   const data = await getLatestNft(
     req.body.page,
@@ -106,6 +120,16 @@ router.post("/all", async (req, res) => {
 
 router.post("/nftInfo", async (req, res) => {
   const data = await getNftInfo(req.body.hash);
+  res.send(data);
+});
+
+router.post("/myNft", async (req, res) => {
+  const data = await getMyNft(req.body.owner);
+  res.send(data);
+});
+
+router.post("/sellNft", async (req, res) => {
+  const data = await SellNft(req.body.price);
   res.send(data);
 });
 

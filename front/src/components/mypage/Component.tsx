@@ -1,22 +1,37 @@
 import styled from "styled-components";
 import "../../nftrio.css";
+import InftData from "../../interfaces/NftData.interface";
+import NftSellMordalContainer from "../mordal/nftSell/Container";
 
 type Props = {
   account: string | undefined;
   CagetoriControl: (num: number) => void;
   categori: number;
+  userNftData?: Array<InftData>;
+  move: (where: string) => void;
+  BuyMordalHandler: () => void;
+  buyMordal: boolean;
+  SelectHash: (hash: string) => void;
+  selHash: string;
 };
 
 const MyPageComponent: React.FC<Props> = ({
   account,
   CagetoriControl,
   categori,
+  userNftData,
+  move,
+  BuyMordalHandler,
+  buyMordal,
+  SelectHash,
+  selHash,
 }) => {
+  console.log(userNftData?.length);
   return (
     <MainBoard>
-      <img src="./imgs/mainnft.png" alt="main" />
+      <img src="../imgs/mainnft.png" alt="main" />
       <NftImg>
-        <img src="./imgs/nftmark.png" alt="mark" />
+        <img src="../imgs/nftmark.png" alt="mark" />
       </NftImg>
       <Wrap>
         <div className="nftrio-h">
@@ -24,14 +39,16 @@ const MyPageComponent: React.FC<Props> = ({
         </div>
         <NftInfo>
           <div>
-            <img src="./imgs/ethereum.svg" alt="eth" />
+            <img src="../imgs/ethereum.svg" alt="eth" />
           </div>
           <div>{account}</div>
         </NftInfo>
-        <Categori>
-          <div onClick={() => CagetoriControl(1)}>Collected 4</div>
+        {/* <Categori>
+          <div onClick={() => CagetoriControl(1)}>
+            Collected {userNftData?.job}
+          </div>
           <div onClick={() => CagetoriControl(2)}>Created 1</div>
-        </Categori>
+        </Categori> */}
 
         <Title>
           <div>ITEM</div>
@@ -39,21 +56,33 @@ const MyPageComponent: React.FC<Props> = ({
           <div>COST</div>
           <div>DIFFERENCE</div>
         </Title>
-        <InfoLine>
-          <div>
+        {userNftData?.map((item, index) => (
+          <InfoLine key={`userNft-${index}`}>
             <div>
-              <img src="imgs/imsi.png" alt="imsi" />
-              nft이름
+              <div onClick={() => move(item.hash)}>
+                <img src={item.img} alt="imsi" />
+                {item.name}
+              </div>
             </div>
-          </div>
-          <div>
-            <img src="/imgs/dot.svg" alt="" />
-            Not listed
-          </div>
-          <div>--</div>
-          <div>--</div>
-        </InfoLine>
+            <div
+              onClick={() => {
+                BuyMordalHandler();
+                SelectHash(item.hash);
+              }}
+            >
+              <img src="/imgs/dot.svg" alt="" />
+              Not listed
+            </div>
+            <div>{item.price}</div>
+            <div>--</div>
+          </InfoLine>
+        ))}
       </Wrap>
+      {buyMordal ? (
+        <NftSellMordalContainer selHash={selHash}></NftSellMordalContainer>
+      ) : (
+        <></>
+      )}
     </MainBoard>
   );
 };
@@ -63,6 +92,7 @@ export default MyPageComponent;
 const Title = styled.div`
   display: flex;
   font-size: 0.6rem;
+  margin: 40px 0 10px 0;
 
   div {
     width: 15%;
@@ -77,6 +107,7 @@ const InfoLine = styled.div`
   display: flex;
   align-items: center;
   font-size: 0.6rem;
+  cursor: pointer;
 
   div {
     width: 15%;
@@ -88,7 +119,7 @@ const InfoLine = styled.div`
     align-items: center;
     font-size: 0.7rem;
     img {
-      width: 30px;
+      width: 60px;
       margin-right: 30px;
     }
   }

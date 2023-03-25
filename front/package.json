@@ -5,6 +5,9 @@
   "dependencies": {
     "@hookform/resolvers": "^2.9.11",
     "@metamask/providers": "^10.2.1",
+    "@mui/material": "^5.11.14",
+    "@nivo/core": "^0.80.0",
+    "@nivo/line": "^0.80.0",
     "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
@@ -59,5 +62,4 @@
     ]
   },
   "proxy": "http://localhost:8080"
-  }
-
+}

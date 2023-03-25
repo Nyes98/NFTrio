@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import "../../nftrio.css";
+import MyResponsiveLine from "../graph/Component";
+import NftBuyMordalContainer from "../mordal/nftBuy/Container";
 
 interface InftData {
   attack: number;
@@ -21,15 +23,21 @@ interface InftData {
 
 type Props = {
   nftData?: InftData;
+  buyMordal: boolean;
+  BuyMordalHandler: () => void;
 };
 
-const NftInfoComponent: React.FC<Props> = ({ nftData }) => {
+const NftInfoComponent: React.FC<Props> = ({
+  nftData,
+  buyMordal,
+  BuyMordalHandler,
+}) => {
   return (
     <MainBoard>
       <InfoWrap>
         {nftData ? (
           <NftImg>
-            <img src={`../imgs/${nftData?.img}`} alt="nftImg" />
+            <img src={`${nftData?.img}`} alt="nftImg" />
           </NftImg>
         ) : (
           <></>
@@ -41,16 +49,25 @@ const NftInfoComponent: React.FC<Props> = ({ nftData }) => {
           <NftPrice>
             <div>Current Price</div>
             <div>{nftData?.price} Trio</div>
-            <div className="nftrio-button fg-dark bg-melon ac-white">
+            <div
+              className="nftrio-button fg-dark bg-melon ac-white"
+              onClick={BuyMordalHandler}
+            >
               Buy Nft
             </div>
           </NftPrice>
           <NftPriceHistory>
-            <div>Price History</div>
-            <div>zz</div>
+            <HistoryTitle>Price History</HistoryTitle>
+            <MyResponsiveLine></MyResponsiveLine>
           </NftPriceHistory>
         </NftText>
       </InfoWrap>
+
+      {buyMordal ? (
+        <NftBuyMordalContainer nftData={nftData}></NftBuyMordalContainer>
+      ) : (
+        <></>
+      )}
     </MainBoard>
   );
 };
@@ -68,6 +85,7 @@ const InfoWrap = styled.div`
 `;
 const NftImg = styled.div`
   width: 30%;
+  height: 600px;
   border: 1px solid black;
   border-radius: 15px;
   display: flex;
@@ -105,12 +123,9 @@ const NftPriceHistory = styled.div`
   margin: 30px 0;
   border: 1px solid black;
   border-radius: 10px;
+`;
 
-  div {
-    padding: 20px;
-  }
-
-  div:first-child {
-    border-bottom: 1px solid black;
-  }
+const HistoryTitle = styled.div`
+  padding: 20px;
+  border-bottom: 1px solid black;
 `;

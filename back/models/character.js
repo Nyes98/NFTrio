@@ -6,6 +6,8 @@ module.exports = class Character extends Sequelize.Model {
       {
         hash: {
           type: Sequelize.STRING(255),
+          unique: true,
+          primaryKey: true,
         },
         img: {
           type: Sequelize.STRING(255),
@@ -51,35 +53,35 @@ module.exports = class Character extends Sequelize.Model {
   static associate(db) {
     db.Character.belongsTo(db.User, {
       foreignKey: "owner_address",
-      sourceKey: "address",
-    });
-    db.Character.hasMany(db.NFTMarket, {
-      foreignKey: "nft_hash",
-      targetKey: "hash",
+      targetKey: "address",
     });
     db.Character.hasMany(db.User, {
       foreignKey: "formation_1",
-      targetKey: "hash",
+      sourceKey: "hash",
     });
     db.Character.hasMany(db.User, {
       foreignKey: "formation_2",
-      targetKey: "hash",
+      sourceKey: "hash",
     });
     db.Character.hasMany(db.User, {
       foreignKey: "formation_3",
-      targetKey: "hash",
+      sourceKey: "hash",
     });
     db.Character.hasMany(db.User, {
       foreignKey: "formation_4",
-      targetKey: "hash",
+      sourceKey: "hash",
     });
     db.Character.hasMany(db.User, {
       foreignKey: "formation_5",
-      targetKey: "hash",
+      sourceKey: "hash",
     });
     db.Character.hasMany(db.User, {
       foreignKey: "formation_6",
-      targetKey: "hash",
+      sourceKey: "hash",
+    });
+    db.Character.hasMany(db.NFTMarket, {
+      foreignKey: "nft_hash",
+      sourceKey: "hash",
     });
   }
 };

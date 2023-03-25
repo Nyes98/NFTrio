@@ -66,7 +66,7 @@ const MainComponent: React.FC<Props> = ({
                 <div>
                   <div>{index + 1}</div>
                   <div>
-                    <img src={`/imgs/${item.img}`} alt="imsi" />
+                    <img src={item.img} alt="imsi" />
                   </div>
                   <div>{item.name}</div>
                 </div>
@@ -90,7 +90,7 @@ const MainComponent: React.FC<Props> = ({
                 <div>
                   <div>{index + 6}</div>
                   <div>
-                    <img src={`/imgs/${item.img}`} alt="imsi" />
+                    <img src={item.img} alt="imsi" />
                   </div>
                   <div>{item.name}</div>
                 </div>
@@ -112,7 +112,7 @@ const MainComponent: React.FC<Props> = ({
             }}
           >
             <ImgBox>
-              <img src={`./imgs/${item.img}`} alt="topPrice" />
+              <img src={item.img} alt="topPrice" />
             </ImgBox>
             <NftInfo>
               <div>{item.name}</div>

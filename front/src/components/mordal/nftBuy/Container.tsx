@@ -2,7 +2,29 @@ import { useDispatch } from "react-redux";
 import { nftBuyMordalOpen } from "../../../redux/mordal";
 import NftBuyMordalComponent from "./Component";
 
-const NftBuyMordalContainer = ({}) => {
+interface InftData {
+  attack: number;
+  gender: number;
+  health: number;
+  id: number;
+  price: number;
+  speed: number;
+  createdAt: string;
+  deletedAt?: string;
+  hash: string;
+  img: string;
+  job: string;
+  name: string;
+  owner_address?: string;
+  skill: string;
+  updatedAt: string;
+}
+
+type Props = {
+  nftData?: InftData;
+};
+
+const NftBuyMordalContainer: React.FC<Props> = ({ nftData }) => {
   const dispatch = useDispatch();
 
   const ControlMordal = () => {
@@ -12,6 +34,7 @@ const NftBuyMordalContainer = ({}) => {
   return (
     <NftBuyMordalComponent
       ControlMordal={ControlMordal}
+      nftData={nftData}
     ></NftBuyMordalComponent>
   );
 };

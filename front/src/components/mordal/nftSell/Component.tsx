@@ -4,9 +4,18 @@ import InftData from "../../../interfaces/NftData.interface";
 type Props = {
   ControlMordal: () => void;
   nftData?: InftData;
+  InputSellPrice: (e: any) => void;
+  sellPrice: number;
+  SellNftF: () => void;
 };
 
-const NftBuyMordalComponent: React.FC<Props> = ({ ControlMordal, nftData }) => {
+const NftSellMordalComponent: React.FC<Props> = ({
+  ControlMordal,
+  nftData,
+  InputSellPrice,
+  sellPrice,
+  SellNftF,
+}) => {
   return (
     <>
       <Background onClick={ControlMordal}></Background>
@@ -26,17 +35,22 @@ const NftBuyMordalComponent: React.FC<Props> = ({ ControlMordal, nftData }) => {
                 <div>{nftData?.name}</div>
               </div>
             </div>
-            {/* <PriceInfo>
-              <div>입력받은 토큰의 수</div>
-              <div>입력받은 토큰이 goeril 이라면..</div>
-            </PriceInfo> */}
+            <PriceInfo>
+              <div>{sellPrice} Trio</div>
+              <div>{sellPrice / 500} ETH</div>
+            </PriceInfo>
           </SubTitle>
           <ConfirmBox>
-            <div>해당 NFT의 가격은 {nftData?.price} ETH입니다.</div>
-            <div>구매 하시겠습니까?</div>
+            <div>set a price</div>
+            <input type="number" onChange={InputSellPrice} />
           </ConfirmBox>
           <BtnBox>
-            <div className="nftrio-button fg-dark bg-melon ac-white">예</div>
+            <div
+              className="nftrio-button fg-dark bg-melon ac-white"
+              onClick={SellNftF}
+            >
+              예
+            </div>
             <div
               className="nftrio-button fg-dark bg-melon ac-white"
               onClick={ControlMordal}
@@ -50,7 +64,7 @@ const NftBuyMordalComponent: React.FC<Props> = ({ ControlMordal, nftData }) => {
   );
 };
 
-export default NftBuyMordalComponent;
+export default NftSellMordalComponent;
 
 const Background = styled.div`
   position: fixed;
@@ -144,4 +158,8 @@ const BtnBox = styled.div`
   }
 `;
 
-const ConfirmBox = styled.div``;
+const ConfirmBox = styled.div`
+  input {
+    padding: 15px;
+  }
+`;
