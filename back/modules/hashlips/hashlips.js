@@ -81,33 +81,46 @@ const gen = HashLipsArtEngine.HashLipsGenerator(configObj, configObj, s3);
 
 const genCreate = async (_imageName) => {
   gen.buildSetup();
-  await gen.startCreating(_imageName);
+  const create = await gen.startCreating(_imageName);
+  console.log(create, gen.buffers[0]);
   const bucketName = "nftrio-bucket";
-  gen.imgLists.map((item, index) => {
-    const key = item;
-    const bufferImage = gen.buffers[index];
-    const params = {
-      Bucket: bucketName,
-      Key: key + ".png",
-      Body: bufferImage,
-    };
-    s3.putObject(params, (err, data) => {
-      if (err) {
-      } else {
-        console.log("putSuccess");
-      }
+  const bufferPromise = new Promise((resolve, reject) => {
+    gen.imgLists.map((item, index) => {
+      const key = item;
+      const bufferImage = gen.buffers[index];
+      const params = {
+        Bucket: bucketName,
+        Key: key + ".png",
+        Body: bufferImage,
+      };
+      s3.putObject(params, (err, data) => {
+        if (err) {
+        } else {
+          s3.putObject(
+            {
+              Bucket: bucketName,
+              Key: gen.imgLists[0] + ".json",
+              Body: JSON.stringify(gen.metaDataList, null, 2),
+            },
+            (err, data) => {
+              if (data) {
+                const intervalId = setInterval(() => {
+                  console.log("metadataPut Sucess", bufferImage);
+                  if (bufferImage) {
+                    clearInterval(intervalId);
+                    resolve(bufferImage);
+                  }
+                }, 100);
+              } else {
+                reject(bufferImage);
+              }
+            }
+          );
+        }
+      });
     });
   });
-  s3.putObject(
-    {
-      Bucket: bucketName,
-      Key: gen.imgLists[0] + ".json",
-      Body: JSON.stringify(gen.metaDataList, null, 2),
-    },
-    (err, data) => {
-      console.log("metadataPut Sucess");
-    }
-  );
+  return bufferPromise;
 };
 
 module.exports = { genCreate };

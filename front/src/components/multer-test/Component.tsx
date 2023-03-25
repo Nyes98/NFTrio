@@ -87,9 +87,9 @@ const MulterComponent = (): JSX.Element => {
     try {
       axios
         .post("http://localhost:8080/api/images/getObjectList")
-        .then(({ data: { Contents } }) => {
-          console.log(Contents);
-          setImageList([...Contents]);
+        .then(({ data }) => {
+          console.log(data);
+          setImageList([...data]);
         });
     } catch (err) {
       console.log(err);
@@ -138,14 +138,18 @@ const MulterComponent = (): JSX.Element => {
       <img src={curUrl} />
       <ListImageBox>
         {imageList.map((item, index) => {
-          const curUrl = makeImageUrl(item.Key);
-          if (item.Key)
-            return (
-              <div key={item.Key + "-div-" + index}>
-                <StyledImage key={item.Key + "-" + index} src={curUrl} />
-                <p>{item.Key}</p>
-              </div>
-            );
+          return (
+            <div key={"-div-" + index}>
+              <StyledImage
+                key={"-" + index}
+                src={
+                  "https://nftrio-bucket.s3.ap-northeast-2.amazonaws.com/" +
+                  item
+                }
+              />
+              <p>{item.Key}</p>
+            </div>
+          );
         })}
       </ListImageBox>
     </div>
