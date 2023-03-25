@@ -8,6 +8,8 @@ contract TrioToken is ERC20 {
 
   uint public rate = 500;
 
+  event Logevent(address _owner, address _spender, uint256 _amount);
+
   constructor(
     string memory _name,
     string memory _symbol,
@@ -24,6 +26,16 @@ contract TrioToken is ERC20 {
 
   function getRate() external view returns (uint) {
     return rate;
+  }
+
+  function approve(
+    address spender,
+    uint256 amount
+  ) public override returns (bool) {
+    address owner = _msgSender();
+    emit Logevent(owner, spender, amount);
+    _approve(owner, spender, amount);
+    return true;
   }
 
   receive() external payable {

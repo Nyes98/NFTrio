@@ -55,6 +55,31 @@
 				"anonymous": false,
 				"inputs": [
 					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "_spender",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "Logevent",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
 						"indexed": true,
 						"internalType": "address",
 						"name": "from",
@@ -181,6 +206,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "getRate",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -205,6 +243,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "mint",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "name",
 				"outputs": [
@@ -212,6 +263,32 @@
 						"internalType": "string",
 						"name": "",
 						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "rate",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -295,6 +372,10 @@
 				],
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
 			}
 		],
 		"devdoc": {
@@ -367,11 +448,11 @@
 	},
 	"sources": {
 		"contracts/TrioToken.sol": {
-			"keccak256": "0xe1e1b1fac309e8ca7af23a8a926a202d1e597f076e454f55572a575ac49e4aa6",
+			"keccak256": "0x348e3545cf7109c252a55080346a814434b9644e1488d572b75223d93c38b933",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://0e2fd94eeec4bd8f24b43f4f3e2182c7e962f4a4f13e67860db73a34551ab2cd",
-				"dweb:/ipfs/QmZ5r1Y8m1i7zbHmCJDSh5YZchx7NRB3i8nVzPg7yTFjDb"
+				"bzz-raw://b65aa4c91196f82eb8b79e82dfd466839ff32365e5bee92de4056841548878dd",
+				"dweb:/ipfs/Qma4tfd3meC16zEjYjtadU7SU3DeQ7iFDDX8bdh69j5JmX"
 			]
 		},
 		"node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol": {
