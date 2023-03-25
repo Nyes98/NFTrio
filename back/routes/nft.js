@@ -328,7 +328,7 @@ router.post("/nftMint", upload.single("file"), async (req, res) => {
     },
   });
   const curCharacter = await Character.create(characterTokenConfig);
-  curUser.addRegistSellList(curCharacter);
+  curUser.addCharacter(curCharacter);
 
   const deployed = new web3.eth.Contract(
     characterToken.abi,
