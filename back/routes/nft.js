@@ -38,7 +38,7 @@ router.post("/mint", (req, res) => {
   mint({ ...req.body });
   res.send("mint success");
 });
-// genCreate("임의의 해쉬값?");
+// genCreate("임의의 해쉬값");
 
 const pinataSDK = require("@pinata/sdk");
 const Web3 = require("web3");
@@ -52,10 +52,10 @@ dotenv.config();
 const web3 = new Web3("http://ganache.test.errorcode.help:8545");
 const pinata = new pinataSDK(process.env.API_Key, process.env.API_Secret);
 const upload = multer();
-const saleToken = require("../build/contracts/SaleToken.json");
+const saleToken = require("../contracts/artifacts/SaleToken.json");
 const characterToken = require("../build/contracts/CharacterToken.json");
-const trioToken = require("../build/contracts/TrioToken.json");
-const swapToken = require("../build/contracts/Swap.json");
+const trioToken = require("../contracts/artifacts/TrioToken.json");
+const swapToken = require("../contracts/artifacts/Swap.json");
 const { env } = require("process");
 
 router.post("/list", async (req, res) => {
@@ -140,15 +140,15 @@ router.post("/nftMint", upload.single("file"), async (req, res) => {
       name,
       description,
       image: `https://gateway.pinata.cloud/ipfs/${imgResult.IpfsHash}`,
-      attributes: [
-        { trait_type: "job", value: "전사" },
-        { trait_type: "gender", value: "여자" },
-        { trait_type: "attack", value: "100" },
-        { trait_type: "health", value: "2000" },
-        { trait_type: "speed", value: "5" },
-        { trait_type: "skill", value: "double attack" },
-        { trait_type: "price", value: "2000TRIO" },
-      ],
+      // attributes: [
+      //   { trait_type: "job", value: "전사" },
+      //   { trait_type: "gender", value: "여자" },
+      //   { trait_type: "attack", value: "100" },
+      //   { trait_type: "health", value: "2000" },
+      //   { trait_type: "speed", value: "5" },
+      //   { trait_type: "skill", value: "double attack" },
+      //   { trait_type: "price", value: "2000TRIO" },
+      // ],
     },
     {
       pinataMetadata: {
@@ -185,14 +185,13 @@ router.post("/trade", async (req, res) => {
   const abi = swapToken.abi;
   const deployed = new web3.eth.Contract(
     abi,
-    "0x1c1702A63eC949748B9C1e99733b7cc2EeD0d3c4"
+    process.env.SWAP_CA
     // swap token CA
   );
   console.log(req.body.account);
-  let token = await deployed.methods.getSwapBalance().call();
   let temp = await deployed.methods.buyToken().encodeABI();
   console.log("구매", temp);
-  res.send({ data: temp, to: "0x1c1702A63eC949748B9C1e99733b7cc2EeD0d3c4" });
+  res.send({ data: temp, to: process.env.SWAP_CA });
 });
 const temp = async () => {
   const abi = swapToken.abi;
@@ -207,9 +206,13 @@ const temp = async () => {
 // temp();
 
 router.post("/saleToken", async (req, res) => {
-  console.log("가격", req.body.price);
+  console.log("가격", typeof req.body.price);
   console.log("토큰아이디", req.body.tokenId);
   const deployed = new web3.eth.Contract(saleToken.abi, process.env.SALE_CA);
+  // const deployed = new web3.eth.Contract(
+  //   characterToken.abi,
+  //   process.env.CHAR_CA
+  // );
   const obj = {
     to: "",
     from: "",
@@ -218,10 +221,86 @@ router.post("/saleToken", async (req, res) => {
   obj.to = process.env.SALE_CA;
   obj.from = req.body.account;
   obj.data = await deployed.methods
-    .SalesToken(req.body.tokenId, req.body.price)
+    .SalesToken(req.body.tokenId, web3.utils.toWei(req.body.price, "ether"))
+    // 웨이를 바꾸는 부분이 필요하다. 등록자체도 웨이 기준으로 받고 있다. 그래서 트리오 기준으로 바꿔주는 *10 ** 18 작업이 필요할 것이다.
+    // 숫자로 받으면 고장난다?? 이 말이 제가 토큰 판매 올릴때 135로 올리면 0.005 => 0.004거나 3이거나 6인경우처럼 이상하게 될 수 있다. 소숫점 단위로 넘어가면
     .encodeABI();
   res.send(obj);
-  // const saleTokenList = await deployed.methods.getSaleTokenList().call();
-  // console.log("판매목록리스트", saleTokenList);
+
+  // const approve = {
+  //   data: "",
+  //   to: "",
+  // };
+
+  // approve.data = await deployed.methods
+  //   .setApprovalForAll(process.env.SALE_CA, true)
+  //   .encodeABI();
+  // approve.to = process.env.CHAR_CA;
+  // res.send(approve);
 });
+
+router.post("/getSaleList", async (req, res) => {
+  const deployed = new web3.eth.Contract(saleToken.abi, process.env.SALE_CA);
+  let data = [];
+  try {
+    const tempArr = await deployed.methods.getSaleTokenList().call();
+    console.log("판매길이", tempArr.length);
+    for (let i = 0; i < tempArr.length; i++) {
+      try {
+        const { name, description, image } = (
+          await axios.get(tempArr[i].tokenURI)
+        ).data;
+        data.push({
+          tokenId: tempArr[i].tokenId,
+          price: tempArr[i].price,
+          name,
+          description,
+          image: image,
+        });
+        console.log("보낼 데이터", data);
+      } catch (error) {}
+    }
+    res.send(data);
+  } catch (error) {}
+});
+
+router.post("/approvePurchase", (req, res) => {
+  console.log(req.body.from, req.body.price);
+  const deployed = new web3.eth.Contract(trioToken.abi, process.env.TRIO_CA);
+  const obj = {
+    from: "",
+    to: "",
+    data: "",
+  };
+  obj.from = req.body.from;
+  obj.to = process.env.TRIO_CA; // 데이터를 수정할 사람
+  obj.data = deployed.methods
+    .approve(process.env.SALE_CA, req.body.price)
+    .encodeABI();
+  res.send(obj);
+});
+
+router.post("/purchaseToken", (req, res) => {
+  console.log(req.body.tokenId); // 잘 받아옴
+  console.log(req.body.from);
+  const deployed = new web3.eth.Contract(saleToken.abi, process.env.SALE_CA);
+
+  const obj = {
+    from: "",
+    to: "",
+    data: "",
+  };
+  obj.from = req.body.from;
+  obj.to = process.env.SALE_CA;
+  obj.data = deployed.methods.PurchaseToken(req.body.tokenId).encodeABI();
+  console.log("거래메서드", obj.data);
+  res.send(obj);
+});
+
 module.exports = router;
+
+// 모든 nft의 권한을 가지고 있다. 바로 판매할 수 있도록 => 로그인을 할 때 권한 부여
+
+// 매번 nft에 대한 하나의 권한을 받아올지
+
+// 처음에 판매를 할 때 판매자의 권한을 받아올지

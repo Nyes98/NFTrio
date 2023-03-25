@@ -101,6 +101,7 @@ const genCreate = async (_imageName) => {
       Key: key + ".png",
       Body: bufferImage,
     };
+
     s3.putObject(params, (err, data) => {
       if (err) {
       } else {

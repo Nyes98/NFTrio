@@ -2,13 +2,17 @@
 pragma solidity ^0.8.19;
 
 import "./CharacterToken.sol";
+import "./TrioToken.sol";
 
 contract SaleToken {
   CharacterToken public Token;
+  TrioToken public SecondToken;
 
-  // _tokenAddress => characterToken의 CA : 0xd9145CCE52D386f254917e481eB44e9943F39138
-  constructor(address _tokenAddress) {
+  // _tokenAddress => characterToken의 CA
+  // _secondToken => TrioToken의 CA
+  constructor(address _tokenAddress, address _secondToken) {
     Token = CharacterToken(_tokenAddress);
+    SecondToken = TrioToken(payable(_secondToken));
   }
 
   struct TokenInfo {
@@ -38,14 +42,29 @@ contract SaleToken {
   function PurchaseToken(uint _tokenId) public payable {
     address tokenOwner = Token.ownerOf(_tokenId);
 
-    require(tokenOwner != msg.sender);
-    require(tokenPrices[_tokenId] > 0);
-    require(tokenPrices[_tokenId] <= msg.value);
+    // require(tokenOwner != msg.sender);
+    // require(tokenPrices[_tokenId] > 0);
+    // require(tokenPrices[_tokenId] <= msg.value);
 
-    payable(tokenOwner).transfer(msg.value);
+    // payable(tokenOwner).transfer(msg.value);
+    // Token.transferFrom(tokenOwner, msg.sender, _tokenId);
+
+    // tokenPrices[_tokenId] = 0;
+    // popSaleToken(_tokenId);
+    require(tokenPrices[_tokenId] > 0, "not sales");
+    // 구매하려는 CharacterToken이 판매중인지 확인
+    require(
+      tokenPrices[_tokenId] <= SecondToken.balanceOf(msg.sender),
+      "not enough price"
+    );
+    // SecondToken.approve(address(this), tokenPrices[_tokenId]);
+    // 03.24 기준으로 얘 주석처리하고(60번 줄)
+    // 구매하려는 CharacterToken의 판매 가격보다 많은 토큰을 가지고있는지(구매에 필요한 금액을 보유하고있는지) 확인
+    // solidity와 front 둘 다 처리해서 교차검증이 필요한 부분
+    SecondToken.transferFrom(msg.sender, tokenOwner, tokenPrices[_tokenId]);
+    // 구매자가 판매자에게 돈을 준다.
     Token.transferFrom(tokenOwner, msg.sender, _tokenId);
-
-    tokenPrices[_tokenId] = 0;
+    // sale 토큰이 권한을 위임받아 가지고 있던 CharacterToken을 구매자에게 전달한다.
     popSaleToken(_tokenId);
   }
 

@@ -138,11 +138,11 @@
 			]
 		},
 		"contracts/TrioToken.sol": {
-			"keccak256": "0x4b2a3b44d79cee2b2aba1238804d6000d5c0cd2db02e5044f7b0c38dbc68c52b",
+			"keccak256": "0x348e3545cf7109c252a55080346a814434b9644e1488d572b75223d93c38b933",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://11386a040eba202ad0c7bcba1171dabfc6938c87744f2daeb7258be39e47fde3",
-				"dweb:/ipfs/Qmcy8bL5VJ61eMgda6d3jAuHH1mxecrAwAmDsKnGBwX6zS"
+				"bzz-raw://b65aa4c91196f82eb8b79e82dfd466839ff32365e5bee92de4056841548878dd",
+				"dweb:/ipfs/Qma4tfd3meC16zEjYjtadU7SU3DeQ7iFDDX8bdh69j5JmX"
 			]
 		},
 		"node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol": {
