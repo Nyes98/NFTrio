@@ -80,6 +80,7 @@ module.exports = class Character extends Sequelize.Model {
       sourceKey: "hash",
     });
     db.Character.hasMany(db.NFTMarket, {
+      as: "RegistSellList",
       foreignKey: "nft_hash",
       sourceKey: "hash",
     });
