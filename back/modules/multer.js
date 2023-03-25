@@ -4,6 +4,7 @@ const multer = require("multer");
 const multerS3 = require("multer-s3");
 const fs = require("fs");
 const dotenv = require("dotenv");
+const { Character } = require("../models");
 dotenv.config();
 
 const REGION = "ap-northeast-2";
@@ -36,6 +37,33 @@ const createBucket = (_bucketName) => {
   });
 };
 
+const changeObjectKey = async (_objectName, _changedName) => {
+  const copyInfo = {
+    Bucket: bucketName,
+    CopySource: `/${bucketName}/${_objectName}`,
+    Key: _changedName,
+  };
+  const deleteInfo = {
+    Bucket: bucketName,
+    Key: _objectName,
+  };
+  const changePromise = new Promise((resolve, reject) => {
+    s3.copyObject(copyInfo, (err, data) => {
+      if (data) {
+        console.log("ChangeObjectKey Data", data);
+        s3.deleteObject(deleteInfo, (err, data) => {
+          console.log("ChangeObjectKey Finish");
+          resolve(`${_objectName} -> ${_changedName} NameChange Success`);
+        });
+      } else {
+        console.log("ChangeObjectKey Error");
+        reject(`${_objectName} -> ${_changedName} NameChange Error`);
+      }
+    });
+  });
+  return changePromise;
+};
+
 // S3에 파일 업로드 (_fileName: S3상의 저장위치, )
 const uploadFile = (_fileName, _fileDir) => {
   const fileContent = fs.readFileSync(_fileDir);
@@ -61,6 +89,22 @@ const getObject = async (_image) => {
   return url2;
 };
 
+const getJsonObject = async (_jsonName) => {
+  const params = { Bucket: bucketName, Key: _jsonName + ".json" };
+  const jsonPromise = new Promise((resolve, reject) => {
+    s3.getObject(params, (err, data) => {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else {
+        const attributes = JSON.parse(data.Body.toString())[0].attributes;
+        resolve(attributes);
+      }
+    });
+  });
+  return jsonPromise;
+};
+
 // s3의 이미지 오브젝트 리스트 반환
 const getObjectList = async () => {
   try {
@@ -75,7 +119,6 @@ const getObjectList = async () => {
     console.log("Error", err);
   }
 };
-getObjectList();
 
 const upload = multer({
   storage: multerS3({
@@ -93,4 +136,12 @@ const upload = multer({
   }),
 });
 
-module.exports = { upload, getObject, uploadFile, getObjectList, s3 };
+module.exports = {
+  upload,
+  getObject,
+  uploadFile,
+  getObjectList,
+  changeObjectKey,
+  getJsonObject,
+  s3,
+};

@@ -20,7 +20,9 @@ router.post("/getObject", async (req, res) => {
 });
 
 router.post("/getObjectList", async (req, res) => {
-  const curList = await getObjectList();
+  let curList = await getObjectList();
+  curList = curList.filter((item) => !item.toString().includes(".json"));
+  console.log(curList);
   res.send(curList);
 });
 

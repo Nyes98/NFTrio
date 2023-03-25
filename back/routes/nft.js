@@ -4,6 +4,7 @@ const db = require("../models");
 
 const { User, Character, NFTMarket } = require("../models");
 const { genCreate } = require("../modules/hashlips/hashlips.js");
+const { changeObjectKey, getJsonObject } = require("../modules/multer.js");
 
 const mint = async ({
   hash,
@@ -47,6 +48,20 @@ const getNftCount = async () => {
   return data;
 };
 
+/**
+ * @param {number} _page
+ * 몇 번째 페이지를 보여줄 것인가?
+ * @param {number} _pageLen
+ * 페이지 마다 몇 개의 아이템을 보여줄것인가?
+ * @param {number} _job
+ * 직업에 해당하는 숫자를 적어준다.
+ * 0이라면 직업에따른 정렬을 하지 않겠다는 뜻이다.
+ * @param {number} _price
+ * 0이면 가격에 따른 정렬을 하지 않겠다는 뜻이다.
+ * 1이면 가격에 따른 오름차순 정렬을 의미한다.
+ * 2이면 가격에 따른 내림차순 정렬을 의미한다.
+ * @returns
+ */
 const getLatestNft = async (_page, _pageLen, _job, _price) => {
   let whereCondition = {};
 
@@ -72,6 +87,9 @@ const getLatestNft = async (_page, _pageLen, _job, _price) => {
   return data;
 };
 
+/**
+ * @returns DB의 모든캐릭터 정보를 반환한다.
+ */
 const getAll = async () => {
   const data = await Character.findAll();
   return data;
@@ -229,10 +247,11 @@ router.post("/list", async (req, res) => {
 });
 
 router.post("/nftMint", upload.single("file"), async (req, res) => {
-  const { name, description } = req.body;
+  const { name, description, from } = req.body;
   console.log(req.body);
-
-  const imgResult = await pinata.pinFileToIPFS(Readable.from(req.file.buffer), {
+  // HashLips 이미지 생성 후 이미지 버퍼값
+  const createdBuffer = await genCreate(name);
+  const imgResult = await pinata.pinFileToIPFS(Readable.from(createdBuffer), {
     pinataMetadata: {
       name: Date.now().toString(),
     },
@@ -270,7 +289,46 @@ router.post("/nftMint", upload.single("file"), async (req, res) => {
       },
     }
   );
+  // 피나타에 이미지가 올라가고 난후 ipfsHash가 정해지면 s3에 올라간 이미지 값의 이름을 ipfsHash값으로 바꿔준다.
+  await changeObjectKey(name + ".png", imgResult.IpfsHash + ".png");
+  await changeObjectKey(name + ".json", imgResult.IpfsHash + ".json");
+  // 값이 모두 완성되면 mySql에도 저장해준다.
+  const json = await getJsonObject(imgResult.IpfsHash);
+  console.log(json[4].value);
   console.log(jsonResult);
+  let characterName;
+  let job = json[4].value.split(" ")[1];
+  switch (job) {
+    case "Axe":
+      characterName = `전사-${Date.now()}호기`;
+      job = 1;
+      break;
+    default:
+      characterName = `킹갓직업-${Date.now()}호기`;
+      job = 0;
+      break;
+  }
+  const owner_address = from;
+  console.log("ADDRESSS", owner_address);
+  const characterTokenConfig = {
+    hash: imgResult.IpfsHash,
+    img: `https://nftrio-bucket.s3.ap-northeast-2.amazonaws.com/${imgResult.IpfsHash}.png`,
+    name: characterName,
+    job: job,
+    gender: Math.floor(Math.random() * 2),
+    attack: Math.floor(Math.random() * 2),
+    health: Math.floor(Math.random() * 2),
+    speed: Math.floor(Math.random() * 2),
+    skill: Math.floor(Math.random() * 2),
+    price: 0,
+  };
+  const curUser = await User.findOne({
+    where: {
+      address: owner_address,
+    },
+  });
+  const curCharacter = await Character.create(characterTokenConfig);
+  curUser.addRegistSellList(curCharacter);
 
   const deployed = new web3.eth.Contract(
     characterToken.abi,
