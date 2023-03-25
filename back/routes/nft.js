@@ -87,14 +87,36 @@ const getNftInfo = async (_hash) => {
 const getMyNft = async (_owner) => {
   const data = await Character.findAll({
     where: { owner_address: _owner },
+    include: [
+      {
+        model: NFTMarket,
+      },
+    ],
+    as: "SellList",
   });
   return data;
 };
 
-const SellNft = async (_price) => {
+const SellNft = async (_price, _hash) => {
+  console.log(_price, _hash);
   const data = await NFTMarket.create({
     price: _price,
   });
+
+  const hashData = await Character.findOne({
+    where: { hash: _hash },
+  });
+
+  Character.update(
+    {
+      price: _price,
+    },
+    {
+      where: { hash: _hash },
+    }
+  );
+
+  hashData.addRegistSellList(data);
   return data;
 };
 
@@ -129,7 +151,7 @@ router.post("/myNft", async (req, res) => {
 });
 
 router.post("/sellNft", async (req, res) => {
-  const data = await SellNft(req.body.price);
+  const data = await SellNft(req.body.price, req.body.selHash);
   res.send(data);
 });
 
