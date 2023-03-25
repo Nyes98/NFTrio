@@ -13,6 +13,7 @@ type Props = {
   buyMordal: boolean;
   SelectHash: (hash: string) => void;
   selHash: string;
+  registedNft: Array<string>;
 };
 
 const MyPageComponent: React.FC<Props> = ({
@@ -25,8 +26,9 @@ const MyPageComponent: React.FC<Props> = ({
   buyMordal,
   SelectHash,
   selHash,
+  registedNft,
 }) => {
-  console.log(userNftData);
+  console.log(registedNft);
   return (
     <MainBoard>
       <img src="../imgs/mainnft.png" alt="main" />
@@ -71,7 +73,7 @@ const MyPageComponent: React.FC<Props> = ({
               }}
             >
               <img src="/imgs/dot.svg" alt="" />
-              Not listed
+              {registedNft.includes(item.hash) ? "있어" : "없어"}
             </div>
             <div>{item.price}</div>
             <div>--</div>

@@ -14,4 +14,5 @@ export default interface InftData {
   owner_address?: string;
   skill: string;
   updatedAt: string;
+  Character?: InftData;
 }
