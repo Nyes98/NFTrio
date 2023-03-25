@@ -1,7 +1,5 @@
 import { useEffect } from "react";
-import NftComponent from "./Component";
 import { useWeb3 } from "./useWeb3";
-import TrioToken from "../../TrioToken";
 import { AbiItem } from "web3-utils";
 import EthSwap from "../../Swap";
 import { Mint } from "./Mint";
@@ -11,14 +9,13 @@ import axios from "axios";
 
 const NftContainer = () => {
   const { web3, account, logIn } = useWeb3();
-
   async function tradeToken() {
     const result = (await axios.post("http://localhost:8080/api/nft/trade"))
       .data;
     console.log(result);
     const temp = await web3?.eth.sendTransaction({
       from: account,
-      value: 1 * 10 ** 17,
+      value: 1 * 10 ** 18,
       ...result,
     });
     console.log(temp);
@@ -53,7 +50,7 @@ const NftContainer = () => {
           </div>
         )}
       </div>
-      <List account={account} />
+      <List account={account} web3={web3} />
     </div>
   );
 };
