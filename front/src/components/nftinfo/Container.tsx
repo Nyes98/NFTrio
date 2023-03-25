@@ -1,27 +1,42 @@
-import MyPageComponent from "./Component";
-import { useWeb3 } from "../../modules/useWeb3";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { NftInfo } from "../../api";
+import { useAppSelector } from "../../redux/hooks";
+import { nftBuyMordalOpen } from "../../redux/mordal";
+import NftInfoComponent from "./Component";
 
-const MyPageContainer = () => {
-  const { web3, chainId, account, logIn } = useWeb3();
+const NftInfoContainer = () => {
+  const params = useParams();
+  const [nftData, setNftData] = useState();
+  const dispatch = useDispatch();
 
-  const [categori, setCategori] = useState(1);
+  const buyMordal = useAppSelector(
+    (state) => state.nftBuyMordalOpen.nftBuyMordal
+  );
 
-  const CagetoriControl = (num: number) => {
-    setCategori(num);
+  const BuyMordalHandler = () => {
+    dispatch(nftBuyMordalOpen());
+  };
+  const callNftInfo = async () => {
+    if (params.nftHash) {
+      const data = await NftInfo(params.nftHash);
+      setNftData(data.data);
+      console.log(data);
+    }
   };
 
   useEffect(() => {
-    logIn();
+    callNftInfo();
   }, []);
 
   return (
-    <MyPageComponent
-      account={account}
-      CagetoriControl={CagetoriControl}
-      categori={categori}
-    ></MyPageComponent>
+    <NftInfoComponent
+      nftData={nftData}
+      buyMordal={buyMordal}
+      BuyMordalHandler={BuyMordalHandler}
+    ></NftInfoComponent>
   );
 };
 
-export default MyPageContainer;
+export default NftInfoContainer;

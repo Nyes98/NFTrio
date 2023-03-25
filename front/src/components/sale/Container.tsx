@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { AllNft, NftCount, RecentNft } from "../../api";
 import { useAppSelector } from "../../redux/hooks";
 import { nftBuyMordalOpen } from "../../redux/mordal";
@@ -19,6 +20,7 @@ const SaleContainer = () => {
   const [topPrice, setTopPrice] = useState();
   const [totalPrice, setTotalPrice] = useState(0);
 
+  const navigate = useNavigate();
   const buyMordal = useAppSelector(
     (state) => state.nftBuyMordalOpen.nftBuyMordal
   );
@@ -40,7 +42,9 @@ const SaleContainer = () => {
     });
     setTotalPrice(sum);
   };
-
+  const move = (where: string) => {
+    navigate(`/nftInfo/${where}`);
+  };
   const callNftCount = async () => {
     const data = await NftCount();
     setNftCount(data.data.count);
@@ -109,6 +113,7 @@ const SaleContainer = () => {
       floorPrice={floorPrice}
       topPrice={topPrice}
       totalPrice={totalPrice}
+      move={move}
     ></SaleComponent>
   );
 };

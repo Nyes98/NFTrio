@@ -22,12 +22,14 @@ type Props = {
   recentArr1?: Array<any>;
   recentArr2?: Array<any>;
   topPriceArr?: Array<any>;
+  move: (where: string) => void;
 };
 
 const MainComponent: React.FC<Props> = ({
   recentArr1,
   recentArr2,
   topPriceArr,
+  move,
 }) => {
   return (
     <Wrap>
@@ -55,11 +57,16 @@ const MainComponent: React.FC<Props> = ({
               <div>FLOOR PRICE</div>
             </BoardTitle>
             {recentArr1?.map((item, index) => (
-              <BoardInfo key={`Arr1-${index}`}>
+              <BoardInfo
+                key={`Arr1-${index}`}
+                onClick={() => {
+                  move(item.hash);
+                }}
+              >
                 <div>
                   <div>{index + 1}</div>
                   <div>
-                    <img src={`/imgs/${item.img}`} alt="imsi" />
+                    <img src={item.img} alt="imsi" />
                   </div>
                   <div>{item.name}</div>
                 </div>
@@ -74,11 +81,16 @@ const MainComponent: React.FC<Props> = ({
               <div>FLOOR PRICE</div>
             </BoardTitle>
             {recentArr2?.map((item, index) => (
-              <BoardInfo key={`Arr2-${index}`}>
+              <BoardInfo
+                key={`Arr2-${index}`}
+                onClick={() => {
+                  move(item.hash);
+                }}
+              >
                 <div>
                   <div>{index + 6}</div>
                   <div>
-                    <img src={`/imgs/${item.img}`} alt="imsi" />
+                    <img src={item.img} alt="imsi" />
                   </div>
                   <div>{item.name}</div>
                 </div>
@@ -93,9 +105,14 @@ const MainComponent: React.FC<Props> = ({
       <Title>Top Price NFT</Title>
       <TopSaleWrap>
         {topPriceArr?.map((item, index) => (
-          <TopSale key={`topPrice-${index}`}>
+          <TopSale
+            key={`topPrice-${index}`}
+            onClick={() => {
+              move(item.hash);
+            }}
+          >
             <ImgBox>
-              <img src={`./imgs/${item.img}`} alt="topPrice" />
+              <img src={item.img} alt="topPrice" />
             </ImgBox>
             <NftInfo>
               <div>{item.name}</div>
@@ -141,6 +158,7 @@ const Wrap = styled.div`
 const TopSale = styled.div`
   margin: 30px 0;
   width: 15%;
+  cursor: pointer;
 `;
 
 const BoardHalf = styled.div`
@@ -192,6 +210,7 @@ const FilterWrap = styled.div`
 const BoardInfo = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
   justify-content: space-between;
 
   div {

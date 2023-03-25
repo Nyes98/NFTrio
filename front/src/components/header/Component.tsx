@@ -13,7 +13,7 @@ const HeaderComponent: React.FC<Props> = ({ move, account, logIn, web3 }) => {
     <Background>
       <HeaderBox>
         <LogoBox onClick={() => move("")}>
-          <img src="./imgs/opensea.svg" alt="Logo" />
+          <img src="../imgs/opensea.svg" alt="Logo" />
           <div>Open Sea</div>
         </LogoBox>
         <CategoriBox>
@@ -22,12 +22,12 @@ const HeaderComponent: React.FC<Props> = ({ move, account, logIn, web3 }) => {
           <div onClick={() => move("rank")}>Rank</div>
           <div>
             {account?.length ? (
-              <div onClick={() => move("mypage")}>
-                <img src="./imgs/skill7.png" alt="aflogin" />
+              <div onClick={() => move(`mypage/${account}`)}>
+                <img src="../imgs/skill7.png" alt="aflogin" />
               </div>
             ) : (
               <div onClick={() => logIn()}>
-                <img src="./imgs/user.svg" alt="user" />
+                <img src="../imgs/user.svg" alt="user" />
               </div>
             )}
           </div>

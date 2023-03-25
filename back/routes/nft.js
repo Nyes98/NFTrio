@@ -40,13 +40,10 @@ router.post("/mint", (req, res) => {
   mint({ ...req.body });
   res.send("mint success");
 });
-genCreate("임의의 캐릭터" + Date.now());
+// genCreate("imimimi");
 
 const getNftCount = async () => {
-  console.log("요긴오니");
   const data = await Character.findAndCountAll();
-
-  console.log("개수개수", data);
   return data;
 };
 
@@ -80,6 +77,44 @@ const getAll = async () => {
   return data;
 };
 
+const getNftInfo = async (_hash) => {
+  const data = await Character.findOne({
+    where: { hash: _hash },
+  });
+  return data;
+};
+
+const getMyNft = async (_owner) => {
+  const data = await Character.findAll({
+    where: { owner_address: _owner },
+  });
+
+  return data;
+};
+
+const SellNft = async (_price, _hash) => {
+  console.log(_price, _hash);
+  const data = await NFTMarket.create({
+    price: _price,
+  });
+
+  const hashData = await Character.findOne({
+    where: { hash: _hash },
+  });
+
+  Character.update(
+    {
+      price: _price,
+    },
+    {
+      where: { hash: _hash },
+    }
+  );
+
+  hashData.addRegistSellList(data);
+  return data;
+};
+
 router.post("/recentAll", async (req, res) => {
   const data = await getLatestNft(
     req.body.page,
@@ -90,12 +125,6 @@ router.post("/recentAll", async (req, res) => {
   res.send(data);
 });
 
-// /recentAll router에 통합됨
-// router.post("/topPriceNft", async (req, res) => {
-//   const data = await getTopPriceNft();
-//   res.send(data);
-// });
-
 router.post("/nftCount", async (req, res) => {
   const data = await getNftCount();
   res.send(data);
@@ -103,6 +132,21 @@ router.post("/nftCount", async (req, res) => {
 
 router.post("/all", async (req, res) => {
   const data = await getAll();
+  res.send(data);
+});
+
+router.post("/nftInfo", async (req, res) => {
+  const data = await getNftInfo(req.body.hash);
+  res.send(data);
+});
+
+router.post("/myNft", async (req, res) => {
+  const data = await getMyNft(req.body.owner);
+  res.send(data);
+});
+
+router.post("/sellNft", async (req, res) => {
+  const data = await SellNft(req.body.price, req.body.selHash);
   res.send(data);
 });
 

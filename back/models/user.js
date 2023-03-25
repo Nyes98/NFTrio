@@ -6,6 +6,8 @@ module.exports = class User extends Sequelize.Model {
       {
         address: {
           type: Sequelize.STRING(255),
+          unique: true,
+          primaryKey: true,
         },
         nickName: {
           type: Sequelize.STRING(64),
@@ -38,31 +40,31 @@ module.exports = class User extends Sequelize.Model {
   static associate(db) {
     db.User.hasMany(db.Character, {
       foreignKey: "owner_address",
-      targetKey: "address",
+      sourceKey: "address",
     });
     db.User.belongsTo(db.Character, {
       foreignKey: "formation_1",
-      sourceKey: "hash",
+      targetKey: "hash",
     });
     db.User.belongsTo(db.Character, {
       foreignKey: "formation_2",
-      sourceKey: "hash",
+      targetKey: "hash",
     });
     db.User.belongsTo(db.Character, {
       foreignKey: "formation_3",
-      sourceKey: "hash",
+      targetKey: "hash",
     });
     db.User.belongsTo(db.Character, {
       foreignKey: "formation_4",
-      sourceKey: "hash",
+      targetKey: "hash",
     });
     db.User.belongsTo(db.Character, {
       foreignKey: "formation_5",
-      sourceKey: "hash",
+      targetKey: "hash",
     });
     db.User.belongsTo(db.Character, {
       foreignKey: "formation_6",
-      sourceKey: "hash",
+      targetKey: "hash",
     });
   }
 };

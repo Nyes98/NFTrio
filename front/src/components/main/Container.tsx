@@ -1,20 +1,21 @@
 import MainComponent from "./Component";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
-import { move } from "../../redux/move";
 import { useEffect, useState } from "react";
 import { RecentNft } from "../../api";
+import { useNavigate } from "react-router-dom";
 
 const MainContainer = () => {
   // Redux 사용 예시
   const reduxTest = useAppSelector((state) => state.move.value);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [recentArr1, setRecentArr1] = useState();
   const [recentArr2, setRecentArr2] = useState();
   const [topPriceArr, setTopPriceArr] = useState();
 
-  const ReduxFix = () => {
-    dispatch(move("test"));
+  const move = (where: string) => {
+    navigate(`/nftinfo/${where}`);
   };
 
   const callRecentNFT = async () => {
@@ -39,6 +40,7 @@ const MainContainer = () => {
       recentArr1={recentArr1}
       recentArr2={recentArr2}
       topPriceArr={topPriceArr}
+      move={move}
     ></MainComponent>
   );
 };

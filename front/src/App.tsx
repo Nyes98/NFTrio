@@ -11,6 +11,7 @@ import SaleContainer from "./components/sale/Container";
 import RankContainer from "./components/rank/Container";
 import MyPageContainer from "./components/mypage/Container";
 import NftContainer from "./components/nftTest/Container";
+import NftInfoContainer from "./components/nftinfo/Container";
 
 function App() {
   return (
@@ -23,8 +24,9 @@ function App() {
         <Route path="/pick" element={<PickContainer />} />
         <Route path="/sale" element={<SaleContainer />} />
         <Route path="/rank" element={<RankContainer />} />
-        <Route path="/mypage" element={<MyPageContainer />} />
+        <Route path="/mypage/:owner" element={<MyPageContainer />} />
         <Route path="/test" element={<NftContainer />}></Route>
+        <Route path="/nftinfo/:nftHash" element={<NftInfoContainer />}></Route>
       </Routes>
       <FooterContainer></FooterContainer>
     </div>

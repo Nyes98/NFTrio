@@ -19,6 +19,7 @@ type Props = {
   floorPrice?: number;
   topPrice?: number;
   totalPrice: number;
+  move: (where: string) => void;
 };
 
 const SaleComponent: React.FC<Props> = ({
@@ -38,6 +39,7 @@ const SaleComponent: React.FC<Props> = ({
   floorPrice,
   topPrice,
   totalPrice,
+  move,
 }) => {
   return (
     <MainBoard>
@@ -127,29 +129,25 @@ const SaleComponent: React.FC<Props> = ({
               return (
                 <SailItem
                   className={"nftrio-button fg-white bg-melon ac-pink "}
-                  onMouseEnter={() => mouseIn(item.id)}
+                  onMouseEnter={() => mouseIn(item.hash)}
                   onMouseLeave={() => mouseIn(0)}
-                  item={item.id}
+                  item={item.hash}
                   key={`Sail-${index}`}
+                  onClick={() => move(item.hash)}
                 >
                   <div>
                     <img
-                      className={buyBtn == item.id ? "on" : ""}
-                      src={`imgs/${item.img}`}
+                      className={buyBtn == item.hash ? "on" : ""}
+                      src={`${item.img}`}
                       alt="imimsi"
                     />
                   </div>
-                  <div>
-                    {item.name} # {item.id}
-                  </div>
+                  <div>{item.name}</div>
                   <div>{item.price} ETH</div>
                   <div>Last sale : 0.15 ETH</div>
 
-                  <BuyBtn
-                    className={buyBtn == item.id ? "on" : ""}
-                    onClick={BuyMordalHandler}
-                  >
-                    구매
+                  <BuyBtn className={buyBtn == item.hash ? "on" : ""}>
+                    상세보기
                   </BuyBtn>
                 </SailItem>
               );
