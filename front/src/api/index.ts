@@ -39,3 +39,7 @@ export const SellNft = async (price: number, selHash: string) => {
   console.log(selHash);
   return await request.post("/nft/sellNft", { price: price, selHash: selHash });
 };
+
+export const MyNftOnSale = async () => {
+  return await request.post("/nftmarket/list");
+};

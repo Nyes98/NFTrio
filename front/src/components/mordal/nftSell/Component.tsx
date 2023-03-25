@@ -31,7 +31,6 @@ const NftSellMordalComponent: React.FC<Props> = ({
                 <img src={nftData?.img} alt="imgs" />
               </div>
               <div>
-                <div>{nftData?.id}</div>
                 <div>{nftData?.name}</div>
               </div>
             </div>
@@ -126,8 +125,8 @@ const Mordal = styled.div`
   position: fixed;
   border: 1px solid gray;
   border-radius: 10px;
-  width: 800px;
-  height: 400px;
+  width: 600px;
+  height: 700px;
   margin: auto;
   top: 0;
   bottom: 0;

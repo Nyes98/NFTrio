@@ -87,13 +87,8 @@ const getNftInfo = async (_hash) => {
 const getMyNft = async (_owner) => {
   const data = await Character.findAll({
     where: { owner_address: _owner },
-    include: [
-      {
-        model: NFTMarket,
-      },
-    ],
-    as: "SellList",
   });
+
   return data;
 };
 
