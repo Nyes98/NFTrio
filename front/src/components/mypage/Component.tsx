@@ -5,8 +5,6 @@ import NftSellMordalContainer from "../mordal/nftSell/Container";
 
 type Props = {
   account: string | undefined;
-  CagetoriControl: (num: number) => void;
-  categori: number;
   userNftData?: Array<InftData>;
   move: (where: string) => void;
   BuyMordalHandler: () => void;
@@ -14,12 +12,12 @@ type Props = {
   SelectHash: (hash: string) => void;
   selHash: string;
   registedNft: Array<string>;
+  mouseIn: (hash: string) => void;
+  sellBtn: string;
 };
 
 const MyPageComponent: React.FC<Props> = ({
   account,
-  CagetoriControl,
-  categori,
   userNftData,
   move,
   BuyMordalHandler,
@@ -27,8 +25,9 @@ const MyPageComponent: React.FC<Props> = ({
   SelectHash,
   selHash,
   registedNft,
+  mouseIn,
+  sellBtn,
 }) => {
-  console.log(registedNft);
   return (
     <MainBoard>
       <img src="../imgs/mainnft.png" alt="main" />
@@ -45,12 +44,6 @@ const MyPageComponent: React.FC<Props> = ({
           </div>
           <div>{account}</div>
         </NftInfo>
-        {/* <Categori>
-          <div onClick={() => CagetoriControl(1)}>
-            Collected {userNftData?.job}
-          </div>
-          <div onClick={() => CagetoriControl(2)}>Created 1</div>
-        </Categori> */}
 
         <Title>
           <div>ITEM</div>
@@ -71,12 +64,44 @@ const MyPageComponent: React.FC<Props> = ({
                 BuyMordalHandler();
                 SelectHash(item.hash);
               }}
+              onMouseEnter={() => mouseIn(item.hash)}
+              onMouseLeave={() => mouseIn("")}
             >
-              <img src="/imgs/dot.svg" alt="" />
-              {registedNft.includes(item.hash) ? "있어" : "없어"}
+              {registedNft.includes(item.hash) ? (
+                <>
+                  <Green>
+                    {sellBtn == item.hash ? (
+                      <SellBtn>Edit listing</SellBtn>
+                    ) : (
+                      <></>
+                    )}
+                    <img src="/imgs/dot.svg" alt="greenDot" />
+                    {item.price} Trio
+                  </Green>
+                </>
+              ) : (
+                <>
+                  <Gray>
+                    {sellBtn == item.hash ? (
+                      <SellBtn>List for sail</SellBtn>
+                    ) : (
+                      <></>
+                    )}
+                    <img src="/imgs/dot.svg" alt="grayDot" /> Not listed
+                  </Gray>
+                </>
+              )}
             </div>
-            <div>{item.price}</div>
-            <div>--</div>
+            <div>{item.cost ? <>{item.cost} Trio</> : <>--</>}</div>
+            <div>
+              {item.price && item.cost ? (
+                <>
+                  {(((item.price - item.cost) / item.cost) * 100).toFixed(2)} %
+                </>
+              ) : (
+                <>--</>
+              )}
+            </div>
           </InfoLine>
         ))}
       </Wrap>
@@ -91,6 +116,22 @@ const MyPageComponent: React.FC<Props> = ({
 
 export default MyPageComponent;
 
+const SellBtn = styled.div`
+  position: absolute;
+  border: 1px solid blue;
+  border-radius: 10px;
+  background-color: white;
+  top: 1px;
+  display: flex;
+  justify-content: center;
+
+  &&& {
+    font-size: 0.5rem;
+    width: 100px;
+    left: 10px;
+  }
+`;
+
 const Title = styled.div`
   display: flex;
   font-size: 0.6rem;
@@ -103,6 +144,13 @@ const Title = styled.div`
   div:first-child {
     width: 50%;
   }
+`;
+const Green = styled.p`
+  position: relative;
+`;
+
+const Gray = styled.span`
+  position: relative;
 `;
 
 const InfoLine = styled.div`
@@ -134,6 +182,11 @@ const InfoLine = styled.div`
       filter: invert(97%) sepia(2%) saturate(844%) hue-rotate(179deg)
         brightness(83%) contrast(92%);
     }
+
+    p > img {
+      filter: invert(66%) sepia(29%) saturate(912%) hue-rotate(97deg)
+        brightness(92%) contrast(92%);
+    }
   }
 `;
 
@@ -144,15 +197,7 @@ const MainBoard = styled.div`
     width: 100%;
   }
 `;
-const Categori = styled.div`
-  display: flex;
-  font-size: 0.8rem;
-  margin: 20px 0;
-  div {
-    margin-right: 20px;
-    cursor: pointer;
-  }
-`;
+
 const NftImg = styled.div`
   position: absolute;
   top: 200px;

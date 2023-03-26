@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const path = require("path");
 
-// const db = require("./models/index.js");
+const db = require("./models/index.js");
 const routes = require("./routes");
 
 dotenv.config();
@@ -46,14 +46,14 @@ app.use(
 
 app.use("/api", routes);
 
-// db.sequelize
-//   .sync({ force: false })
-//   .then(() => {
-//     console.log("db connected");
-//   })
-//   .catch((err) => {
-//     console.error(err);
-//   });
+db.sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("db connected");
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 app.listen(app.get("port"), () => {
   console.log(app.get("port") + "번 포트에 서버 오픈");

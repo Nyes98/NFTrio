@@ -36,10 +36,28 @@ export const MyNft = async (owner: string) => {
 };
 
 export const SellNft = async (price: number, selHash: string) => {
-  console.log(selHash);
-  return await request.post("/nft/sellNft", { price: price, selHash: selHash });
+  return await request.post("/nftmarket/sell", {
+    price: price,
+    selHash: selHash,
+  });
 };
 
 export const MyNftOnSale = async () => {
   return await request.post("/nftmarket/list");
+};
+
+export const RegistUser = async (address?: string) => {
+  return await request.post("/user/regist", { address: address });
+};
+
+export const NftBuy = async (hash?: string, price?: number) => {
+  return await request.post("/nftmarket/buy", { hash: hash, price: price });
+};
+
+export const NftCost = async (hash?: string) => {
+  return await request.post("/nftmarket/cost", { hash: hash });
+};
+
+export const CallHistory = async (hash?: string) => {
+  return await request.post("/nftmarket/history", { hash: hash });
 };

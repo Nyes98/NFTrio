@@ -1,27 +1,10 @@
 import styled from "styled-components";
-
-interface recentI {
-  // attack: number;
-  // createAt: string;
-  // deletedAt?: string;
-  // gender: number;
-  // hash: string;
-  // health: number;
-  // id: number;
-  // img: string;
-  // job: string;
-  // name: string;
-  // owner_address?: string;
-  // price: string;
-  // skill: string;
-  // speed: number;
-  // updatedAt: string;
-}
+import InftData from "../../interfaces/NftData.interface";
 
 type Props = {
-  recentArr1?: Array<any>;
-  recentArr2?: Array<any>;
-  topPriceArr?: Array<any>;
+  recentArr1?: Array<InftData>;
+  recentArr2?: Array<InftData>;
+  topPriceArr?: Array<InftData>;
   move: (where: string) => void;
 };
 
@@ -41,7 +24,7 @@ const MainComponent: React.FC<Props> = ({
         <FilterWrap>
           <SailTitle>
             <div>Recent</div>
-            <div>All</div>
+            <div onClick={() => move("sale")}>All</div>
           </SailTitle>
           <FilterBoard>
             <div>전사</div>
@@ -54,7 +37,7 @@ const MainComponent: React.FC<Props> = ({
           <BoardWrap>
             <BoardTitle>
               <div>INFO</div>
-              <div>FLOOR PRICE</div>
+              <div>PRICE</div>
             </BoardTitle>
             {recentArr1?.map((item, index) => (
               <BoardInfo
@@ -78,7 +61,7 @@ const MainComponent: React.FC<Props> = ({
           <BoardWrap>
             <BoardTitle>
               <div>INFO</div>
-              <div>FLOOR PRICE</div>
+              <div>PRICE</div>
             </BoardTitle>
             {recentArr2?.map((item, index) => (
               <BoardInfo
@@ -139,8 +122,9 @@ const NftInfo = styled.div`
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   div {
-    width: 90%;
+    /* width: 90%; */
     margin: auto;
+    padding: 10px;
   }
 `;
 const ImgBox = styled.div`
@@ -189,6 +173,18 @@ const SailTitle = styled.div`
   display: flex;
   div {
     margin-right: 30px;
+    cursor: pointer;
+    border: 4px solid hotpink;
+    border-radius: 10px;
+    padding: 5px;
+  }
+
+  div:last-child {
+    border: 4px solid pink;
+
+    &:hover {
+      border: 4px solid hotpink;
+    }
   }
 `;
 const FilterBoard = styled.div`

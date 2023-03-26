@@ -15,4 +15,5 @@ export default interface InftData {
   skill: string;
   updatedAt: string;
   Character?: InftData;
+  cost: number;
 }
