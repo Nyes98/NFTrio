@@ -11,6 +11,7 @@ type Props = {
 const NftSellMordalContainer: React.FC<Props> = ({ selHash }) => {
   const [nftData, setNftData] = useState();
   const [sellPrice, setSellPrice] = useState(0);
+
   const dispatch = useDispatch();
 
   const CallNftInfo = async () => {

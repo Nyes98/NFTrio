@@ -110,29 +110,6 @@ const getMyNft = async (_owner) => {
   return data;
 };
 
-const SellNft = async (_price, _hash) => {
-  console.log(_price, _hash);
-  const data = await NFTMarket.create({
-    price: _price,
-  });
-
-  const hashData = await Character.findOne({
-    where: { hash: _hash },
-  });
-
-  Character.update(
-    {
-      price: _price,
-    },
-    {
-      where: { hash: _hash },
-    }
-  );
-
-  hashData.addRegistSellList(data);
-  return data;
-};
-
 router.post("/recentAll", async (req, res) => {
   const data = await getLatestNft(
     req.body.page,
@@ -163,10 +140,6 @@ router.post("/myNft", async (req, res) => {
   res.send(data);
 });
 
-router.post("/sellNft", async (req, res) => {
-  const data = await SellNft(req.body.price, req.body.selHash);
-  res.send(data);
-});
 // genCreate("임의의 해쉬값");
 
 const pinataSDK = require("@pinata/sdk");

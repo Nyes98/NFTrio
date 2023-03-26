@@ -4,9 +4,14 @@ import InftData from "../../../interfaces/NftData.interface";
 type Props = {
   ControlMordal: () => void;
   nftData?: InftData;
+  nftBuy: () => void;
 };
 
-const NftBuyMordalComponent: React.FC<Props> = ({ ControlMordal, nftData }) => {
+const NftBuyMordalComponent: React.FC<Props> = ({
+  ControlMordal,
+  nftData,
+  nftBuy,
+}) => {
   return (
     <>
       <Background onClick={ControlMordal}></Background>
@@ -26,17 +31,18 @@ const NftBuyMordalComponent: React.FC<Props> = ({ ControlMordal, nftData }) => {
                 <div>{nftData?.name}</div>
               </div>
             </div>
-            {/* <PriceInfo>
-              <div>입력받은 토큰의 수</div>
-              <div>입력받은 토큰이 goeril 이라면..</div>
-            </PriceInfo> */}
           </SubTitle>
           <ConfirmBox>
             <div>해당 NFT의 가격은 {nftData?.price} ETH입니다.</div>
             <div>구매 하시겠습니까?</div>
           </ConfirmBox>
           <BtnBox>
-            <div className="nftrio-button fg-dark bg-melon ac-white">예</div>
+            <div
+              className="nftrio-button fg-dark bg-melon ac-white"
+              onClick={nftBuy}
+            >
+              예
+            </div>
             <div
               className="nftrio-button fg-dark bg-melon ac-white"
               onClick={ControlMordal}
@@ -113,7 +119,7 @@ const Mordal = styled.div`
   border: 1px solid gray;
   border-radius: 10px;
   width: 800px;
-  height: 400px;
+  height: 500px;
   margin: auto;
   top: 0;
   bottom: 0;

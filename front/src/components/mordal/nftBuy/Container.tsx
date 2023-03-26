@@ -1,24 +1,8 @@
 import { useDispatch } from "react-redux";
+import { NftBuy } from "../../../api";
+import InftData from "../../../interfaces/NftData.interface";
 import { nftBuyMordalOpen } from "../../../redux/mordal";
 import NftBuyMordalComponent from "./Component";
-
-interface InftData {
-  attack: number;
-  gender: number;
-  health: number;
-  id: number;
-  price: number;
-  speed: number;
-  createdAt: string;
-  deletedAt?: string;
-  hash: string;
-  img: string;
-  job: string;
-  name: string;
-  owner_address?: string;
-  skill: string;
-  updatedAt: string;
-}
 
 type Props = {
   nftData?: InftData;
@@ -31,10 +15,16 @@ const NftBuyMordalContainer: React.FC<Props> = ({ nftData }) => {
     dispatch(nftBuyMordalOpen());
   };
 
+  const nftBuy = async () => {
+    const data = await NftBuy(nftData?.hash, nftData?.price);
+    console.log(data);
+  };
+
   return (
     <NftBuyMordalComponent
       ControlMordal={ControlMordal}
       nftData={nftData}
+      nftBuy={nftBuy}
     ></NftBuyMordalComponent>
   );
 };
