@@ -3,13 +3,31 @@ const router = require("express").Router();
 const db = require("../models");
 const { User, Character, NFTMarket } = require("../models");
 
-// const setList = async () => {
-//   const characterList = await getLatestNft(0, 10);
-//   characterList.map(async (item, index) => {
-//     const curCharacter = item;
-//     const curMarketList = await NFTMarket.create({ price: 10 - index });
-//     curCharacter.addNFTMarket(curMarketList);
-//   });
-// };
+const setUser = async (_address) => {
+  const data = await User.create({
+    address: _address,
+    nickname: _address,
+  });
+
+  return data;
+};
+
+router.post("/regist", async (req, res) => {
+  try {
+    if (
+      await User.findOne({
+        where: { address: req.body.address },
+      })
+    ) {
+      res.end();
+    } else {
+      const data = await setUser(req.body.address);
+      res.send(data);
+    }
+  } catch (error) {
+    console.error(error);
+    res.end();
+  }
+});
 
 module.exports = router;

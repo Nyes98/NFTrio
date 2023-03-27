@@ -1,7 +1,17 @@
 import { ResponsiveLine } from "@nivo/line";
+import { useEffect } from "react";
 import styled from "styled-components";
+import { CallHistory } from "../../api";
 
-const MyResponsiveLine = ({}) => {
+const MyResponsiveLine = ({ nftData }) => {
+  const callHistory = async () => {
+    const data = await CallHistory(nftData?.hash);
+    console.log(data);
+  };
+
+  useEffect(() => {
+    callHistory();
+  }, []);
   return (
     <Pa>
       <ResponsiveLine

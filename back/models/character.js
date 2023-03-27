@@ -37,6 +37,10 @@ module.exports = class Character extends Sequelize.Model {
           type: Sequelize.INTEGER,
           allowNull: true,
         },
+        cost: {
+          type: Sequelize.INTEGER,
+          allowNull: true,
+        },
       },
       {
         sequelize,

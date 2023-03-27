@@ -1,25 +1,8 @@
 import styled from "styled-components";
+import InftData from "../../interfaces/NftData.interface";
 import "../../nftrio.css";
 import MyResponsiveLine from "../graph/Component";
 import NftBuyMordalContainer from "../mordal/nftBuy/Container";
-
-interface InftData {
-  attack: number;
-  gender: number;
-  health: number;
-  id: number;
-  price: number;
-  speed: number;
-  createdAt: string;
-  deletedAt?: string;
-  hash: string;
-  img: string;
-  job: string;
-  name: string;
-  owner_address?: string;
-  skill: string;
-  updatedAt: string;
-}
 
 type Props = {
   nftData?: InftData;
@@ -44,21 +27,33 @@ const NftInfoComponent: React.FC<Props> = ({
         )}
         <NftText>
           <NftName>NFTrio</NftName>
-          <NftNum>{nftData?.id}</NftNum>
-          <NftOwner>주인주소{nftData?.owner_address}</NftOwner>
+          <NftOwner>Owner : {nftData?.owner_address}</NftOwner>
           <NftPrice>
-            <div>Current Price</div>
-            <div>{nftData?.price} Trio</div>
-            <div
-              className="nftrio-button fg-dark bg-melon ac-white"
-              onClick={BuyMordalHandler}
-            >
-              Buy Nft
-            </div>
+            {nftData?.price ? (
+              <>
+                <div>Current Price</div>
+                <div>{nftData?.price} Trio</div>
+
+                <div
+                  className="nftrio-button fg-dark bg-melon ac-white"
+                  onClick={BuyMordalHandler}
+                >
+                  Buy Nft
+                </div>
+              </>
+            ) : (
+              <p>This is an NFT that is not registered for sale.</p>
+            )}
           </NftPrice>
           <NftPriceHistory>
             <HistoryTitle>Price History</HistoryTitle>
-            <MyResponsiveLine></MyResponsiveLine>
+            {nftData ? (
+              <>
+                <MyResponsiveLine nftData={nftData}></MyResponsiveLine>
+              </>
+            ) : (
+              <></>
+            )}
           </NftPriceHistory>
         </NftText>
       </InfoWrap>

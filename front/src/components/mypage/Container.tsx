@@ -2,19 +2,19 @@ import MyPageComponent from "./Component";
 import { useWeb3 } from "../../modules/useWeb3";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { MyNft, MyNftOnSale } from "../../api";
+import { MyNft, MyNftOnSale, NftCost } from "../../api";
 import { useAppSelector } from "../../redux/hooks";
 import { nftBuyMordalOpen } from "../../redux/mordal";
 import { useDispatch } from "react-redux";
-import InftData from "../../interfaces/NftData.interface";
 
 const MyPageContainer = () => {
   const { web3, chainId, account, logIn } = useWeb3();
   const [userNftData, setUserNftData] = useState();
-  const [categori, setCategori] = useState(1);
   const [selHash, setSelHash] = useState("");
   const [registedNft, setRegistedNft] = useState<Array<string>>([]);
   const params = useParams();
+  const [sellBtn, setSellBtn] = useState("");
+  const [nftCost, setNftCost] = useState();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -25,6 +25,10 @@ const MyPageContainer = () => {
 
   const SelectHash = (hash: string) => {
     setSelHash(hash);
+  };
+
+  const mouseIn = (hash: string) => {
+    setSellBtn(hash);
   };
 
   const move = (where: string) => {
@@ -50,10 +54,6 @@ const MyPageContainer = () => {
     });
   };
 
-  const CagetoriControl = (num: number) => {
-    setCategori(num);
-  };
-
   const BuyMordalHandler = () => {
     dispatch(nftBuyMordalOpen());
   };
@@ -67,8 +67,6 @@ const MyPageContainer = () => {
   return (
     <MyPageComponent
       account={account}
-      CagetoriControl={CagetoriControl}
-      categori={categori}
       userNftData={userNftData}
       move={move}
       BuyMordalHandler={BuyMordalHandler}
@@ -76,6 +74,8 @@ const MyPageContainer = () => {
       SelectHash={SelectHash}
       selHash={selHash}
       registedNft={registedNft}
+      mouseIn={mouseIn}
+      sellBtn={sellBtn}
     ></MyPageComponent>
   );
 };
