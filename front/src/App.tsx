@@ -12,7 +12,7 @@ import RankContainer from "./components/rank/Container";
 import MyPageContainer from "./components/mypage/Container";
 import NftContainer from "./components/nftTest/Container";
 import NftInfoContainer from "./components/nftinfo/Container";
-
+import MintingModalComponent from "./components/mordal/minting/Components";
 function App() {
   return (
     <div>
@@ -27,6 +27,7 @@ function App() {
         <Route path="/mypage/:owner" element={<MyPageContainer />} />
         <Route path="/test" element={<NftContainer />}></Route>
         <Route path="/nftinfo/:nftHash" element={<NftInfoContainer />}></Route>
+        <Route path="/modal" element={<MintingModalComponent />}></Route>
       </Routes>
       <FooterContainer></FooterContainer>
     </div>
