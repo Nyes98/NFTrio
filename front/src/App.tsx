@@ -12,8 +12,16 @@ import RankContainer from "./components/rank/Container";
 import MyPageContainer from "./components/mypage/Container";
 import NftContainer from "./components/nftTest/Container";
 import NftInfoContainer from "./components/nftinfo/Container";
-import MintingModalComponent from "./components/mordal/minting/Components";
+import { useWeb3 } from "./modules/useWeb3";
+import { useEffect } from "react";
+
 function App() {
+  const { web3, account, logIn } = useWeb3();
+
+  useEffect(() => {
+    logIn();
+  }, [account]);
+
   return (
     <div>
       <HeaderContainer></HeaderContainer>
@@ -21,13 +29,18 @@ function App() {
         <Route path="/" element={<MainContainer></MainContainer>}></Route>{" "}
         <Route path="/css-demo" element={<CSSDemoContainer />} />
         <Route path="/multer-test" element={<MulterComponent />} />
-        <Route path="/pick" element={<PickContainer />} />
+        <Route
+          path="/pick"
+          element={<PickContainer account={account} web3={web3} />}
+        />
         <Route path="/sale" element={<SaleContainer />} />
         <Route path="/rank" element={<RankContainer />} />
-        <Route path="/mypage/:owner" element={<MyPageContainer />} />
+        <Route
+          path="/mypage/:owner"
+          element={<MyPageContainer account={account} web3={web3} />}
+        />
         <Route path="/test" element={<NftContainer />}></Route>
         <Route path="/nftinfo/:nftHash" element={<NftInfoContainer />}></Route>
-        <Route path="/modal" element={<MintingModalComponent />}></Route>
       </Routes>
       <FooterContainer></FooterContainer>
     </div>

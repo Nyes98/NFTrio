@@ -1,17 +1,26 @@
 import { ResponsiveLine } from "@nivo/line";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { CallHistory } from "../../api";
 
 const MyResponsiveLine = ({ nftData }) => {
+  const [history, setHistory] = useState([]);
+
   const callHistory = async () => {
     const data = await CallHistory(nftData?.hash);
-    console.log(data);
+    const data2 = [];
+
+    data.data.map((item) => {
+      data2.push({ x: item.deletedAt.slice(0, 10), y: item.price });
+    });
+
+    setHistory(data2);
   };
 
   useEffect(() => {
     callHistory();
   }, []);
+
   return (
     <Pa>
       <ResponsiveLine
@@ -19,24 +28,7 @@ const MyResponsiveLine = ({ nftData }) => {
           {
             id: "Trio",
             color: "hsl(109, 70%, 50%)",
-            data: [
-              {
-                x: "민트날짜",
-                y: 0,
-              },
-              {
-                x: "2022-02-02",
-                y: 33,
-              },
-              {
-                x: "2022-02-04",
-                y: 39,
-              },
-              {
-                x: "2022-02-06",
-                y: 55,
-              },
-            ],
+            data: history,
           },
         ]}
         margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
@@ -64,7 +56,7 @@ const MyResponsiveLine = ({ nftData }) => {
           orient: "left",
           tickSize: 5,
           tickPadding: 5,
-          tickRotation: 0,
+          tickRotation: -20,
           legend: "Volume (Trio)",
           legendOffset: -40,
           legendPosition: "middle",

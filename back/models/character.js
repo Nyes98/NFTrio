@@ -41,6 +41,10 @@ module.exports = class Character extends Sequelize.Model {
           type: Sequelize.INTEGER,
           allowNull: true,
         },
+        tokenId: {
+          type: Sequelize.INTEGER,
+          allowNull: true,
+        },
       },
       {
         sequelize,
@@ -59,27 +63,27 @@ module.exports = class Character extends Sequelize.Model {
       foreignKey: "owner_address",
       targetKey: "address",
     });
-    db.Character.hasMany(db.User, {
+    db.Character.hasOne(db.User, {
       foreignKey: "formation_1",
       sourceKey: "hash",
     });
-    db.Character.hasMany(db.User, {
+    db.Character.hasOne(db.User, {
       foreignKey: "formation_2",
       sourceKey: "hash",
     });
-    db.Character.hasMany(db.User, {
+    db.Character.hasOne(db.User, {
       foreignKey: "formation_3",
       sourceKey: "hash",
     });
-    db.Character.hasMany(db.User, {
+    db.Character.hasOne(db.User, {
       foreignKey: "formation_4",
       sourceKey: "hash",
     });
-    db.Character.hasMany(db.User, {
+    db.Character.hasOne(db.User, {
       foreignKey: "formation_5",
       sourceKey: "hash",
     });
-    db.Character.hasMany(db.User, {
+    db.Character.hasOne(db.User, {
       foreignKey: "formation_6",
       sourceKey: "hash",
     });

@@ -13,8 +13,8 @@ const HeaderComponent: React.FC<Props> = ({ move, account, logIn, web3 }) => {
     <Background>
       <HeaderBox>
         <LogoBox onClick={() => move("")}>
-          <img src="../imgs/opensea.svg" alt="Logo" />
-          <div>Open Sea</div>
+          <img src="../imgs/Logo1.png" alt="Logo" />
+          <div>NFTrio</div>
         </LogoBox>
         <CategoriBox>
           <div onClick={() => move("pick")}>Pick</div>
@@ -65,6 +65,9 @@ const LogoBox = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+  }
+  img {
+    width: 80px;
   }
 `;
 

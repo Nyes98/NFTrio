@@ -16,4 +16,5 @@ export default interface InftData {
   updatedAt: string;
   Character?: InftData;
   cost: number;
+  tokenId: number;
 }

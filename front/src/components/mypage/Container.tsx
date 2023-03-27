@@ -1,20 +1,32 @@
 import MyPageComponent from "./Component";
-import { useWeb3 } from "../../modules/useWeb3";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { MyNft, MyNftOnSale, NftCost } from "../../api";
+import {
+  ApproveToken,
+  CallUser,
+  MyNft,
+  MyNftOnSale,
+  NftCost,
+  SwapToken,
+} from "../../api";
 import { useAppSelector } from "../../redux/hooks";
 import { nftBuyMordalOpen } from "../../redux/mordal";
 import { useDispatch } from "react-redux";
+import Web3 from "web3";
 
-const MyPageContainer = () => {
-  const { web3, chainId, account, logIn } = useWeb3();
+type Props = {
+  web3?: Web3;
+  account?: string;
+};
+
+const MyPageContainer: React.FC<Props> = ({ web3, account }) => {
   const [userNftData, setUserNftData] = useState();
   const [selHash, setSelHash] = useState("");
+  const [selTokenId, setSelTokenId] = useState(1000);
   const [registedNft, setRegistedNft] = useState<Array<string>>([]);
   const params = useParams();
   const [sellBtn, setSellBtn] = useState("");
-  const [nftCost, setNftCost] = useState();
+  const [userData, setUserData] = useState();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,8 +35,16 @@ const MyPageContainer = () => {
     (state) => state.nftBuyMordalOpen.nftBuyMordal
   );
 
-  const SelectHash = (hash: string) => {
+  const MyUserData = async () => {
+    if (params.owner) {
+      const data = await CallUser(params.owner);
+      setUserData(data.data);
+    }
+  };
+
+  const SelectHash = (hash: string, tokenId: number) => {
     setSelHash(hash);
+    setSelTokenId(tokenId);
   };
 
   const mouseIn = (hash: string) => {
@@ -58,15 +78,37 @@ const MyPageContainer = () => {
     dispatch(nftBuyMordalOpen());
   };
 
+  const TradeToken = async () => {
+    const data = await SwapToken();
+    const temp = await web3?.eth.sendTransaction({
+      from: account,
+      value: 1 * 10 ** 17,
+      ...data.data,
+    });
+  };
+
+  const approveToken = async () => {
+    const data = await ApproveToken();
+    console.log(data.data);
+
+    web3?.eth.sendTransaction({
+      from: account,
+      to: data.data.to,
+      ...data.data,
+    });
+  };
+
   useEffect(() => {
-    logIn();
     CallMyNft();
     CallSellNft();
+    MyUserData();
+    // approveToken();
   }, []);
 
   return (
     <MyPageComponent
       account={account}
+      web3={web3}
       userNftData={userNftData}
       move={move}
       BuyMordalHandler={BuyMordalHandler}
@@ -76,6 +118,9 @@ const MyPageContainer = () => {
       registedNft={registedNft}
       mouseIn={mouseIn}
       sellBtn={sellBtn}
+      userData={userData}
+      TradeToken={TradeToken}
+      selTokenId={selTokenId}
     ></MyPageComponent>
   );
 };
