@@ -7,6 +7,8 @@ import { List } from "./List";
 import axios from "axios";
 //abi 파일 없어야하고 deployed 없어야함
 
+type Props = { pickNft: () => void; useWeb3: () => void; account: string };
+
 const NftContainer = () => {
   const { web3, account, logIn } = useWeb3();
   async function tradeToken() {

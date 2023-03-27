@@ -61,3 +61,43 @@ export const NftCost = async (hash?: string) => {
 export const CallHistory = async (hash?: string) => {
   return await request.post("/nftmarket/history", { hash: hash });
 };
+
+export const PickNft = async (account: string) => {
+  return await request.post("/nft/nftMint", { from: account });
+};
+
+export const CallUser = async (account: string) => {
+  return await request.post("/user/call", { address: account });
+};
+
+export const SwapToken = async () => {
+  return await request.post("/nft/trade");
+};
+
+export const ApproveToken = async () => {
+  return await request.post("/nft/approve");
+};
+
+export const SellNft2 = async (
+  sellPrice: number,
+  account: string,
+  selTokenId: number
+) => {
+  return await request.post("/nft/saleToken", {
+    price: sellPrice,
+    account: account,
+    tokenId: selTokenId,
+  });
+};
+
+export const UseTicket = async (account: string) => {
+  return await request.post("/user/useTicket", {
+    account: account,
+  });
+};
+
+export const InsertTokenId = async (tokenId: string) => {
+  return await request.post("/nft/addTokenId", {
+    tokenId: tokenId,
+  });
+};

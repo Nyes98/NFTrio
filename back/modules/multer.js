@@ -8,18 +8,18 @@ const { Character } = require("../models");
 dotenv.config();
 
 const REGION = "ap-northeast-2";
-const bucketName = "nftrio-bucket";
+const bucketName = "nftrio-bucket2";
 const bucketParams = { Bucket: bucketName };
 const s3 = new aws.S3({
   region: REGION,
-  accessKeyId: process.env.S3_KEY,
-  secretAccessKey: process.env.S3_SECRET,
+  accessKeyId: "AKIA4YWDJOLB5TIUNXGC",
+  secretAccessKey: "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",
 });
 const s3Admin = new S3Client({
   region: REGION,
   credentials: {
-    accessKeyId: process.env.S3_KEY,
-    secretAccessKey: process.env.S3_SECRET,
+    accessKeyId: "AKIA4YWDJOLB5TIUNXGC",
+    secretAccessKey: "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",
   },
 });
 
@@ -84,7 +84,11 @@ const uploadFile = (_fileName, _fileDir) => {
 // s3의 이미지 오브젝트 주소 반환
 const getObject = async (_image) => {
   const url2 =
-    s3.endpoint.protocol + "//nftrio-bucket." + s3.endpoint.host + "/" + _image;
+    s3.endpoint.protocol +
+    "//nftrio-bucket2." +
+    s3.endpoint.host +
+    "/" +
+    _image;
 
   return url2;
 };

@@ -52,14 +52,15 @@ const SellNft = async (_price, _hash) => {
 const getNftCost = async (_hash) => {
   const data = await NFTMarket.findOne({
     where: { nft_hash: _hash },
-    order: [["deletedAt", "ASC"]],
   });
   return data;
 };
 
 const getHistory = async (_hash) => {
-  const data = await NFTMarket.findOne({
+  const data = await NFTMarket.findAll({
     where: { nft_hash: _hash },
+    paranoid: false,
+
     order: [["deletedAt", "DESC"]],
   });
   return data;

@@ -7,6 +7,7 @@ type Props = {
   InputSellPrice: (e: any) => void;
   sellPrice: number;
   SellNftF: () => void;
+  SellNftf2: () => void;
 };
 
 const NftSellMordalComponent: React.FC<Props> = ({
@@ -15,6 +16,7 @@ const NftSellMordalComponent: React.FC<Props> = ({
   InputSellPrice,
   sellPrice,
   SellNftF,
+  SellNftf2,
 }) => {
   return (
     <>
@@ -46,7 +48,10 @@ const NftSellMordalComponent: React.FC<Props> = ({
           <BtnBox>
             <div
               className="nftrio-button fg-dark bg-melon ac-white"
-              onClick={SellNftF}
+              onClick={() => {
+                SellNftF();
+                SellNftf2();
+              }}
             >
               예
             </div>

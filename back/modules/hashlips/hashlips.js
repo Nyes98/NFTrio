@@ -12,7 +12,7 @@ const configObj = {
     height: 152,
     smoothing: false,
   },
-  baseUri: "https://nftrio-bucket.s3.ap-northeast-2.amazonaws.com",
+  baseUri: "https://nftrio-bucket2.s3.ap-northeast-2.amazonaws.com",
   description: "nftrio-character",
   background: {
     generate: false,
@@ -83,7 +83,7 @@ const genCreate = async (_imageName) => {
   gen.buildSetup();
   const create = await gen.startCreating(_imageName);
   console.log(create, gen.buffers[0]);
-  const bucketName = "nftrio-bucket";
+  const bucketName = "nftrio-bucket2";
   const bufferPromise = new Promise((resolve, reject) => {
     gen.imgLists.map((item, index) => {
       const key = item;
@@ -95,7 +95,9 @@ const genCreate = async (_imageName) => {
       };
       s3.putObject(params, (err, data) => {
         if (err) {
+          console.log("ERRRRRRRRRRR", err);
         } else {
+          console.log("ELSASASAELSA");
           s3.putObject(
             {
               Bucket: bucketName,
@@ -104,13 +106,22 @@ const genCreate = async (_imageName) => {
             },
             (err, data) => {
               if (data) {
-                const intervalId = setInterval(() => {
+                let count = 0;
+                const checkMetaData = () => {
+                  count++;
                   console.log("metadataPut Sucess", bufferImage);
                   if (bufferImage) {
-                    clearInterval(intervalId);
+                    return true;
+                  } else return false;
+                };
+                const timeOutId = setTimeout(() => {
+                  if (checkMetaData()) {
                     resolve(bufferImage);
+                    clearTimeout(timeOutId);
+                  } else {
+                    if (count >= 10) reject(bufferImage);
                   }
-                }, 100);
+                }, 1000);
               } else {
                 reject(bufferImage);
               }

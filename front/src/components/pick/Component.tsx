@@ -1,9 +1,13 @@
 import styled from "styled-components";
 import "../../nftrio.css";
+import LoadingModalComponent from "../mordal/loading/Components";
 
-type Props = {};
+type Props = {
+  pickNft: () => void;
+  loadingMordal: boolean;
+};
 
-const PickComponent: React.FC<Props> = ({}) => {
+const PickComponent: React.FC<Props> = ({ pickNft, loadingMordal }) => {
   return (
     <Background className="bg-melon">
       <ImgBox>
@@ -11,10 +15,11 @@ const PickComponent: React.FC<Props> = ({}) => {
         <img src="./imgs/pick3.png" alt="pick3" />
         <img src="./imgs/pick2.png" alt="pick2" />
       </ImgBox>
-      <PickBtn className="bg-pink nftrio-button ac-cyan">
+      <PickBtn className="bg-pink nftrio-button ac-cyan" onClick={pickNft}>
         NFT 캐릭터 랜덤 뽑기
       </PickBtn>
       <div>경고 : 원하지 않은 NFT가 나오지 않을 수 있습니다.</div>
+      {loadingMordal ? <LoadingModalComponent></LoadingModalComponent> : <></>}
     </Background>
   );
 };
