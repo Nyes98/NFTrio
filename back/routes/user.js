@@ -30,4 +30,15 @@ router.post("/regist", async (req, res) => {
   }
 });
 
+router.post("/getStage", async (req, res) => {
+  console.log(req.body);
+  const curUser = await User.findOne({
+    where: {
+      address: req.body.account,
+    },
+  });
+  console.log(curUser);
+  res.send(curUser?.frontLine);
+});
+
 module.exports = router;

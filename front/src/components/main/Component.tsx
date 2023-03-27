@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import InftData from "../../interfaces/NftData.interface";
 
@@ -14,11 +15,20 @@ const MainComponent: React.FC<Props> = ({
   topPriceArr,
   move,
 }) => {
+  const navigate = useNavigate();
+
   return (
     <Wrap>
       <MainBoard>
         <img src="./imgs/mainboard.avif" alt="main" />
-        <a className="fg-dark nftrio-a">Enter Stage</a>
+        <a
+          className="fg-dark nftrio-a"
+          onClick={() => {
+            navigate("/game");
+          }}
+        >
+          Enter Stage
+        </a>
       </MainBoard>
       <SailBoard>
         <FilterWrap>

@@ -276,6 +276,14 @@ router.post("/nftMint", upload.single("file"), async (req, res) => {
       characterName = `전사-${Date.now()}호기`;
       job = 1;
       break;
+    case "Katana":
+      characterName = `도적-${Date.now()}호기`;
+      job = 2;
+      break;
+    case "Cane":
+      charcterName = `법사-${Date.now()}호기`;
+      job = 3;
+      break;
     default:
       characterName = `킹갓직업-${Date.now()}호기`;
       job = 0;

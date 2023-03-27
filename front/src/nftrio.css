@@ -66,6 +66,17 @@ body {
 .ac-pink {
   --ac: var(--pink);
 }
+.fg-hotpink {
+  --fg: var(--hotpink);
+  color: var(--hotpink) !important;
+}
+.bg-hotpink {
+  --bg: var(--hotpink);
+  background-color: var(--hotpink);
+}
+.ac-hotpink {
+  --ac: var(--hotpink);
+}
 .fg-beige {
   --fg: var(--beige);
   color: var(--beige) !important;

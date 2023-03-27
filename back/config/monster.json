@@ -1,0 +1,16 @@
+[
+  {
+    "name": "slime1",
+    "health": 100,
+    "attack": 10,
+    "speed": 5,
+    "skill": 1
+  },
+  {
+    "name": "slime2",
+    "health": 150,
+    "attack": 15,
+    "speed": 10,
+    "skill": 2
+  }
+]

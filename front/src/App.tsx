@@ -13,6 +13,7 @@ import MyPageContainer from "./components/mypage/Container";
 import NftContainer from "./components/nftTest/Container";
 import NftInfoContainer from "./components/nftinfo/Container";
 import MintingModalComponent from "./components/mordal/minting/Components";
+import GameContainer from "./components/game/Container";
 function App() {
   return (
     <div>
@@ -28,6 +29,7 @@ function App() {
         <Route path="/test" element={<NftContainer />}></Route>
         <Route path="/nftinfo/:nftHash" element={<NftInfoContainer />}></Route>
         <Route path="/modal" element={<MintingModalComponent />}></Route>
+        <Route path="/game" element={<GameContainer />} />
       </Routes>
       <FooterContainer></FooterContainer>
     </div>
