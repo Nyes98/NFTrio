@@ -1,4 +1,5 @@
 import axios from "axios";
+import InftData from "../interfaces/NftData.interface";
 
 const request = axios.create({
   baseURL: "http://localhost:8080/api",
@@ -100,4 +101,38 @@ export const InsertTokenId = async (tokenId: string) => {
   return await request.post("/nft/addTokenId", {
     tokenId: tokenId,
   });
+};
+
+export const SetUserFormation = async (
+  account: string,
+  formationIndex: number,
+  characterHash: string
+) => {
+  const { data } = await CallUser(account);
+  try {
+    return await request.post("/user/setUserFormation", {
+      account: data.address,
+      formationIndex,
+      characterHash,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const ClearUserFormation = async (
+  account: string,
+  formationIndex: number,
+  hash: string
+) => {
+  const { data } = await CallUser(account);
+  try {
+    return await request.post("/user/clearUserFormation", {
+      account: data.address,
+      formationIndex,
+      hash,
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };

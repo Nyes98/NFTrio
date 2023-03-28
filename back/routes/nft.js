@@ -318,7 +318,7 @@ router.post("/nftMint", async (req, res) => {
       job = 2;
       break;
     case "Cane":
-      charcterName = `법사-${Date.now()}호기`;
+      characterName = `법사-${Date.now()}호기`;
       job = 3;
       break;
     default:
@@ -370,8 +370,20 @@ router.post("/nftMint", async (req, res) => {
 });
 
 router.post("/addTokenId", async (req, res) => {
+  const curCharacter = await Character.findOne({
+    where: {
+      tokenId: TOKENCOUNT,
+    },
+  });
+  const curName =
+    curCharacter.name.split("-")[0] +
+    "-" +
+    parseInt(req.body.tokenId, 16) +
+    "호기";
+
   const addTokenId = await Character.update(
     {
+      name: curName,
       tokenId: parseInt(req.body.tokenId, 16),
     },
     {

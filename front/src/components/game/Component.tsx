@@ -10,7 +10,6 @@ type Props = {
   stage: number;
   setStage: React.Dispatch<React.SetStateAction<number>>;
 };
-
 const GameComponent: React.FC<Props> = ({
   move,
   gameState,
@@ -43,6 +42,9 @@ const GameComponent: React.FC<Props> = ({
         <StageBtn gameState={gameState} onClick={() => setGameState("stage")}>
           Stage
         </StageBtn>
+        <BattleBtn gameState={gameState} onClick={() => setGameState("battle")}>
+          Battle
+        </BattleBtn>
       </ViewBox>
     </GameBox>
   );
@@ -92,6 +94,20 @@ const StageBtn = styled.div<{ gameState: string }>`
   height: 50px;
   background-color: ${({ gameState }) =>
     gameState == "stage" ? "var(--dark)" : "transparent"};
+  :hover {
+    background-color: var(--melon);
+  }
+`;
+
+const BattleBtn = styled.div<{ gameState: string }>`
+  position: absolute;
+  left: -20%;
+  top: 110px;
+  text-align: center;
+  width: 20%;
+  height: 50px;
+  background-color: ${({ gameState }) =>
+    gameState == "battle" ? "var(--dark)" : "transparent"};
   :hover {
     background-color: var(--melon);
   }

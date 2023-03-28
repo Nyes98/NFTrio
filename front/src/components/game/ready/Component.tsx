@@ -1,23 +1,29 @@
-import { useEffect, useRef } from "react";
 import styled from "styled-components";
+import CharacterItemComponent from "./CharacterItem/Component";
+import InftData from "../../../interfaces/NftData.interface";
+import SlotComponent from "./Slot/Component";
+import Iposition from "../../../interfaces/Position.interface";
 
-interface position {
-  x: number;
-  y: number;
-}
+type Props = {
+  curCharacterList: Array<InftData>;
+  formationState: number;
+  setFormationState: React.Dispatch<React.SetStateAction<number>>;
+  account?: string;
+  formationList: Array<string>;
+  callUserFunction: () => Promise<void>;
+};
 
-const ReadyComponent = () => {
-  useEffect(() => {
-    const charList = document.getElementById("charList");
-    charList?.addEventListener("wheel", (e: WheelEvent) => {
-      e.preventDefault();
-      charList.scrollTop += e.deltaY;
-    });
-  }, []);
-
-  const xBase = 20;
-  const yBase = 25;
-  const positionConfig: Array<position> = [
+const ReadyComponent: React.FC<Props> = ({
+  curCharacterList,
+  formationState,
+  setFormationState,
+  account,
+  formationList,
+  callUserFunction,
+}) => {
+  const xBase = 10;
+  const yBase = 45;
+  const positionConfig: Array<Iposition> = [
     { x: xBase + 0, y: yBase + 0 },
     { x: xBase + 0, y: yBase + 20 },
     { x: xBase + 10, y: yBase + 30 },
@@ -25,36 +31,44 @@ const ReadyComponent = () => {
     { x: xBase + 10, y: yBase + 10 },
     { x: xBase + 0, y: yBase + 40 },
   ];
+  console.log(curCharacterList[formationState]?.name);
   return (
     <ReadyBox>
       <CharacterListBox id="charList">
-        <CharacterBox></CharacterBox>
-        <CharacterBox></CharacterBox>
-        <CharacterBox></CharacterBox>
-        <CharacterBox></CharacterBox>
-        <CharacterBox></CharacterBox>
-        <CharacterBox></CharacterBox>
+        {curCharacterList.map((item, index) => {
+          return (
+            <CharacterItemComponent
+              key={`char-${index}`}
+              character={item}
+              formationState={formationState}
+              setFormationState={setFormationState}
+              index={index}
+            ></CharacterItemComponent>
+          );
+        })}
       </CharacterListBox>
       <FormationBox>
-        <SlotBox position={positionConfig[0]} className={"fg-dark bg-melon"}>
-          1
-        </SlotBox>
-        <SlotBox position={positionConfig[1]} className={"fg-dark bg-melon"}>
-          1
-        </SlotBox>
-        <SlotBox position={positionConfig[2]} className={"fg-dark bg-melon"}>
-          1
-        </SlotBox>
-        <SlotBox position={positionConfig[3]} className={"fg-dark bg-melon"}>
-          1
-        </SlotBox>
-        <SlotBox position={positionConfig[4]} className={"fg-dark bg-melon"}>
-          1
-        </SlotBox>
-        <SlotBox position={positionConfig[5]} className={"fg-dark bg-melon"}>
-          1
-        </SlotBox>
+        {positionConfig.map((_, index) => {
+          return (
+            <SlotComponent
+              key={`Slot-${index}`}
+              character={formationList[index]}
+              position={positionConfig[index]}
+              index={index}
+              account={account}
+              formationState={formationState}
+              selectedCharacter={curCharacterList[formationState]}
+              callUserFunction={callUserFunction}
+            />
+          );
+        })}
       </FormationBox>
+      <InfoBox>
+        <div>{curCharacterList[formationState]?.name}</div>
+        <div>health : {curCharacterList[formationState]?.health}</div>
+        <div>attack : {curCharacterList[formationState]?.attack}</div>
+        <div>speed : {curCharacterList[formationState]?.speed}</div>
+      </InfoBox>
     </ReadyBox>
   );
 };
@@ -66,6 +80,9 @@ const ReadyBox = styled.div`
   height: 100%;
   background-color: var(--pink);
   position: relative;
+  background: url("./imgs/forestBg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 const CharacterListBox = styled.div`
@@ -78,31 +95,16 @@ const CharacterListBox = styled.div`
   color: white;
 `;
 
-const CharacterBox = styled.div`
-  margin-left: 10%;
-  width: 80%;
-  height: 150px;
-  background-color: var(--melon);
-  :first-child {
-    margin-top: 20px;
-  }
-  margin-bottom: 20px;
-`;
-
 const FormationBox = styled.div`
   display: flex;
   width: 50%;
 `;
 
-const SlotBox = styled.div<{ position: position }>`
-  width: 10%;
-  height: 7%;
+const InfoBox = styled.div`
+  width: 30%;
   position: absolute;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  left: ${({ position }) => position.x + "%"};
-  top: ${({ position }) => position.y + "%"};
-  border-radius: 50%;
+  right: 25%;
+  background-color: var(--dark);
+  opacity: 0.8;
+  height: 50%;
 `;

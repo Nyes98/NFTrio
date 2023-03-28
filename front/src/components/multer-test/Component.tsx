@@ -84,16 +84,15 @@ const MulterComponent = (): JSX.Element => {
   };
 
   const requestObjectList = () => {
-    try {
-      axios
-        .post("http://localhost:8080/api/images/getObjectList")
-        .then(({ data }) => {
-          console.log(data);
-          setImageList([...data]);
-        });
-    } catch (err) {
-      console.log(err);
-    }
+    axios
+      .post("http://localhost:8080/api/images/getObjectList")
+      .then(({ data }) => {
+        console.log(data);
+        setImageList([...data]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const makeImageUrl = (_imageName: string) => {

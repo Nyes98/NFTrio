@@ -68,4 +68,81 @@ router.post("/useTicket", async (req, res) => {
     res.end();
   }
 });
+
+router.post("/setUserFormation", async (req, res) => {
+  const { account, formationIndex, characterHash } = req.body;
+  switch (formationIndex) {
+    case 0:
+      await User.update(
+        { formation_1: characterHash },
+        { where: { address: account } }
+      );
+      break;
+    case 1:
+      await User.update(
+        { formation_2: characterHash },
+        { where: { address: account } }
+      );
+      break;
+    case 2:
+      await User.update(
+        { formation_3: characterHash },
+        { where: { address: account } }
+      );
+      break;
+    case 3:
+      await User.update(
+        { formation_4: characterHash },
+        { where: { address: account } }
+      );
+      break;
+    case 4:
+      await User.update(
+        { formation_5: characterHash },
+        { where: { address: account } }
+      );
+      break;
+    case 5:
+      await User.update(
+        { formation_6: characterHash },
+        { where: { address: account } }
+      );
+      break;
+    default:
+      break;
+  }
+  res.end();
+});
+
+router.post("/clearUserFormation", async (req, res) => {
+  const { account, hash, formationIndex } = req.body;
+
+  const curCharacter = await Character.findOne({ where: { hash: hash } });
+  const curUser = await User.findOne({ where: { address: account } });
+  console.log(curCharacter, curUser);
+  switch (formationIndex) {
+    case 0:
+      await User.update({ formation_1: null }, { where: { address: account } });
+      break;
+    case 1:
+      await User.update({ formation_2: null }, { where: { address: account } });
+      break;
+    case 2:
+      await User.update({ formation_3: null }, { where: { address: account } });
+      break;
+    case 3:
+      await User.update({ formation_4: null }, { where: { address: account } });
+      break;
+    case 4:
+      await User.update({ formation_5: null }, { where: { address: account } });
+      break;
+    case 5:
+      await User.update({ formation_6: null }, { where: { address: account } });
+      break;
+    default:
+      break;
+  }
+  res.end();
+});
+
 module.exports = router;
