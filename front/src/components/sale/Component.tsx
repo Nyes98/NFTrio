@@ -24,6 +24,8 @@ type Props = {
   CallSellNft: () => void;
   registedNft: Array<any>;
   callNftList: () => void;
+  ListFilter: (list: number) => void;
+  listSel: number;
 };
 
 const SaleComponent: React.FC<Props> = ({
@@ -46,6 +48,8 @@ const SaleComponent: React.FC<Props> = ({
   CallSellNft,
   registedNft,
   callNftList,
+  ListFilter,
+  listSel,
 }) => {
   console.log(registedNft);
 
@@ -84,8 +88,24 @@ const SaleComponent: React.FC<Props> = ({
 
         <FilterBox>
           <Categori>
-            <div onClick={callNftList}>All</div>
-            <div onClick={CallSellNft}>On List</div>
+            <div
+              className={listSel == 0 ? "on" : ""}
+              onClick={() => {
+                callNftList();
+                ListFilter(0);
+              }}
+            >
+              All
+            </div>
+            <div
+              className={listSel == 1 ? "on" : ""}
+              onClick={() => {
+                CallSellNft();
+                ListFilter(1);
+              }}
+            >
+              On Sale
+            </div>
           </Categori>
           <Sort>
             Items
@@ -253,9 +273,12 @@ const Categori = styled.div`
   display: flex;
   div {
     margin: 0 10px;
-    border: 3px solid lightsalmon;
     border-radius: 10px;
     padding: 5px;
+    cursor: pointer;
+  }
+  .on {
+    border: 3px solid pink;
   }
 `;
 const DropMenu = styled.div`
