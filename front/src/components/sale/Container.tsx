@@ -20,11 +20,16 @@ const SaleContainer = () => {
   const [topPrice, setTopPrice] = useState();
   const [totalPrice, setTotalPrice] = useState(0);
   const [registedNft, setRegistedNft] = useState<Array<string>>([]);
+  const [listSel, setListSel] = useState(0);
 
   const navigate = useNavigate();
   const buyMordal = useAppSelector(
     (state) => state.nftBuyMordalOpen.nftBuyMordal
   );
+
+  const ListFilter = (list: number) => {
+    setListSel(list);
+  };
 
   const callFloorPriceNft = async () => {
     const data = await RecentNft(0, 1, 0, 1);
@@ -111,6 +116,7 @@ const SaleContainer = () => {
 
   return (
     <SaleComponent
+      ListFilter={ListFilter}
       pricedd={pricedd}
       priceClick={priceClick}
       classClick={classClick}
@@ -131,6 +137,7 @@ const SaleContainer = () => {
       CallSellNft={CallSellNft}
       registedNft={registedNft}
       callNftList={callNftList}
+      listSel={listSel}
     ></SaleComponent>
   );
 };

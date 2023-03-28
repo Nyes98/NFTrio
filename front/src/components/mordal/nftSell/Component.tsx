@@ -1,14 +1,15 @@
 import styled from "styled-components";
 import InftData from "../../../interfaces/NftData.interface";
 import MyResponsiveRadar from "../../graph/rader/component";
+import LoadingModalComponent from "../loading/Components";
 
 type Props = {
   ControlMordal: () => void;
   nftData?: InftData;
   InputSellPrice: (e: any) => void;
   sellPrice: number;
-  SellNftF: () => void;
   SellNftf2: () => void;
+  loading: boolean;
 };
 
 const NftSellMordalComponent: React.FC<Props> = ({
@@ -16,8 +17,8 @@ const NftSellMordalComponent: React.FC<Props> = ({
   nftData,
   InputSellPrice,
   sellPrice,
-  SellNftF,
   SellNftf2,
+  loading,
 }) => {
   return (
     <>
@@ -58,7 +59,6 @@ const NftSellMordalComponent: React.FC<Props> = ({
             <div
               className="nftrio-button fg-dark bg-melon ac-white"
               onClick={() => {
-                SellNftF();
                 SellNftf2();
               }}
             >
@@ -73,6 +73,7 @@ const NftSellMordalComponent: React.FC<Props> = ({
           </BtnBox>
         </Contents>
       </Mordal>
+      {loading ? <LoadingModalComponent></LoadingModalComponent> : <></>}
     </>
   );
 };
