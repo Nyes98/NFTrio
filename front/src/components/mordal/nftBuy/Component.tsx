@@ -1,16 +1,19 @@
 import styled from "styled-components";
 import InftData from "../../../interfaces/NftData.interface";
+import LoadingModalComponent from "../loading/Components";
 
 type Props = {
   ControlMordal: () => void;
   nftData?: InftData;
   nftBuy: () => void;
+  loading: boolean;
 };
 
 const NftBuyMordalComponent: React.FC<Props> = ({
   ControlMordal,
   nftData,
   nftBuy,
+  loading,
 }) => {
   return (
     <>
@@ -52,6 +55,7 @@ const NftBuyMordalComponent: React.FC<Props> = ({
           </BtnBox>
         </Contents>
       </Mordal>
+      {loading ? <LoadingModalComponent></LoadingModalComponent> : <></>}
     </>
   );
 };
