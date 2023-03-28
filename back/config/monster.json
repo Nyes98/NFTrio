@@ -1,16 +1,73 @@
 [
   {
-    "name": "slime1",
+    "name": "thornyBramble",
     "health": 100,
-    "attack": 10,
+    "attack": 5,
     "speed": 5,
     "skill": 1
   },
   {
-    "name": "slime2",
+    "name": "curseEye",
+    "health": 200,
+    "attack": 10,
+    "speed": 8,
+    "skill": 1
+  },
+  {
+    "name": "royalFairy",
     "health": 150,
     "attack": 15,
     "speed": 10,
     "skill": 2
+  },
+  {
+    "name": "forestGlimmerfox",
+    "health": 250,
+    "attack": 15,
+    "speed": 10,
+    "skill": 1
+  },
+  {
+    "name": "kingSlime",
+    "health": 1000,
+    "attack": 25,
+    "speed": 15,
+    "skill": 2
+  },
+
+  {
+    "name": "fireflySlime",
+    "health": 300,
+    "attack": 15,
+    "speed": 12,
+    "skill": 1
+  },
+  {
+    "name": "fairySlime",
+    "health": 350,
+    "attack": 20,
+    "speed": 12,
+    "skill": 2
+  },
+  {
+    "name": "oniony",
+    "health": 400,
+    "attack": 20,
+    "speed": 15,
+    "skill": 1
+  },
+  {
+    "name": "turnipy",
+    "health": 450,
+    "attack": 25,
+    "speed": 15,
+    "skill": 2
+  },
+  {
+    "name": "moleKing",
+    "health": 3000,
+    "attack": 30,
+    "speed": 15,
+    "skill": 1
   }
 ]

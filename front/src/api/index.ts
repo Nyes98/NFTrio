@@ -51,8 +51,18 @@ export const RegistUser = async (address?: string) => {
   return await request.post("/user/regist", { address: address });
 };
 
-export const NftBuy = async (hash?: string, price?: number) => {
-  return await request.post("/nftmarket/buy", { hash: hash, price: price });
+export const NftBuy = async (
+  hash?: string,
+  price?: number,
+  tokenId?: number,
+  account?: string
+) => {
+  return await request.post("/nftmarket/buy", {
+    hash: hash,
+    price: price,
+    tokenId: tokenId,
+    account: account,
+  });
 };
 
 export const NftCost = async (hash?: string) => {
@@ -75,8 +85,8 @@ export const SwapToken = async () => {
   return await request.post("/nft/trade");
 };
 
-export const ApproveToken = async () => {
-  return await request.post("/nft/approve");
+export const ApproveToken = async (account: string) => {
+  return await request.post("/nft/approve", { account: account });
 };
 
 export const SellNft2 = async (
@@ -91,9 +101,10 @@ export const SellNft2 = async (
   });
 };
 
-export const UseTicket = async (account: string) => {
+export const UseTicket = async (account: string, ticket: number) => {
   return await request.post("/user/useTicket", {
     account: account,
+    mintNumber: ticket,
   });
 };
 
@@ -135,4 +146,8 @@ export const ClearUserFormation = async (
   } catch (err) {
     console.log(err);
   }
+};
+
+export const NftOwnerChange = async (hash?: string, owner?: string) => {
+  return await request.post("/nft/ownerChange", { hash: hash, owner: owner });
 };

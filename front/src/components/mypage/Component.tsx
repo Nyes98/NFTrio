@@ -86,7 +86,6 @@ const MyPageComponent: React.FC<Props> = ({
             </div>
             <div
               onClick={() => {
-                BuyMordalHandler();
                 SelectHash(item.hash, item.tokenId);
               }}
               onMouseEnter={() => mouseIn(item.hash)}
@@ -96,7 +95,7 @@ const MyPageComponent: React.FC<Props> = ({
                 <>
                   <Green>
                     {sellBtn == item.hash ? (
-                      <SellBtn>Edit listing</SellBtn>
+                      <SellBtn>Already listing</SellBtn>
                     ) : (
                       <></>
                     )}
@@ -106,7 +105,7 @@ const MyPageComponent: React.FC<Props> = ({
                 </>
               ) : (
                 <>
-                  <Gray>
+                  <Gray onClick={BuyMordalHandler}>
                     {sellBtn == item.hash ? (
                       <SellBtn>List for sail</SellBtn>
                     ) : (
@@ -160,16 +159,16 @@ const MintBox = styled.div`
 
 const SellBtn = styled.div`
   position: absolute;
-  border: 1px solid blue;
+  border: 1px solid yellowgreen;
   border-radius: 10px;
   background-color: white;
-  top: 1px;
   display: flex;
   justify-content: center;
+  left: 10px;
 
   &&& {
-    font-size: 0.5rem;
-    width: 100px;
+    font-size: 0.6rem;
+    width: 150px;
   }
 `;
 

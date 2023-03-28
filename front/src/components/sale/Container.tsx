@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AllNft, NftCount, RecentNft } from "../../api";
+import { AllNft, MyNftOnSale, NftCount, RecentNft } from "../../api";
 import { useAppSelector } from "../../redux/hooks";
 import { nftBuyMordalOpen } from "../../redux/mordal";
 import SaleComponent from "./Component";
@@ -9,7 +9,7 @@ import SaleComponent from "./Component";
 const SaleContainer = () => {
   const [pricedd, setPriceDd] = useState(false);
   const [classdd, setClassDd] = useState(false);
-  const [buyBtn, setBuyBtn] = useState(0);
+  const [buyBtn, setBuyBtn] = useState("0");
   const [nftCount, setNftCount] = useState();
   const [priceSort, setPriceSort] = useState(0);
   const [classSort, setClassSort] = useState(0);
@@ -19,6 +19,7 @@ const SaleContainer = () => {
   const [floorPrice, setFloorPrice] = useState();
   const [topPrice, setTopPrice] = useState();
   const [totalPrice, setTotalPrice] = useState(0);
+  const [registedNft, setRegistedNft] = useState<Array<string>>([]);
 
   const navigate = useNavigate();
   const buyMordal = useAppSelector(
@@ -53,6 +54,19 @@ const SaleContainer = () => {
   const callNftList = async () => {
     const data = await RecentNft(page, pageLen, classSort, priceSort);
     setNftArr(data.data);
+    setRegistedNft([]);
+  };
+
+  const CallSellNft = async () => {
+    const data = await MyNftOnSale();
+    const data2: Array<string> = [];
+
+    data.data.map((item: any) => {
+      data2.push(item.Character);
+      if (item.Character) {
+        setRegistedNft(data2);
+      }
+    });
   };
 
   const PriceSort = (select: number) => {
@@ -76,7 +90,7 @@ const SaleContainer = () => {
     setClassDd(!classdd);
   };
 
-  const mouseIn = (item: number) => {
+  const mouseIn = (item: string) => {
     console.log(item);
     setBuyBtn(item);
   };
@@ -114,6 +128,9 @@ const SaleContainer = () => {
       topPrice={topPrice}
       totalPrice={totalPrice}
       move={move}
+      CallSellNft={CallSellNft}
+      registedNft={registedNft}
+      callNftList={callNftList}
     ></SaleComponent>
   );
 };

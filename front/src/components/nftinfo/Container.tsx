@@ -4,9 +4,15 @@ import { useParams } from "react-router-dom";
 import { NftBuy, NftInfo } from "../../api";
 import { useAppSelector } from "../../redux/hooks";
 import { nftBuyMordalOpen } from "../../redux/mordal";
+import Web3 from "web3";
 import NftInfoComponent from "./Component";
 
-const NftInfoContainer = () => {
+type Props = {
+  web3?: Web3;
+  account?: string;
+};
+
+const NftInfoContainer: React.FC<Props> = ({ web3, account }) => {
   const params = useParams();
   const [nftData, setNftData] = useState();
   const dispatch = useDispatch();
@@ -35,6 +41,8 @@ const NftInfoContainer = () => {
       nftData={nftData}
       buyMordal={buyMordal}
       BuyMordalHandler={BuyMordalHandler}
+      account={account}
+      web3={web3}
     ></NftInfoComponent>
   );
 };

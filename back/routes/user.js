@@ -1,13 +1,14 @@
 const router = require("express").Router();
 
 const db = require("../models");
-const { User, Character, NFTMarket } = require("../models");
+const { User, Character, NFTMarket, sequelize } = require("../models");
 
 const setUser = async (_address) => {
   const data = await User.create({
     address: _address,
     nickName: _address,
     mintNumber: 3,
+    isApprove: 0,
   });
 
   return data;
@@ -15,7 +16,6 @@ const setUser = async (_address) => {
 
 router.post("/call", async (req, res) => {
   try {
-    console.log("##############", req.body);
     const data = await User.findOne({
       where: { address: req.body.address },
     });
@@ -57,12 +57,11 @@ router.post("/getStage", async (req, res) => {
 
 router.post("/useTicket", async (req, res) => {
   try {
-    console.log("여긴왔지롱");
-    // User.update(
-    //   { mintNumber: mintNumber - 1 },
-    //   { where: { address: req.body.account } }
-    // );
-    res.end();
+    User.update(
+      { mintNumber: req.body.mintNumber - 1 },
+      { where: { address: req.body.account } }
+    );
+    res.send({ status: "이얏호우" });
   } catch (error) {
     console.error(error);
     res.end();

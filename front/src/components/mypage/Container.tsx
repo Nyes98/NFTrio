@@ -38,6 +38,9 @@ const MyPageContainer: React.FC<Props> = ({ web3, account }) => {
   const MyUserData = async () => {
     if (params.owner) {
       const data = await CallUser(params.owner);
+      // if (data.data.isApprove != 1) {
+      //   approveToken();
+      // }
       setUserData(data.data);
     }
   };
@@ -88,21 +91,22 @@ const MyPageContainer: React.FC<Props> = ({ web3, account }) => {
   };
 
   const approveToken = async () => {
-    const data = await ApproveToken();
-    console.log(data.data);
+    if (account) {
+      const data = await ApproveToken(account);
+      console.log(data.data);
 
-    web3?.eth.sendTransaction({
-      from: account,
-      to: data.data.to,
-      ...data.data,
-    });
+      web3?.eth.sendTransaction({
+        from: account,
+        to: data.data.to,
+        ...data.data,
+      });
+    }
   };
 
   useEffect(() => {
     CallMyNft();
     CallSellNft();
     MyUserData();
-    // approveToken();
   }, []);
 
   return (

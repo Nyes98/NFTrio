@@ -1,14 +1,18 @@
 import { useDispatch } from "react-redux";
-import { NftBuy } from "../../../api";
+import { NftBuy, NftOwnerChange } from "../../../api";
 import InftData from "../../../interfaces/NftData.interface";
 import { nftBuyMordalOpen } from "../../../redux/mordal";
+import Web3 from "web3";
 import NftBuyMordalComponent from "./Component";
 
 type Props = {
   nftData?: InftData;
+  web3?: Web3;
+  account?: string;
 };
 
-const NftBuyMordalContainer: React.FC<Props> = ({ nftData }) => {
+const NftBuyMordalContainer: React.FC<Props> = ({ nftData, web3, account }) => {
+  console.log(nftData);
   const dispatch = useDispatch();
 
   const ControlMordal = () => {
@@ -16,9 +20,26 @@ const NftBuyMordalContainer: React.FC<Props> = ({ nftData }) => {
   };
 
   const nftBuy = async () => {
-    const data = await NftBuy(nftData?.hash, nftData?.price);
-    console.log(data);
+    const data = await NftBuy(
+      nftData?.hash,
+      nftData?.price,
+      nftData?.tokenId,
+      account
+    );
+    console.log(data.data.approve);
+    console.log(data.data.buy);
+    const data2 = await web3?.eth.sendTransaction(data.data.approve);
+    console.log("권한완료", data2);
+    if (data2) {
+      const data3 = await web3?.eth.sendTransaction(data.data.buy);
+      console.log("거래완료", data3);
+      const data4 = await NftOwnerChange(nftData?.hash, account);
+    }
   };
+
+  // const nftPurchase = async () => {
+  //   const data = await BuyNft
+  // };
 
   return (
     <NftBuyMordalComponent
