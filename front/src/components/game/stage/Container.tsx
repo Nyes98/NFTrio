@@ -20,6 +20,14 @@ const StageContainer: React.FC<Props> = ({ stage, setStage }) => {
     slot9: "",
   });
 
+  const [skillList, setSkillList] = useState([]);
+  const getSkillInfo = async () => {
+    const result = (await axios.post("http://localhost:8080/api/game/getSkill"))
+      .data;
+    setSkillList(result);
+  };
+  // getSkillInfo();
+
   const getMonsterByName = async (_name: string) => {
     const data = (
       await axios.post("http://localhost:8080/api/game/getMonsterByName", {
@@ -50,6 +58,8 @@ const StageContainer: React.FC<Props> = ({ stage, setStage }) => {
       setStage={setStage}
       curStage={curStage}
       getMonsterByName={getMonsterByName}
+      skillList={skillList}
+      getSkillInfo={getSkillInfo}
     />
   );
 };

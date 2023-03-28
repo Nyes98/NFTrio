@@ -4,7 +4,7 @@
     "health": 100,
     "attack": 5,
     "speed": 5,
-    "skill": 1
+    "skill": 0
   },
   {
     "name": "curseEye",
@@ -25,14 +25,14 @@
     "health": 250,
     "attack": 15,
     "speed": 10,
-    "skill": 1
+    "skill": 3
   },
   {
     "name": "kingSlime",
     "health": 1000,
     "attack": 25,
     "speed": 15,
-    "skill": 2
+    "skill": 4
   },
 
   {
@@ -40,34 +40,34 @@
     "health": 300,
     "attack": 15,
     "speed": 12,
-    "skill": 1
+    "skill": 5
   },
   {
     "name": "fairySlime",
     "health": 350,
     "attack": 20,
     "speed": 12,
-    "skill": 2
+    "skill": 6
   },
   {
     "name": "oniony",
     "health": 400,
     "attack": 20,
     "speed": 15,
-    "skill": 1
+    "skill": 7
   },
   {
     "name": "turnipy",
     "health": 450,
     "attack": 25,
     "speed": 15,
-    "skill": 2
+    "skill": 8
   },
   {
     "name": "moleKing",
     "health": 3000,
     "attack": 30,
     "speed": 15,
-    "skill": 1
+    "skill": 9
   }
 ]

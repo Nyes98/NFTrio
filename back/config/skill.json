@@ -1,0 +1,54 @@
+[
+  {
+    "monster": "thornyBramble",
+    "name": "가시 찌르기",
+    "description": "날카로운 가시를 세워 상대를 찌른다."
+  },
+
+  {
+    "monster": "curseEye",
+    "name": "꼬리 휘두르기",
+    "description": "꼬리를 휘둘러 상대를 밀어낸다."
+  },
+
+  {
+    "monster": "royalFairy",
+    "name": "꽃가루 폭탄",
+    "description": "날개를 휘둘러 전방에 꽃가루 폭탄을 던진다."
+  },
+  {
+    "monster": "forestGlimmerfox",
+    "name": "전광석화",
+    "description": "빠르게 움직여 상대를 공격한다."
+  },
+  {
+    "monster": "kingSlime",
+    "name": "슬라임 분열",
+    "description": "체력이 30%미만으로 떨어지면 슬라임 분열을 시전한다. 시전 시 분열의 잔해로 상대방 모두에게 피해를 입힌다. 또한 분열을 통해 크기가 작아지면서 동일한 피를 가진 2마리의 슬라임으로 분열한다."
+  },
+  {
+    "monster": "fireflySlime",
+    "name": "반짝이는 더듬이",
+    "description": "머리 위의 더듬이가 빛을 내며 상대를 공격한다."
+  },
+  {
+    "monster": "fairySlime",
+    "name": "반짝이는 날개",
+    "description": "날개를 휘둘러 전방의 상대를 공격한다."
+  },
+  {
+    "monster": "oniony",
+    "name": "싱싱한 양파",
+    "description": "특제 양파 폭탄을 전방에 뿌린다."
+  },
+  {
+    "monster": "turnipy",
+    "name": "순무의 싹",
+    "description": "머리 위의 싹을 상대에게 마구잡이로 던진다."
+  },
+  {
+    "monster": "moleKing",
+    "name": "두더지 굴",
+    "description": "강력한 회복력을 보유하고 있다. 전투 후 일정시간마다 잃은 체력에 비례하여 체력을 회복한다."
+  }
+]

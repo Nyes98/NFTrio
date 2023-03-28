@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
+// 스킬숫자마다 어떤 스킬인지 불러올 수 있는 json파일 만들기 o
+// 해당 json파일에 스킬이름, 스킬 설명에 대한 내용 필요함 o
+// 왼쪽에 해당 스테이지, 스테이지 공략, 출몰하는 몬스터 종류
+// 배경 꾸미기
+// 구조적으로 뭔가 잘못되서 자꾸 터지는 것 같음(skill불러오는쪽)
+
 interface IMonster {
   name: string;
   health: number;
@@ -29,6 +35,12 @@ type Props = {
     slot9?: string;
   };
   getMonsterByName: (_name: string) => Promise<any>;
+  skillList: {
+    monster: string | undefined;
+    name: string | undefined;
+    description: string | undefined;
+  }[];
+  getSkillInfo: () => Promise<any>;
 };
 
 const StageComponent: React.FC<Props> = ({
@@ -36,6 +48,8 @@ const StageComponent: React.FC<Props> = ({
   setStage,
   curStage,
   getMonsterByName,
+  skillList,
+  getSkillInfo,
 }) => {
   const [curMonster, setCurMonster] = useState<IMonster>({
     name: "",
@@ -68,6 +82,11 @@ const StageComponent: React.FC<Props> = ({
     if (curStage?.slot1) onMouseEnterFunction(curStage?.slot1);
   }, [curStage]);
 
+  useEffect(() => {
+    getSkillInfo();
+  }, []);
+
+  console.log("스킬", skillList);
   const xBase = 20;
   const yBase = 25;
   const positionConfig: Array<position> = [
@@ -95,7 +114,10 @@ const StageComponent: React.FC<Props> = ({
       <StageDiv onClick={() => setStage(8)}>8</StageDiv>
       <StageDiv onClick={() => setStage(9)}>9</StageDiv>
       <MonsterDetailBox className="bg-dark fg-white">
-        <MonsterRowBox>
+        <MonsterLeftBox>
+          <div>stage:{stage}</div>
+        </MonsterLeftBox>
+        <MonsterRightBox>
           {!curStage.slot1 ? (
             <MonsterItem position={positionConfig[0]}>여기없다.</MonsterItem>
           ) : (
@@ -113,24 +135,22 @@ const StageComponent: React.FC<Props> = ({
             </MonsterItem>
           )}
 
-          <MonsterItem
-            position={positionConfig[1]}
-            onMouseEnter={() => {
-              if (curStage?.slot1) onMouseEnterFunction(curStage?.slot1);
-            }}
-          >
-            <img src={`./imgs/monster/${curStage?.slot1}_stand.gif`} alt="8" />
-            {curStage?.slot1?.split("_")[0]}
-          </MonsterItem>
-          <MonsterItem
-            position={positionConfig[2]}
-            onMouseEnter={() => {
-              if (curStage?.slot2) onMouseEnterFunction(curStage?.slot2);
-            }}
-          >
-            <img src={`./imgs/monster/${curStage?.slot2}_stand.gif`} alt="8" />
-            {curStage?.slot2}
-          </MonsterItem>
+          {!curStage.slot2 ? (
+            <MonsterItem position={positionConfig[1]}>여기없다.</MonsterItem>
+          ) : (
+            <MonsterItem
+              position={positionConfig[1]}
+              onMouseEnter={() => {
+                if (curStage?.slot2) onMouseEnterFunction(curStage?.slot2);
+              }}
+            >
+              <img
+                src={`./imgs/monster/${curStage?.slot2}_stand.gif`}
+                alt="8"
+              />
+              {curStage?.slot2}
+            </MonsterItem>
+          )}
           <MonsterItem
             position={positionConfig[3]}
             onMouseEnter={() => {
@@ -140,8 +160,6 @@ const StageComponent: React.FC<Props> = ({
             <img src={`./imgs/monster/${curStage?.slot3}_stand.gif`} alt="8" />
             {curStage?.slot3}
           </MonsterItem>
-        </MonsterRowBox>
-        <MonsterRowBox>
           <MonsterItem
             position={positionConfig[4]}
             onMouseEnter={() => {
@@ -169,8 +187,6 @@ const StageComponent: React.FC<Props> = ({
             <img src={`./imgs/monster/${curStage?.slot6}_stand.gif`} alt="8" />
             {curStage?.slot6}
           </MonsterItem>
-        </MonsterRowBox>
-        <MonsterRowBox>
           <MonsterItem
             position={positionConfig[7]}
             onMouseEnter={() => {
@@ -198,14 +214,23 @@ const StageComponent: React.FC<Props> = ({
             <img src={`./imgs/monster/${curStage?.slot9}_stand.gif`} alt="8" />
             {curStage?.slot9}
           </MonsterItem>
-        </MonsterRowBox>
+        </MonsterRightBox>
       </MonsterDetailBox>
       <InfoBox className="bg-dark fg-white">
         <div className="fg-hotpink">{curMonster.name}</div>
         <div>health : {curMonster.health}</div>
         <div>speed : {curMonster.speed}</div>
         <div>attack : {curMonster.attack}</div>
-        <div>skill : {curMonster.skill}</div>
+        <div>
+          {curMonster.name == skillList[curMonster.skill].monster ? (
+            <>
+              <div>skill : {skillList[curMonster.skill].name}</div>
+              <div>description : {skillList[curMonster.skill].description}</div>
+            </>
+          ) : (
+            "없음"
+          )}
+        </div>
       </InfoBox>
     </StageBox>
   );
@@ -245,12 +270,17 @@ const MonsterDetailBox = styled.div`
   left: 10%;
   position: absolute;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   align-items: end;
   justify-content: center;
 `;
 
-const MonsterRowBox = styled.div`
+const MonsterLeftBox = styled.div`
+  width: 50%;
+`;
+
+const MonsterRightBox = styled.div`
+  width: 50%;
   /* display: flex;
   position: relative;
   justify-content: space-around;

@@ -5,6 +5,13 @@ const Monster = require("../models/monster");
 const Stage = require("../models/stage");
 const basePath = process.cwd();
 
+router.post("/getSkill", async (req, res) => {
+  const skillList = await JSON.parse(
+    fs.readFileSync(basePath + "/config/skill.json")
+  );
+  res.send(skillList);
+});
+
 const setMonsterDB = () => {
   const monster = JSON.parse(
     fs.readFileSync(basePath + "/config/monster.json")
