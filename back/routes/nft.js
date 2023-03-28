@@ -2,6 +2,7 @@ const router = require("express").Router();
 
 const db = require("../models");
 
+const TOKENCOUNT = 1000;
 const { User, Character, NFTMarket } = require("../models");
 const { genCreate } = require("../modules/hashlips/hashlips.js");
 const { changeObjectKey, getJsonObject } = require("../modules/multer.js");
@@ -110,6 +111,29 @@ const getMyNft = async (_owner) => {
   return data;
 };
 
+const SellNft = async (_price, _hash) => {
+  console.log(_price, _hash);
+  const data = await NFTMarket.create({
+    price: _price,
+  });
+
+  const hashData = await Character.findOne({
+    where: { hash: _hash },
+  });
+
+  Character.update(
+    {
+      price: _price,
+    },
+    {
+      where: { hash: _hash },
+    }
+  );
+
+  hashData.addRegistSellList(data);
+  return data;
+};
+
 router.post("/recentAll", async (req, res) => {
   const data = await getLatestNft(
     req.body.page,
@@ -140,6 +164,10 @@ router.post("/myNft", async (req, res) => {
   res.send(data);
 });
 
+router.post("/sellNft", async (req, res) => {
+  const data = await SellNft(req.body.price, req.body.selHash);
+  res.send(data);
+});
 // genCreate("임의의 해쉬값");
 
 const pinataSDK = require("@pinata/sdk");
@@ -151,11 +179,13 @@ const axios = require("axios");
 
 dotenv.config();
 
-const web3 = new Web3("http://ganache.test.errorcode.help:8545");
+const web3 = new Web3(
+  "wss://goerli.infura.io/ws/v3/5b7557d9e628400c80aff9dafb24fe45"
+);
 const pinata = new pinataSDK(process.env.API_Key, process.env.API_Secret);
 const upload = multer();
 const saleToken = require("../contracts/artifacts/SaleToken.json");
-const characterToken = require("../build/contracts/CharacterToken.json");
+const characterToken = require("../contracts/artifacts/CharacterToken.json");
 const trioToken = require("../contracts/artifacts/TrioToken.json");
 const swapToken = require("../contracts/artifacts/Swap.json");
 const { env } = require("process");
@@ -219,10 +249,17 @@ router.post("/list", async (req, res) => {
   res.send(data);
 });
 
-router.post("/nftMint", upload.single("file"), async (req, res) => {
+router.post("/nftMint", async (req, res) => {
   const { name, description, from } = req.body;
+
+  const ticket = User.findOne({
+    where: { address: from },
+  });
+  console.log(ticket.mintNumber);
+
   console.log(req.body);
   // HashLips 이미지 생성 후 이미지 버퍼값
+
   const createdBuffer = await genCreate(name);
   const imgResult = await pinata.pinFileToIPFS(Readable.from(createdBuffer), {
     pinataMetadata: {
@@ -293,7 +330,7 @@ router.post("/nftMint", upload.single("file"), async (req, res) => {
   console.log("ADDRESSS", owner_address);
   const characterTokenConfig = {
     hash: imgResult.IpfsHash,
-    img: `https://nftrio-bucket.s3.ap-northeast-2.amazonaws.com/${imgResult.IpfsHash}.png`,
+    img: `https://nftrio-bucket2.s3.ap-northeast-2.amazonaws.com/${imgResult.IpfsHash}.png`,
     name: characterName,
     job: job,
     gender: Math.floor(Math.random() * 2),
@@ -302,6 +339,7 @@ router.post("/nftMint", upload.single("file"), async (req, res) => {
     speed: Math.floor(Math.random() * 2),
     skill: Math.floor(Math.random() * 2),
     price: 0,
+    tokenId: TOKENCOUNT,
   };
   const curUser = await User.findOne({
     where: {
@@ -328,7 +366,19 @@ router.post("/nftMint", upload.single("file"), async (req, res) => {
   obj.from = req.body.from;
   obj.data = deployed.methods.safeMint(jsonResult.IpfsHash).encodeABI();
 
-  res.send(obj);
+  res.send({ obj, characterTokenConfig });
+});
+
+router.post("/addTokenId", async (req, res) => {
+  const addTokenId = await Character.update(
+    {
+      tokenId: parseInt(req.body.tokenId, 16),
+    },
+    {
+      where: { tokenId: TOKENCOUNT },
+    }
+  );
+  res.send("Well Done");
 });
 
 router.post("/trade", async (req, res) => {
@@ -338,36 +388,37 @@ router.post("/trade", async (req, res) => {
     process.env.SWAP_CA
     // swap token CA
   );
-  console.log(req.body.account);
   let temp = await deployed.methods.buyToken().encodeABI();
-  console.log("구매", temp);
   res.send({ data: temp, to: process.env.SWAP_CA });
 });
-const temp = async () => {
-  const abi = swapToken.abi;
 
+router.post("/approve", async (req, res) => {
   const deployed = new web3.eth.Contract(
-    abi,
-    "0x1c1702A63eC949748B9C1e99733b7cc2EeD0d3c4"
+    characterToken.abi,
+    process.env.CHAR_CA
   );
-  let temp = await deployed.methods.buyToken().encodeABI();
-  console.log("구매", temp);
-};
-// temp();
+
+  const approve = {
+    data: "",
+    to: "",
+  };
+
+  approve.data = await deployed.methods
+    .setApprovalForAll(process.env.SALE_CA, true)
+    .encodeABI();
+  approve.to = process.env.CHAR_CA;
+  res.send(approve);
+});
 
 router.post("/saleToken", async (req, res) => {
-  console.log("가격", typeof req.body.price);
-  console.log("토큰아이디", req.body.tokenId);
   const deployed = new web3.eth.Contract(saleToken.abi, process.env.SALE_CA);
-  // const deployed = new web3.eth.Contract(
-  //   characterToken.abi,
-  //   process.env.CHAR_CA
-  // );
+
   const obj = {
     to: "",
     from: "",
     data: "",
   };
+
   obj.to = process.env.SALE_CA;
   obj.from = req.body.account;
   obj.data = await deployed.methods
@@ -376,17 +427,6 @@ router.post("/saleToken", async (req, res) => {
     // 숫자로 받으면 고장난다?? 이 말이 제가 토큰 판매 올릴때 135로 올리면 0.005 => 0.004거나 3이거나 6인경우처럼 이상하게 될 수 있다. 소숫점 단위로 넘어가면
     .encodeABI();
   res.send(obj);
-
-  // const approve = {
-  //   data: "",
-  //   to: "",
-  // };
-
-  // approve.data = await deployed.methods
-  //   .setApprovalForAll(process.env.SALE_CA, true)
-  //   .encodeABI();
-  // approve.to = process.env.CHAR_CA;
-  // res.send(approve);
 });
 
 router.post("/getSaleList", async (req, res) => {

@@ -1,14 +1,23 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { NftInfo, SellNft } from "../../../api";
+import Web3 from "web3";
+import { NftInfo, SellNft, SellNft2 } from "../../../api";
 import { nftBuyMordalOpen } from "../../../redux/mordal";
 import NftSellMordalComponent from "./Component";
 
 type Props = {
   selHash: string;
+  account?: string;
+  web3?: Web3;
+  selTokenId: number;
 };
 
-const NftSellMordalContainer: React.FC<Props> = ({ selHash }) => {
+const NftSellMordalContainer: React.FC<Props> = ({
+  selHash,
+  account,
+  web3,
+  selTokenId,
+}) => {
   const [nftData, setNftData] = useState();
   const [sellPrice, setSellPrice] = useState(0);
 
@@ -35,6 +44,14 @@ const NftSellMordalContainer: React.FC<Props> = ({ selHash }) => {
     console.log(data);
   };
 
+  const SellNftf2 = async () => {
+    if (account) {
+      const data = await SellNft2(sellPrice, account, selTokenId);
+
+      web3?.eth.sendTransaction(data.data);
+    }
+  };
+
   useEffect(() => {
     CallNftInfo();
   }, []);
@@ -46,6 +63,7 @@ const NftSellMordalContainer: React.FC<Props> = ({ selHash }) => {
       InputSellPrice={InputSellPrice}
       sellPrice={sellPrice}
       SellNftF={SellNftF}
+      SellNftf2={SellNftf2}
     ></NftSellMordalComponent>
   );
 };

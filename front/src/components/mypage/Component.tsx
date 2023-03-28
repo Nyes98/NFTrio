@@ -2,6 +2,8 @@ import styled from "styled-components";
 import "../../nftrio.css";
 import InftData from "../../interfaces/NftData.interface";
 import NftSellMordalContainer from "../mordal/nftSell/Container";
+import IuserData from "../../interfaces/UserData.interface";
+import Web3 from "web3";
 
 type Props = {
   account: string | undefined;
@@ -9,11 +11,15 @@ type Props = {
   move: (where: string) => void;
   BuyMordalHandler: () => void;
   buyMordal: boolean;
-  SelectHash: (hash: string) => void;
+  SelectHash: (hash: string, tokenId: number) => void;
   selHash: string;
   registedNft: Array<string>;
   mouseIn: (hash: string) => void;
   sellBtn: string;
+  userData?: IuserData;
+  TradeToken: () => void;
+  web3?: Web3;
+  selTokenId: number;
 };
 
 const MyPageComponent: React.FC<Props> = ({
@@ -27,6 +33,10 @@ const MyPageComponent: React.FC<Props> = ({
   registedNft,
   mouseIn,
   sellBtn,
+  userData,
+  TradeToken,
+  selTokenId,
+  web3,
 }) => {
   return (
     <MainBoard>
@@ -37,7 +47,22 @@ const MyPageComponent: React.FC<Props> = ({
       <Wrap>
         <div className="nftrio-h">
           <h3>My Profile</h3>
+          <MintBox>
+            <div>
+              <img src="../imgs/ticket.svg" alt="" />
+            </div>
+            <div>{userData?.mintNumber}</div>
+            <SwapBtn
+              className="
+            nftrio-button fg-hotpink bg-white ac-dark 
+            "
+              onClick={TradeToken}
+            >
+              토큰 교환
+            </SwapBtn>
+          </MintBox>
         </div>
+
         <NftInfo>
           <div>
             <img src="../imgs/ethereum.svg" alt="eth" />
@@ -62,7 +87,7 @@ const MyPageComponent: React.FC<Props> = ({
             <div
               onClick={() => {
                 BuyMordalHandler();
-                SelectHash(item.hash);
+                SelectHash(item.hash, item.tokenId);
               }}
               onMouseEnter={() => mouseIn(item.hash)}
               onMouseLeave={() => mouseIn("")}
@@ -106,7 +131,12 @@ const MyPageComponent: React.FC<Props> = ({
         ))}
       </Wrap>
       {buyMordal ? (
-        <NftSellMordalContainer selHash={selHash}></NftSellMordalContainer>
+        <NftSellMordalContainer
+          selHash={selHash}
+          selTokenId={selTokenId}
+          account={account}
+          web3={web3}
+        ></NftSellMordalContainer>
       ) : (
         <></>
       )}
@@ -115,6 +145,18 @@ const MyPageComponent: React.FC<Props> = ({
 };
 
 export default MyPageComponent;
+
+const MintBox = styled.div`
+  display: flex;
+  border-radius: 10px;
+  align-items: center;
+
+  &&& img {
+    width: 30px;
+    margin-right: 10px;
+    margin-top: 10px;
+  }
+`;
 
 const SellBtn = styled.div`
   position: absolute;
@@ -128,7 +170,6 @@ const SellBtn = styled.div`
   &&& {
     font-size: 0.5rem;
     width: 100px;
-    left: 10px;
   }
 `;
 
@@ -230,4 +271,15 @@ const NftInfo = styled.div`
 const Wrap = styled.div`
   max-width: 1800px;
   margin: 80px auto;
+`;
+
+const SwapBtn = styled.div`
+  margin-left: 100px;
+  margin-bottom: 10px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+  border-radius: 10px;
 `;

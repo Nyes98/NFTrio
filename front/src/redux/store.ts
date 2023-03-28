@@ -8,6 +8,7 @@ export const store = configureStore({
     move: moveReducer,
     nftBuyMordalOpen: mordalReducer,
     metaAddress: metaAddressReducer,
+    loadingMordalOpen: mordalReducer,
   },
 });
 

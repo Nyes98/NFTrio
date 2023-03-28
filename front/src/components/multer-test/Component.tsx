@@ -97,7 +97,7 @@ const MulterComponent = (): JSX.Element => {
   };
 
   const makeImageUrl = (_imageName: string) => {
-    const baseUrl = "https://nftrio-bucket.s3.ap-northeast-2.amazonaws.com/";
+    const baseUrl = "https://nftrio-bucket2.s3.ap-northeast-2.amazonaws.com/";
     const curUrl = baseUrl + _imageName;
     return curUrl;
   };
@@ -143,7 +143,7 @@ const MulterComponent = (): JSX.Element => {
               <StyledImage
                 key={"-" + index}
                 src={
-                  "https://nftrio-bucket.s3.ap-northeast-2.amazonaws.com/" +
+                  "https://nftrio-bucket2.s3.ap-northeast-2.amazonaws.com/" +
                   item
                 }
               />
