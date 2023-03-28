@@ -308,18 +308,23 @@ router.post("/nftMint", async (req, res) => {
   console.log(jsonResult);
   let characterName;
   let job = json[4].value.split(" ")[1];
+
   switch (job) {
     case "Axe":
       characterName = `전사-${Date.now()}호기`;
       job = 1;
       break;
-    case "Katana":
-      characterName = `도적-${Date.now()}호기`;
+    case "Staff":
+      characterName = `법사-${Date.now()}호기`;
       job = 2;
       break;
-    case "Cane":
-      charcterName = `법사-${Date.now()}호기`;
+    case "Bow":
+      characterName = `궁수-${Date.now()}호기`;
       job = 3;
+      break;
+    case "Katana":
+      characterName = `도적-${Date.now()}호기`;
+      job = 4;
       break;
     default:
       characterName = `킹갓직업-${Date.now()}호기`;
