@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import InftData from "../../../interfaces/NftData.interface";
+import MyResponsiveRadar from "../../graph/rader/component";
 
 type Props = {
   ControlMordal: () => void;
@@ -22,7 +23,7 @@ const NftSellMordalComponent: React.FC<Props> = ({
     <>
       <Background onClick={ControlMordal}></Background>
       <Mordal>
-        <Title>
+        <Title className="fg-black">
           Make an offer
           <button onClick={ControlMordal}>x</button>
         </Title>
@@ -33,17 +34,25 @@ const NftSellMordalComponent: React.FC<Props> = ({
                 <img src={nftData?.img} alt="imgs" />
               </div>
               <div>
-                <div>{nftData?.name}</div>
+                <div className="fg-dark">{nftData?.name}</div>
               </div>
             </div>
             <PriceInfo>
               <div>{sellPrice} Trio</div>
-              <div>{sellPrice / 500} ETH</div>
+              <div className="fg-pink">{sellPrice / 500} ETH</div>
             </PriceInfo>
           </SubTitle>
+          <StatBox>
+            <MyResponsiveRadar nftData={nftData} />
+          </StatBox>
           <ConfirmBox>
-            <div>set a price</div>
-            <input type="number" onChange={InputSellPrice} />
+            <div>
+              <div className="fg-dark">판매할 가격 : </div>
+              <input type="number" onChange={InputSellPrice} />
+            </div>
+            <div>
+              &#8251; 등록 후, 가격을 수정하거나 판매를 취소 할 수 없습니다.
+            </div>
           </ConfirmBox>
           <BtnBox>
             <div
@@ -78,7 +87,9 @@ const Background = styled.div`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.7);
 `;
-
+const StatBox = styled.div`
+  height: 250px;
+`;
 const Title = styled.div`
   padding: 20px;
   font-size: 1.2rem;
@@ -131,7 +142,7 @@ const Mordal = styled.div`
   border: 1px solid gray;
   border-radius: 10px;
   width: 600px;
-  height: 700px;
+  height: 750px;
   margin: auto;
   top: 0;
   bottom: 0;
@@ -163,7 +174,18 @@ const BtnBox = styled.div`
 `;
 
 const ConfirmBox = styled.div`
+  & > div:nth-child(1) {
+    display: flex;
+    justify-content: center;
+    input {
+      margin-left: 20px;
+    }
+  }
+
+  & > div:nth-child(2) {
+    font-size: 0.8rem;
+  }
   input {
-    padding: 15px;
+    padding: 10px;
   }
 `;

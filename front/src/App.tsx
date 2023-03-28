@@ -41,7 +41,10 @@ function App() {
           element={<MyPageContainer account={account} web3={web3} />}
         />
         <Route path="/test" element={<NftContainer />}></Route>
-        <Route path="/nftinfo/:nftHash" element={<NftInfoContainer />}></Route>
+        <Route
+          path="/nftinfo/:nftHash"
+          element={<NftInfoContainer account={account} web3={web3} />}
+        ></Route>
         <Route path="/game" element={<GameContainer />} />
       </Routes>
       <FooterContainer></FooterContainer>

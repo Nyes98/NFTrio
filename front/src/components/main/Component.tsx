@@ -7,6 +7,10 @@ type Props = {
   recentArr2?: Array<InftData>;
   topPriceArr?: Array<InftData>;
   move: (where: string) => void;
+  move2: (where: string) => void;
+  jobArr: Array<string>;
+  selJob: (index: number) => void;
+  jobFilter: number;
 };
 
 const MainComponent: React.FC<Props> = ({
@@ -14,6 +18,10 @@ const MainComponent: React.FC<Props> = ({
   recentArr2,
   topPriceArr,
   move,
+  move2,
+  jobArr,
+  selJob,
+  jobFilter,
 }) => {
   const navigate = useNavigate();
 
@@ -33,14 +41,19 @@ const MainComponent: React.FC<Props> = ({
       <SailBoard>
         <FilterWrap>
           <SailTitle>
-            <div>Recent</div>
-            <div onClick={() => move("sale")}>All</div>
+            {/* <div>Recent</div>
+            <div onClick={() => move2("sale")}>All</div> */}
           </SailTitle>
           <FilterBoard>
-            <div>전사</div>
-            <div>법사</div>
-            <div>궁수</div>
-            <div>사제</div>
+            {jobArr.map((item, index) => (
+              <div
+                key={`filter-${index}`}
+                onClick={() => selJob(index)}
+                className={index == jobFilter ? "on" : ""}
+              >
+                <img src={`./imgs/${item}.png`} alt="" />
+              </div>
+            ))}
           </FilterBoard>
         </FilterWrap>
         <BoardHalf>
@@ -108,7 +121,7 @@ const MainComponent: React.FC<Props> = ({
               <img src={item.img} alt="topPrice" />
             </ImgBox>
             <NftInfo>
-              <div>{item.name}</div>
+              <div className="fg-dark">{item.name}</div>
               <div>{item.price} Trio</div>
             </NftInfo>
           </TopSale>
@@ -128,13 +141,17 @@ const TopSaleWrap = styled.div`
   justify-content: space-between;
 `;
 const NftInfo = styled.div`
+  font-size: 0.8rem;
   border: 1px solid gray;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   div {
-    /* width: 90%; */
     margin: auto;
     padding: 10px;
+  }
+
+  div:first-child {
+    font-size: 0.6rem;
   }
 `;
 const ImgBox = styled.div`
@@ -201,9 +218,20 @@ const FilterBoard = styled.div`
   display: flex;
   border: 1px solid lightgray;
   border-radius: 10px;
-
+  padding: 10px;
   div {
     margin: 0 10px;
+    cursor: pointer;
+  }
+  .on {
+    border: 3px solid red;
+    border-radius: 35px;
+    width: 70px;
+    height: 70px;
+  }
+
+  img {
+    width: 64px;
   }
 `;
 
@@ -229,7 +257,7 @@ const BoardInfo = styled.div`
     }
 
     div:nth-child(2) {
-      width: 100px;
+      width: 120px;
     }
   }
 `;

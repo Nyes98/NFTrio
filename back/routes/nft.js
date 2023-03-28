@@ -134,6 +134,20 @@ const SellNft = async (_price, _hash) => {
   return data;
 };
 
+const ChangeOwner = async (_hash, _owner) => {
+  const data = Character.update(
+    {
+      owner_address: _owner,
+    },
+    {
+      where: {
+        hash: _hash,
+      },
+    }
+  );
+  return data;
+};
+
 router.post("/recentAll", async (req, res) => {
   const data = await getLatestNft(
     req.body.page,
@@ -166,6 +180,11 @@ router.post("/myNft", async (req, res) => {
 
 router.post("/sellNft", async (req, res) => {
   const data = await SellNft(req.body.price, req.body.selHash);
+  res.send(data);
+});
+
+router.post("/ownerChange", async (req, res) => {
+  const data = await ChangeOwner(req.body.hash, req.body.owner);
   res.send(data);
 });
 // genCreate("임의의 해쉬값");
@@ -313,12 +332,12 @@ router.post("/nftMint", async (req, res) => {
       characterName = `전사-${Date.now()}호기`;
       job = 1;
       break;
-    case "Katana":
-      characterName = `도적-${Date.now()}호기`;
+    case "Cane":
+      characterName = `법사-${Date.now()}호기`;
       job = 2;
       break;
-    case "Cane":
-      charcterName = `법사-${Date.now()}호기`;
+    case "Katana":
+      charcterName = `궁수-${Date.now()}호기`;
       job = 3;
       break;
     default:
@@ -393,6 +412,15 @@ router.post("/trade", async (req, res) => {
 });
 
 router.post("/approve", async (req, res) => {
+  User.update(
+    {
+      isApprove: 1,
+    },
+    {
+      where: { address: req.body.account },
+    }
+  );
+
   const deployed = new web3.eth.Contract(
     characterToken.abi,
     process.env.CHAR_CA
