@@ -40,7 +40,6 @@ const StageComponent: React.FC<Props> = ({
     skill: 0,
   });
   const [monsterList, setMonsterList] = useState<Array<IMonster>>([]);
-
   /**
    * @param _monsterName
    * @returns
@@ -83,24 +82,24 @@ const StageComponent: React.FC<Props> = ({
               if (curStage?.slot1) onMouseEnterFunction(curStage?.slot1);
             }}
           >
-            <img src={`./imgs/${curStage?.slot1}.gif`} alt="8" />
-            {curStage?.slot1}
+            <img src={`./imgs/monster/${curStage?.slot1}_stand.gif`} alt="8" />
+            {curStage?.slot1?.split("_")[0]}
           </MonsterItem>
           <MonsterItem
             onMouseEnter={() => {
               if (curStage?.slot2) onMouseEnterFunction(curStage?.slot2);
             }}
           >
-            <img src={`./imgs/${curStage?.slot2}.gif`} alt="8" />
-            {curStage?.slot2}
+            <img src={`./imgs/monster/${curStage?.slot2}_stand.gif`} alt="8" />
+            {curStage?.slot2?.split("_")[0]}
           </MonsterItem>
           <MonsterItem
             onMouseEnter={() => {
               if (curStage?.slot3) onMouseEnterFunction(curStage?.slot3);
             }}
           >
-            <img src={`./imgs/${curStage?.slot3}.gif`} alt="8" />
-            {curStage?.slot3}
+            <img src={`./imgs/monster/${curStage?.slot3}_stand.gif`} alt="8" />
+            {curStage?.slot3?.split("_")[0]}
           </MonsterItem>
         </MonsterRowBox>
         <MonsterRowBox>
@@ -109,24 +108,24 @@ const StageComponent: React.FC<Props> = ({
               if (curStage?.slot4) onMouseEnterFunction(curStage?.slot4);
             }}
           >
-            <img src={`./imgs/${curStage?.slot4}.gif`} alt="8" />
-            {curStage?.slot4}
+            <img src={`./imgs/monster/${curStage?.slot4}_stand.gif`} alt="8" />
+            {curStage?.slot4?.split("_")[0]}
           </MonsterItem>
           <MonsterItem
             onMouseEnter={() => {
               if (curStage?.slot5) onMouseEnterFunction(curStage?.slot5);
             }}
           >
-            <img src={`./imgs/${curStage?.slot5}.gif`} alt="8" />
-            {curStage?.slot5}
+            <img src={`./imgs/monster/${curStage?.slot5}_stand.gif`} alt="8" />
+            {curStage?.slot5?.split("_")[0]}
           </MonsterItem>
           <MonsterItem
             onMouseEnter={() => {
               if (curStage?.slot6) onMouseEnterFunction(curStage?.slot6);
             }}
           >
-            <img src={`./imgs/${curStage?.slot6}.gif`} alt="8" />
-            {curStage?.slot6}
+            <img src={`./imgs/monster/${curStage?.slot6}_stand.gif`} alt="8" />
+            {curStage?.slot6?.split("_")[0]}
           </MonsterItem>
         </MonsterRowBox>
         <MonsterRowBox>
@@ -135,24 +134,24 @@ const StageComponent: React.FC<Props> = ({
               if (curStage?.slot7) onMouseEnterFunction(curStage?.slot7);
             }}
           >
-            <img src={`./imgs/${curStage?.slot7}.gif`} alt="8" />
-            {curStage?.slot7}
+            <img src={`./imgs/monster/${curStage?.slot7}_stand.gif`} alt="8" />
+            {curStage?.slot7?.split("_")[0]}
           </MonsterItem>
           <MonsterItem
             onMouseEnter={() => {
               if (curStage?.slot8) onMouseEnterFunction(curStage?.slot8);
             }}
           >
-            <img src={`./imgs/${curStage?.slot8}.gif`} alt="8" />
-            {curStage?.slot8}
+            <img src={`./imgs/monster/${curStage?.slot8}_stand.gif`} alt="8" />
+            {curStage?.slot8?.split("_")[0]}
           </MonsterItem>
           <MonsterItem
             onMouseEnter={() => {
               if (curStage?.slot9) onMouseEnterFunction(curStage?.slot9);
             }}
           >
-            <img src={`./imgs/${curStage?.slot9}.gif`} alt="8" />
-            {curStage?.slot9}
+            <img src={`./imgs/monster/${curStage?.slot9}_stand.gif`} alt="8" />
+            {curStage?.slot9?.split("_")[0]}
           </MonsterItem>
         </MonsterRowBox>
       </MonsterDetailBox>
