@@ -40,19 +40,19 @@ const ReadyComponent = () => {
           1
         </SlotBox>
         <SlotBox position={positionConfig[1]} className={"fg-dark bg-melon"}>
-          1
+          2
         </SlotBox>
         <SlotBox position={positionConfig[2]} className={"fg-dark bg-melon"}>
-          1
+          3
         </SlotBox>
         <SlotBox position={positionConfig[3]} className={"fg-dark bg-melon"}>
-          1
+          4
         </SlotBox>
         <SlotBox position={positionConfig[4]} className={"fg-dark bg-melon"}>
-          1
+          5
         </SlotBox>
         <SlotBox position={positionConfig[5]} className={"fg-dark bg-melon"}>
-          1
+          6
         </SlotBox>
       </FormationBox>
     </ReadyBox>

@@ -9,6 +9,11 @@ interface IMonster {
   skill: number;
 }
 
+interface position {
+  x: number;
+  y: number;
+}
+
 type Props = {
   stage: number;
   setStage: React.Dispatch<React.SetStateAction<number>>;
@@ -63,6 +68,20 @@ const StageComponent: React.FC<Props> = ({
     if (curStage?.slot1) onMouseEnterFunction(curStage?.slot1);
   }, [curStage]);
 
+  const xBase = 20;
+  const yBase = 25;
+  const positionConfig: Array<position> = [
+    { x: xBase + 10, y: yBase + 10 },
+    { x: xBase + 10, y: yBase + 30 },
+    { x: xBase + 0, y: yBase + 0 },
+    { x: xBase + 0, y: yBase + 20 },
+    { x: xBase + 0, y: yBase + 40 },
+    { x: xBase - 10, y: yBase - 10 },
+    { x: xBase - 10, y: yBase + 10 },
+    { x: xBase - 10, y: yBase + 30 },
+    { x: xBase - 10, y: yBase + 50 },
+  ];
+
   return (
     <StageBox>
       <StageDiv onClick={() => setStage(0)}>0</StageDiv>
@@ -77,81 +96,98 @@ const StageComponent: React.FC<Props> = ({
       <StageDiv onClick={() => setStage(9)}>9</StageDiv>
       <MonsterDetailBox className="bg-dark fg-white">
         <MonsterRowBox>
+          {!curStage.slot1 ? (
+            <MonsterItem position={positionConfig[0]}>여기없다.</MonsterItem>
+          ) : (
+            <MonsterItem
+              position={positionConfig[0]}
+              onMouseEnter={() => {
+                if (curStage?.slot1) onMouseEnterFunction(curStage?.slot1);
+              }}
+            >
+              <img
+                src={`./imgs/monster/${curStage?.slot1}_stand.gif`}
+                alt="8"
+              />
+              {curStage?.slot1}
+            </MonsterItem>
+          )}
+
           <MonsterItem
-            onMouseEnter={() => {
-              if (curStage?.slot1) onMouseEnterFunction(curStage?.slot1);
-            }}
-          >
-            <img src={`./imgs/monster/${curStage?.slot1}_stand.gif`} alt="8" />
-            {curStage?.slot1?.split("_")[0]}
-          </MonsterItem>
-          <MonsterItem
+            position={positionConfig[1]}
             onMouseEnter={() => {
               if (curStage?.slot2) onMouseEnterFunction(curStage?.slot2);
             }}
           >
             <img src={`./imgs/monster/${curStage?.slot2}_stand.gif`} alt="8" />
-            {curStage?.slot2?.split("_")[0]}
+            {curStage?.slot2}
           </MonsterItem>
           <MonsterItem
+            position={positionConfig[2]}
             onMouseEnter={() => {
               if (curStage?.slot3) onMouseEnterFunction(curStage?.slot3);
             }}
           >
             <img src={`./imgs/monster/${curStage?.slot3}_stand.gif`} alt="8" />
-            {curStage?.slot3?.split("_")[0]}
+            {curStage?.slot3}
           </MonsterItem>
         </MonsterRowBox>
         <MonsterRowBox>
           <MonsterItem
+            position={positionConfig[3]}
             onMouseEnter={() => {
               if (curStage?.slot4) onMouseEnterFunction(curStage?.slot4);
             }}
           >
             <img src={`./imgs/monster/${curStage?.slot4}_stand.gif`} alt="8" />
-            {curStage?.slot4?.split("_")[0]}
+            {curStage?.slot4}
           </MonsterItem>
           <MonsterItem
+            position={positionConfig[4]}
             onMouseEnter={() => {
               if (curStage?.slot5) onMouseEnterFunction(curStage?.slot5);
             }}
           >
             <img src={`./imgs/monster/${curStage?.slot5}_stand.gif`} alt="8" />
-            {curStage?.slot5?.split("_")[0]}
+            {curStage?.slot5}
           </MonsterItem>
           <MonsterItem
+            position={positionConfig[5]}
             onMouseEnter={() => {
               if (curStage?.slot6) onMouseEnterFunction(curStage?.slot6);
             }}
           >
             <img src={`./imgs/monster/${curStage?.slot6}_stand.gif`} alt="8" />
-            {curStage?.slot6?.split("_")[0]}
+            {curStage?.slot6}
           </MonsterItem>
         </MonsterRowBox>
         <MonsterRowBox>
           <MonsterItem
+            position={positionConfig[6]}
             onMouseEnter={() => {
               if (curStage?.slot7) onMouseEnterFunction(curStage?.slot7);
             }}
           >
             <img src={`./imgs/monster/${curStage?.slot7}_stand.gif`} alt="8" />
-            {curStage?.slot7?.split("_")[0]}
+            {curStage?.slot7}
           </MonsterItem>
           <MonsterItem
+            position={positionConfig[7]}
             onMouseEnter={() => {
               if (curStage?.slot8) onMouseEnterFunction(curStage?.slot8);
             }}
           >
             <img src={`./imgs/monster/${curStage?.slot8}_stand.gif`} alt="8" />
-            {curStage?.slot8?.split("_")[0]}
+            {curStage?.slot8}
           </MonsterItem>
           <MonsterItem
+            position={positionConfig[8]}
             onMouseEnter={() => {
               if (curStage?.slot9) onMouseEnterFunction(curStage?.slot9);
             }}
           >
             <img src={`./imgs/monster/${curStage?.slot9}_stand.gif`} alt="8" />
-            {curStage?.slot9?.split("_")[0]}
+            {curStage?.slot9}
           </MonsterItem>
         </MonsterRowBox>
       </MonsterDetailBox>
@@ -206,7 +242,7 @@ const MonsterDetailBox = styled.div`
 `;
 
 const MonsterRowBox = styled.div`
-  display: flex;
+  /* display: flex;
   position: relative;
   justify-content: space-around;
   align-items: center;
@@ -227,17 +263,17 @@ const MonsterRowBox = styled.div`
       opacity: 0.3;
       border-radius: 50%;
       background-color: red;
-    }
-    img {
-      z-index: 1;
-      position: relative;
-      margin: auto;
-      display: block;
-      width: 40%;
-      height: 80px;
-      object-fit: contain;
-    }
-  }
+    } */
+  /* img {
+    z-index: 1;
+    position: relative;
+    margin: auto;
+    display: block;
+    width: 40%;
+    height: 80px;
+    object-fit: contain;
+  } */
+  /* } */
 `;
 
 const InfoBox = styled.div`
@@ -247,4 +283,38 @@ const InfoBox = styled.div`
   height: 100%;
 `;
 
-const MonsterItem = styled.div``;
+const MonsterItem = styled.div<{ position: position }>`
+  width: 10%;
+  height: 7%;
+  position: absolute;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: ${({ position }) => position.x + "%"};
+  top: ${({ position }) => position.y + "%"};
+  border-radius: 50%;
+  font-size: 0.5rem;
+
+  ::after {
+    content: " ";
+    position: absolute;
+    width: 50px;
+    height: 20px;
+    right: 10%;
+    top: 40px;
+    opacity: 0.3;
+    border-radius: 50%;
+    background-color: red;
+  }
+  img {
+    z-index: 1;
+    position: absolute;
+    margin: auto;
+    display: block;
+    top: 50%;
+    width: 40%;
+    height: 50px;
+    object-fit: contain;
+  }
+`;
