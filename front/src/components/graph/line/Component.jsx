@@ -1,7 +1,7 @@
 import { ResponsiveLine } from "@nivo/line";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { CallHistory } from "../../api";
+import { CallHistory } from "../../../api";
 
 const MyResponsiveLine = ({ nftData }) => {
   const [history, setHistory] = useState([]);

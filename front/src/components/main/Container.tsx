@@ -13,13 +13,27 @@ const MainContainer = () => {
   const [recentArr1, setRecentArr1] = useState();
   const [recentArr2, setRecentArr2] = useState();
   const [topPriceArr, setTopPriceArr] = useState();
+  const [jobFilter, setJobFilter] = useState(0);
+
+  const jobArr = ["All", "Warrior", "Wizard", "Archer", "Assassin"];
 
   const move = (where: string) => {
     navigate(`/nftinfo/${where}`);
   };
 
+  const move2 = (where: string) => {
+    navigate(where);
+  };
+
+  const selJob = (index: number) => {
+    setJobFilter(index);
+
+    if (jobFilter == index) setJobFilter(0);
+    console.log(jobFilter);
+  };
+
   const callRecentNFT = async () => {
-    const data = await RecentNft(0, 10, 0, 0);
+    const data = await RecentNft(0, 10, jobFilter, 0);
     setRecentArr1(data.data.slice(0, 5));
     setRecentArr2(data.data.slice(5, 10));
   };
@@ -31,9 +45,12 @@ const MainContainer = () => {
   };
 
   useEffect(() => {
-    callRecentNFT();
     callTopPriceNFT();
   }, []);
+
+  useEffect(() => {
+    callRecentNFT();
+  }, [jobFilter]);
 
   return (
     <MainComponent
@@ -41,6 +58,10 @@ const MainContainer = () => {
       recentArr2={recentArr2}
       topPriceArr={topPriceArr}
       move={move}
+      move2={move2}
+      jobArr={jobArr}
+      selJob={selJob}
+      jobFilter={jobFilter}
     ></MainComponent>
   );
 };

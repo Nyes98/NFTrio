@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import InftData from "../../interfaces/NftData.interface";
 import "../../nftrio.css";
 import NftBuyMordalContainer from "../mordal/nftBuy/Container";
 
@@ -7,8 +8,8 @@ type Props = {
   classClick: () => void;
   pricedd: boolean;
   classdd: boolean;
-  buyBtn: number;
-  mouseIn: (item: number) => void;
+  buyBtn: string;
+  mouseIn: (item: string) => void;
   BuyMordalHandler: () => void;
   buyMordal: boolean;
   nftCount?: number;
@@ -20,6 +21,9 @@ type Props = {
   topPrice?: number;
   totalPrice: number;
   move: (where: string) => void;
+  CallSellNft: () => void;
+  registedNft: Array<any>;
+  callNftList: () => void;
 };
 
 const SaleComponent: React.FC<Props> = ({
@@ -29,7 +33,6 @@ const SaleComponent: React.FC<Props> = ({
   classdd,
   buyBtn,
   mouseIn,
-  BuyMordalHandler,
   buyMordal,
   nftCount,
   handleSelect,
@@ -40,7 +43,12 @@ const SaleComponent: React.FC<Props> = ({
   topPrice,
   totalPrice,
   move,
+  CallSellNft,
+  registedNft,
+  callNftList,
 }) => {
+  console.log(registedNft);
+
   return (
     <MainBoard>
       <img src="./imgs/mainnft.png" alt="main" />
@@ -72,19 +80,23 @@ const SaleComponent: React.FC<Props> = ({
             <div>{topPrice}ETH</div>
             <div>top price</div>
           </PriceInfo>
-          <PriceInfo>
-            <div>441</div>
-            <div>owners</div>
-          </PriceInfo>
         </NftPrice>
-        <Sort>
-          Items
-          <select onChange={handleSelect}>
-            <option value={25}>25</option>
-            <option value={50}>50</option>
-            <option value={100}>100</option>
-          </select>
-        </Sort>
+
+        <FilterBox>
+          <Categori>
+            <div onClick={callNftList}>All</div>
+            <div onClick={CallSellNft}>On List</div>
+          </Categori>
+          <Sort>
+            Items
+            <select onChange={handleSelect}>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </Sort>
+        </FilterBox>
+
         <BottomSaleWrap>
           <Filter>
             <DropTitle onClick={priceClick}>
@@ -116,43 +128,113 @@ const SaleComponent: React.FC<Props> = ({
             {classdd ? (
               <DropMenu>
                 <div onClick={() => ClassSort(1)}>Warrior</div>
-                <div onClick={() => ClassSort(2)}>Assassin</div>
+                <div onClick={() => ClassSort(2)}>Wizard</div>
                 <div onClick={() => ClassSort(3)}>Archer</div>
-                <div onClick={() => ClassSort(4)}>Wizard</div>
+                <div onClick={() => ClassSort(4)}>Assassin</div>
               </DropMenu>
             ) : (
               <></>
             )}
           </Filter>
-          <SailList>
-            {nftArr?.map((item, index) => {
-              return (
-                <SailItem
-                  className={"nftrio-button fg-white bg-melon ac-pink "}
-                  onMouseEnter={() => mouseIn(item.hash)}
-                  onMouseLeave={() => mouseIn(0)}
-                  item={item.hash}
-                  key={`Sail-${index}`}
-                  onClick={() => move(item.hash)}
-                >
-                  <div>
-                    <img
-                      className={buyBtn == item.hash ? "on" : ""}
-                      src={`${item.img}`}
-                      alt="imimsi"
-                    />
-                  </div>
-                  <div>{item.name}</div>
-                  <div>{item.price} ETH</div>
-                  <div>Last sale : 0.15 ETH</div>
+          {registedNft?.length ? (
+            <SailList>
+              {registedNft?.map((item, index) => {
+                return (
+                  <SailItem
+                    className={"nftrio-button fg-white bg-melon ac-pink "}
+                    onMouseEnter={() => mouseIn(item.hash)}
+                    onMouseLeave={() => mouseIn("0")}
+                    item={item.hash}
+                    key={`Sail-${index}`}
+                    onClick={() => move(item.hash)}
+                  >
+                    <div>
+                      <img
+                        className={buyBtn == item.hash ? "on" : ""}
+                        src={`${item.img}`}
+                        alt="imimsi"
+                      />
+                    </div>
+                    <div>{item.name}</div>
+                    {item.price == 0 ? (
+                      <div className="fg-black">Not Sale</div>
+                    ) : (
+                      <div className="fg-hotpink">{item.price} Trio</div>
+                    )}
 
-                  <BuyBtn className={buyBtn == item.hash ? "on" : ""}>
-                    상세보기
-                  </BuyBtn>
-                </SailItem>
-              );
-            })}
-          </SailList>
+                    {item.cost ? (
+                      item.price == 0 ? (
+                        <div className="fg-dark">
+                          Last Sale : {item.cost} Trio
+                        </div>
+                      ) : (
+                        <></>
+                      )
+                    ) : item.price == 0 ? (
+                      <div className="fg-dark">New NFT</div>
+                    ) : (
+                      <div className="fg-dark">First Sale</div>
+                    )}
+
+                    <BuyBtn
+                      className={buyBtn == item.hash ? "on fg-white" : ""}
+                    >
+                      상세보기
+                    </BuyBtn>
+                  </SailItem>
+                );
+              })}
+            </SailList>
+          ) : (
+            <SailList>
+              {nftArr?.map((item, index) => {
+                return (
+                  <SailItem
+                    className={"nftrio-button fg-white bg-melon ac-pink "}
+                    onMouseEnter={() => mouseIn(item.hash)}
+                    onMouseLeave={() => mouseIn("0")}
+                    item={item.hash}
+                    key={`Sail-${index}`}
+                    onClick={() => move(item.hash)}
+                  >
+                    <div>
+                      <img
+                        className={buyBtn == item.hash ? "on" : ""}
+                        src={`${item.img}`}
+                        alt="imimsi"
+                      />
+                    </div>
+                    <div>{item.name}</div>
+                    {item.price == 0 ? (
+                      <div className="fg-black">Not Sale</div>
+                    ) : (
+                      <div className="fg-hotpink">{item.price} Trio</div>
+                    )}
+
+                    {item.cost ? (
+                      item.price == 0 ? (
+                        <div className="fg-dark">
+                          Last Sale : {item.cost} Trio
+                        </div>
+                      ) : (
+                        <></>
+                      )
+                    ) : item.price == 0 ? (
+                      <div className="fg-dark">New NFT</div>
+                    ) : (
+                      <div className="fg-dark">First Sale</div>
+                    )}
+
+                    <BuyBtn
+                      className={buyBtn == item.hash ? "on fg-white" : ""}
+                    >
+                      상세보기
+                    </BuyBtn>
+                  </SailItem>
+                );
+              })}
+            </SailList>
+          )}
         </BottomSaleWrap>
       </SaleWrap>
       {buyMordal ? <NftBuyMordalContainer></NftBuyMordalContainer> : <></>}
@@ -161,7 +243,23 @@ const SaleComponent: React.FC<Props> = ({
 };
 
 export default SaleComponent;
+const FilterBox = styled.div`
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+const Categori = styled.div`
+  display: flex;
+  div {
+    margin: 0 10px;
+    border: 3px solid lightsalmon;
+    border-radius: 10px;
+    padding: 5px;
+  }
+`;
 const DropMenu = styled.div`
+  margin-left: 30px;
   font-size: 0.8rem;
   color: gray;
 `;
@@ -169,33 +267,43 @@ const DropMenu = styled.div`
 const BuyBtn = styled.div`
   position: absolute;
   left: 0;
-  bottom: -50px;
+  bottom: -55px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   width: 100%;
-  height: 50px;
+  height: 30px;
   background-color: cyan;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &&& {
+    font-size: 0.7rem;
+  }
 `;
-const SailItem = styled.div<{ item: number }>`
+const SailItem = styled.div<{ item: string }>`
   position: relative;
-  width: 250px;
+  width: 318px;
   margin: 5px 9px;
   border: 1px solid black;
   border-radius: 10px;
   overflow: hidden;
 
   .on {
-    bottom: 0;
+    bottom: -5px;
     transition: bottom 0.5s ease-out;
   }
 
+  div {
+    margin: 5px 0;
+  }
+
   div:first-child {
-    width: 100px;
+    width: 120px;
     margin: auto;
   }
   div:nth-child(2) {
-    font-size: 0.6rem;
+    font-size: 0.5rem;
     color: black;
   }
   div:nth-child(3) {
@@ -204,10 +312,6 @@ const SailItem = styled.div<{ item: number }>`
   }
   div:nth-child(4) {
     font-size: 0.6rem;
-    color: gray;
-  }
-  img {
-    width: 100px;
   }
 `;
 const Filter = styled.div`
@@ -281,7 +385,6 @@ const NftImg = styled.div`
 const Sort = styled.div`
   display: flex;
   flex-direction: row-reverse;
-  margin-top: 30px;
 
   select {
     font-size: 1rem;
@@ -291,7 +394,7 @@ const Sort = styled.div`
 const DropTitle = styled.div`
   display: flex;
   align-items: center;
-
+  margin-left: 30px;
   img {
     width: 15px;
     margin-left: 10px;

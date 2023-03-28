@@ -1,19 +1,26 @@
 import styled from "styled-components";
 import InftData from "../../interfaces/NftData.interface";
 import "../../nftrio.css";
-import MyResponsiveLine from "../graph/Component";
+import MyResponsiveLine from "../graph/line/Component";
+import Web3 from "web3";
 import NftBuyMordalContainer from "../mordal/nftBuy/Container";
+import MyResponsiveRadar from "../graph/rader/component";
 
 type Props = {
   nftData?: InftData;
   buyMordal: boolean;
   BuyMordalHandler: () => void;
+  web3?: Web3;
+  account?: string;
+  children?: JSX.Element | JSX.Element[];
 };
 
 const NftInfoComponent: React.FC<Props> = ({
   nftData,
   buyMordal,
   BuyMordalHandler,
+  web3,
+  account,
 }) => {
   return (
     <MainBoard>
@@ -27,22 +34,31 @@ const NftInfoComponent: React.FC<Props> = ({
         )}
         <NftText>
           <NftName>NFTrio</NftName>
-          <NftOwner>Owner : {nftData?.owner_address}</NftOwner>
+          <NftOwner className="fg-dark">
+            Owner : {nftData?.owner_address}
+          </NftOwner>
           <NftPrice>
             {nftData?.price ? (
-              <>
-                <div>Current Price</div>
-                <div>{nftData?.price} Trio</div>
-
-                <div
-                  className="nftrio-button fg-dark bg-melon ac-white"
-                  onClick={BuyMordalHandler}
-                >
-                  Buy Nft
-                </div>
-              </>
+              account != nftData?.owner_address ? (
+                <>
+                  <div>
+                    <div>Current Price</div>
+                    <div>{nftData?.price} Trio</div>
+                  </div>
+                  <div>
+                    <div
+                      className="nftrio-button fg-dark bg-melon ac-white"
+                      onClick={BuyMordalHandler}
+                    >
+                      Buy Nft
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <p>나의 NFT</p>
+              )
             ) : (
-              <p>This is an NFT that is not registered for sale.</p>
+              <p>현재 판매 등록되지 않은 NFT 입니다.</p>
             )}
           </NftPrice>
           <NftPriceHistory>
@@ -57,9 +73,27 @@ const NftInfoComponent: React.FC<Props> = ({
           </NftPriceHistory>
         </NftText>
       </InfoWrap>
+      <NftStat>
+        <div>
+          <MyResponsiveRadar nftData={nftData} />
+        </div>
+        {nftData?.job == "1" ? (
+          <div>Class : 전사</div>
+        ) : nftData?.job == "2" ? (
+          <div>Class : 법사</div>
+        ) : nftData?.job == "3" ? (
+          <div>Class : 궁수</div>
+        ) : (
+          <div>Class : 도적</div>
+        )}
+      </NftStat>
 
       {buyMordal ? (
-        <NftBuyMordalContainer nftData={nftData}></NftBuyMordalContainer>
+        <NftBuyMordalContainer
+          nftData={nftData}
+          account={account}
+          web3={web3}
+        ></NftBuyMordalContainer>
       ) : (
         <></>
       )}
@@ -68,6 +102,20 @@ const NftInfoComponent: React.FC<Props> = ({
 };
 
 export default NftInfoComponent;
+
+const NftStat = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+
+  & > div {
+    width: 48%;
+    height: 500px;
+    border: 1px solid black;
+    border-radius: 20px;
+    padding: 20px;
+  }
+`;
 
 const MainBoard = styled.div`
   max-width: 1800px;
@@ -80,7 +128,7 @@ const InfoWrap = styled.div`
 `;
 const NftImg = styled.div`
   width: 30%;
-  height: 600px;
+  height: 640px;
   border: 1px solid black;
   border-radius: 15px;
   display: flex;
@@ -101,14 +149,18 @@ const NftPrice = styled.div`
   border: 1px solid black;
   border-radius: 10px;
   padding: 20px;
-  margin: 30px 0;
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
 
   div:first-child {
     font-size: 0.5rem;
   }
+
   div:last-child {
+    display: flex;
+    align-items: center;
     font-size: 1rem;
-    margin: 10px 0;
     width: 230px;
     border-radius: 20px;
   }

@@ -24,6 +24,9 @@ module.exports = class User extends Sequelize.Model {
         mintNumber: {
           type: Sequelize.INTEGER,
         },
+        isApprove: {
+          type: Sequelize.INTEGER,
+        },
       },
       {
         sequelize,

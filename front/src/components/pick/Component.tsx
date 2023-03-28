@@ -1,15 +1,32 @@
 import styled from "styled-components";
 import "../../nftrio.css";
 import LoadingModalComponent from "../mordal/loading/Components";
+import NoTicketMordalComponent from "../mordal/noTicket/Component";
+import NoTicketMordalContainer from "../mordal/noTicket/Container";
 
 type Props = {
   pickNft: () => void;
   loadingMordal: boolean;
+  userTicket: number;
+  noTicket: boolean;
+  setNoTicket: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const PickComponent: React.FC<Props> = ({ pickNft, loadingMordal }) => {
+const PickComponent: React.FC<Props> = ({
+  pickNft,
+  loadingMordal,
+  userTicket,
+  noTicket,
+  setNoTicket,
+}) => {
   return (
     <Background className="bg-melon">
+      <TicketBox>
+        <div>
+          <img src="../imgs/ticket.svg" alt="" />
+        </div>
+        <div> : {userTicket}</div>
+      </TicketBox>
       <ImgBox>
         <img src="./imgs/pick1.png" alt="pick1" />
         <img src="./imgs/pick3.png" alt="pick3" />
@@ -20,6 +37,13 @@ const PickComponent: React.FC<Props> = ({ pickNft, loadingMordal }) => {
       </PickBtn>
       <div>경고 : 원하지 않은 NFT가 나오지 않을 수 있습니다.</div>
       {loadingMordal ? <LoadingModalComponent></LoadingModalComponent> : <></>}
+      {noTicket ? (
+        <NoTicketMordalContainer
+          setNoTicket={setNoTicket}
+        ></NoTicketMordalContainer>
+      ) : (
+        <></>
+      )}
     </Background>
   );
 };
@@ -47,4 +71,15 @@ const PickBtn = styled.div`
   border-radius: 15px;
   width: 300px;
   margin: 40px auto;
+`;
+
+const TicketBox = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 100px;
+
+  img {
+    width: 50px;
+    margin-right: 20px;
+  }
 `;
