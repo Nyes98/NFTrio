@@ -12,7 +12,6 @@ import RankContainer from "./components/rank/Container";
 import MyPageContainer from "./components/mypage/Container";
 import NftContainer from "./components/nftTest/Container";
 import NftInfoContainer from "./components/nftinfo/Container";
-import MintingModalComponent from "./components/mordal/minting/Components";
 import GameContainer from "./components/game/Container";
 import { useWeb3 } from "./modules/useWeb3";
 import { useEffect } from "react";
@@ -43,7 +42,6 @@ function App() {
         />
         <Route path="/test" element={<NftContainer />}></Route>
         <Route path="/nftinfo/:nftHash" element={<NftInfoContainer />}></Route>
-        <Route path="/modal" element={<MintingModalComponent />}></Route>
         <Route path="/game" element={<GameContainer />} />
       </Routes>
       <FooterContainer></FooterContainer>
