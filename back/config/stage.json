@@ -1,14 +1,14 @@
 [
   {
-    "slot1": "",
+    "slot1": "thornyBramble",
     "slot2": "thornyBramble",
     "slot3": "thornyBramble",
     "slot4": "thornyBramble",
     "slot5": "thornyBramble",
-    "slot6": "thornyBramble",
-    "slot7": "thornyBramble",
-    "slot8": "thornyBramble",
-    "slot9": "thornyBramble"
+    "slot6": "",
+    "slot7": "",
+    "slot8": "",
+    "slot9": ""
   },
   {
     "slot1": "thornyBramble",
@@ -16,21 +16,21 @@
     "slot3": "thornyBramble",
     "slot4": "curseEye",
     "slot5": "thornyBramble",
-    "slot6": "curseEye",
+    "slot6": "",
     "slot7": "thornyBramble",
     "slot8": "curseEye",
-    "slot9": "thornyBramble"
+    "slot9": ""
   },
   {
     "slot1": "thornyBramble",
     "slot2": "thornyBramble",
-    "slot3": "thornyBramble",
+    "slot3": "curseEye",
     "slot4": "curseEye",
     "slot5": "curseEye",
-    "slot6": "curseEye",
+    "slot6": "",
     "slot7": "royalFairy",
     "slot8": "royalFairy",
-    "slot9": "royalFairy"
+    "slot9": ""
   },
   {
     "slot1": "curseEye",
