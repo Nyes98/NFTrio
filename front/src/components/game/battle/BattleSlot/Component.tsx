@@ -2,23 +2,35 @@ import { useState } from "react";
 import styled from "styled-components";
 import InftData from "../../../../interfaces/NftData.interface";
 import Iposition from "../../../../interfaces/Position.interface";
+import CharacterComponent from "./Character/Component";
+import FSM from "../../fsm/Component";
+import IMonsterData from "../../../../interfaces/Monster.interface";
 
 type Props = {
   position: Iposition;
   index: number;
   account?: string;
-  character: InftData;
+  character: IMonsterData | InftData;
 };
 
-const BattleSlotComponent: React.FC<Props> = ({ position, character }) => {
+const BattleSlotComponent: React.FC<Props> = ({
+  position,
+  character,
+  index,
+}) => {
   const [state, setState] = useState("stand");
   const [monsterName, setMonsterName] = useState("curseEye");
 
-  console.log(character);
-
+  const Attack = () => {};
   return (
     <SlotBox position={position} className={"bg-melon fg-dark"}>
-      <img src={character?.img} alt="" />
+      <CharacterComponent
+        position={position}
+        character={character}
+        index={index}
+      ></CharacterComponent>
+      {/* <img src={character?.img} alt="" /> */}
+      {/* <img src={character?.img} alt="" /> */}
     </SlotBox>
   );
 };

@@ -3,6 +3,7 @@ import CharacterItemComponent from "./CharacterItem/Component";
 import InftData from "../../../interfaces/NftData.interface";
 import SlotComponent from "./Slot/Component";
 import Iposition from "../../../interfaces/Position.interface";
+import { positionConfig } from "../data/positionData";
 
 type Props = {
   curCharacterList: Array<InftData>;
@@ -21,16 +22,6 @@ const ReadyComponent: React.FC<Props> = ({
   formationList,
   callUserFunction,
 }) => {
-  const xBase = 10;
-  const yBase = 45;
-  const positionConfig: Array<Iposition> = [
-    { x: xBase + 0, y: yBase + 0 },
-    { x: xBase + 0, y: yBase + 20 },
-    { x: xBase + 10, y: yBase + 30 },
-    { x: xBase + 20, y: yBase + 20 },
-    { x: xBase + 10, y: yBase + 10 },
-    { x: xBase + 0, y: yBase + 40 },
-  ];
   console.log(curCharacterList[formationState]?.name);
   return (
     <ReadyBox>
