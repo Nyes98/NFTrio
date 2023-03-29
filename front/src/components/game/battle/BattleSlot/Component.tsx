@@ -1,6 +1,8 @@
+import { useState } from "react";
 import styled from "styled-components";
 import InftData from "../../../../interfaces/NftData.interface";
 import Iposition from "../../../../interfaces/Position.interface";
+import FSM from "../../fsm/Component";
 
 type Props = {
   position: Iposition;
@@ -10,9 +12,20 @@ type Props = {
 };
 
 const BattleSlotComponent: React.FC<Props> = ({ position, character }) => {
+  const [state, setState] = useState("stand");
+  const [monsterName, setMonsterName] = useState("curseEye");
+
+  console.log(character);
+
   return (
     <SlotBox position={position} className={"bg-melon fg-dark"}>
-      <img src={character?.img} alt="" />
+      {/* <img src={character?.img} alt="" /> */}
+      <FSM
+        state={state}
+        isMonster={position.m}
+        monsterName={monsterName}
+        character={character}
+      ></FSM>
     </SlotBox>
   );
 };
@@ -35,6 +48,6 @@ const SlotBox = styled.div<{ position: Iposition }>`
     z-index: 11;
     position: absolute;
     bottom: -20px;
-    transform: scaleX(-1);
+    /* transform: scaleX(-1); */
   }
 `;
