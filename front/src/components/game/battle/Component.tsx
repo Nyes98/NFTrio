@@ -114,6 +114,17 @@ const BattleComponent: React.FC<Props> = ({
 
 export default BattleComponent;
 
+const BtnBox = styled.div`
+  div {
+    background-color: blue;
+    width: 100px;
+    margin: 5px;
+  }
+  position: absolute;
+  display: flex;
+  top: 0;
+`;
+
 const BattleBox = styled.div<{ bgUrl: string }>`
   width: 100%;
   height: 100%;

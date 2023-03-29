@@ -3,7 +3,6 @@ import styled from "styled-components";
 import InftData from "../../../../interfaces/NftData.interface";
 import Iposition from "../../../../interfaces/Position.interface";
 import CharacterComponent from "./Character/Component";
-import FSM from "../../fsm/Component";
 import IMonsterData from "../../../../interfaces/Monster.interface";
 
 type Props = {
@@ -22,9 +21,6 @@ const BattleSlotComponent: React.FC<Props> = ({
   characterList,
   timer,
 }) => {
-  const [state, setState] = useState("stand");
-  const [monsterName, setMonsterName] = useState("curseEye");
-
   return (
     <SlotBox position={position} className={"bg-melon fg-dark"}>
       <CharacterComponent
@@ -34,7 +30,6 @@ const BattleSlotComponent: React.FC<Props> = ({
         characterList={characterList}
         timer={timer}
       ></CharacterComponent>
-      {/* <img src={character?.img} alt="" /> */}
       {/* <img src={character?.img} alt="" /> */}
     </SlotBox>
   );
