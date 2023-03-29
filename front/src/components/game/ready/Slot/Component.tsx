@@ -110,6 +110,7 @@ const SlotBox = styled.div<{ position: Iposition }>`
     z-index: 11;
     position: absolute;
     bottom: -20px;
+    transform: scaleX(-1);
   }
 `;
 
