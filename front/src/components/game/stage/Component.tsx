@@ -152,7 +152,7 @@ const StageComponent: React.FC<Props> = ({
             </MonsterItem>
           )}
           <MonsterItem
-            position={positionConfig[3]}
+            position={positionConfig[2]}
             onMouseEnter={() => {
               if (curStage?.slot3) onMouseEnterFunction(curStage?.slot3);
             }}
@@ -161,7 +161,7 @@ const StageComponent: React.FC<Props> = ({
             {curStage?.slot3}
           </MonsterItem>
           <MonsterItem
-            position={positionConfig[4]}
+            position={positionConfig[3]}
             onMouseEnter={() => {
               if (curStage?.slot4) onMouseEnterFunction(curStage?.slot4);
             }}
@@ -170,7 +170,7 @@ const StageComponent: React.FC<Props> = ({
             {curStage?.slot4}
           </MonsterItem>
           <MonsterItem
-            position={positionConfig[5]}
+            position={positionConfig[4]}
             onMouseEnter={() => {
               if (curStage?.slot5) onMouseEnterFunction(curStage?.slot5);
             }}
@@ -179,7 +179,7 @@ const StageComponent: React.FC<Props> = ({
             {curStage?.slot5}
           </MonsterItem>
           <MonsterItem
-            position={positionConfig[6]}
+            position={positionConfig[5]}
             onMouseEnter={() => {
               if (curStage?.slot6) onMouseEnterFunction(curStage?.slot6);
             }}
@@ -188,7 +188,7 @@ const StageComponent: React.FC<Props> = ({
             {curStage?.slot6}
           </MonsterItem>
           <MonsterItem
-            position={positionConfig[7]}
+            position={positionConfig[6]}
             onMouseEnter={() => {
               if (curStage?.slot7) onMouseEnterFunction(curStage?.slot7);
             }}
@@ -197,7 +197,7 @@ const StageComponent: React.FC<Props> = ({
             {curStage?.slot7}
           </MonsterItem>
           <MonsterItem
-            position={positionConfig[8]}
+            position={positionConfig[7]}
             onMouseEnter={() => {
               if (curStage?.slot8) onMouseEnterFunction(curStage?.slot8);
             }}
@@ -206,7 +206,7 @@ const StageComponent: React.FC<Props> = ({
             {curStage?.slot8}
           </MonsterItem>
           <MonsterItem
-            position={positionConfig[9]}
+            position={positionConfig[8]}
             onMouseEnter={() => {
               if (curStage?.slot9) onMouseEnterFunction(curStage?.slot9);
             }}
