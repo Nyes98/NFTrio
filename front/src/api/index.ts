@@ -151,3 +151,18 @@ export const ClearUserFormation = async (
 export const NftOwnerChange = async (hash?: string, owner?: string) => {
   return await request.post("/nft/ownerChange", { hash: hash, owner: owner });
 };
+export const CallStage = async (stage: number) => {
+  return await request.post("/game/getStage", { stage: stage });
+};
+
+export const getMonsterData = async (monsterName: string) => {
+  return (
+    await request.post("/game/getMonsterByName", {
+      monsterName: monsterName,
+    })
+  ).data;
+};
+
+export const getCharaterList = async (account: string) => {
+  return await request.post("/user/getCharacterList", { account: account });
+};

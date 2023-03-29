@@ -108,6 +108,9 @@ const SaleComponent: React.FC<Props> = ({
             </div>
           </Categori>
           <Sort>
+            <img src="./imgs/right.svg" alt="" />
+            {/* {page} */}
+            <img src="./imgs/left.svg" alt="" />
             Items
             <select onChange={handleSelect}>
               <option value={25}>25</option>
@@ -411,6 +414,10 @@ const Sort = styled.div`
 
   select {
     font-size: 1rem;
+  }
+
+  img {
+    width: 20px;
   }
 `;
 

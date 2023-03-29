@@ -42,11 +42,17 @@ const PickContainer: React.FC<Props> = ({ web3, account }) => {
 
       if (data3) {
         const insert = await InsertTokenId(data3);
+      } else {
+        dispatch(loadingMordalOpen());
       }
 
       if (data2) {
-        dispatch(loadingMordalOpen());
         const data4 = await UseTicket(account, userTicket);
+        if (data4) {
+          dispatch(loadingMordalOpen());
+        }
+      } else {
+        dispatch(loadingMordalOpen());
       }
     }
   };
@@ -57,7 +63,7 @@ const PickContainer: React.FC<Props> = ({ web3, account }) => {
 
   useEffect(() => {
     callUser();
-  }, [userTicket]);
+  }, [loadingMordal]);
 
   return (
     <PickComponent

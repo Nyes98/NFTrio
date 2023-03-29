@@ -144,4 +144,15 @@ router.post("/clearUserFormation", async (req, res) => {
   res.end();
 });
 
+router.post("/getCharacterList", async (req, res) => {
+  const data = await User.findOne({
+    where: { address: req.body.account },
+    include: {
+      model: db.Character,
+    },
+  });
+  console.log(data);
+  res.send(data);
+});
+
 module.exports = router;

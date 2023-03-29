@@ -74,6 +74,10 @@ const SaleContainer = () => {
     });
   };
 
+  // const MovePage = () => {
+  //   setPage;
+  // };
+
   const PriceSort = (select: number) => {
     setPriceSort(select);
   };

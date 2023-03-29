@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import moveReducer from "./move";
 import mordalReducer from "./mordal";
 import metaAddressReducer from "./metaAddress";
+import actionReducer from "./Action";
 
 export const store = configureStore({
   reducer: {
@@ -9,6 +10,7 @@ export const store = configureStore({
     nftBuyMordalOpen: mordalReducer,
     metaAddress: metaAddressReducer,
     loadingMordalOpen: mordalReducer,
+    action: actionReducer,
   },
 });
 

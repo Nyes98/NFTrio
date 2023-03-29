@@ -22,7 +22,7 @@ const GameComponent: React.FC<Props> = ({
       case "ready":
         return <ReadyContainer />;
       case "battle":
-        return <BattleContainer />;
+        return <BattleContainer stage={stage} />;
       case "stage":
         return (
           <StageContainer

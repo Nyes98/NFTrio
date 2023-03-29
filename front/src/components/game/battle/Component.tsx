@@ -5,14 +5,22 @@ import Iposition from "../../../interfaces/Position.interface";
 import InftData from "../../../interfaces/NftData.interface";
 import { useWeb3 } from "../../../modules/useWeb3";
 import BattleSlotComponent from "./BattleSlot/Component";
+import { positionConfig, MpositionConfig } from "../data/positionData";
+import IMonsterData from "../../../interfaces/Monster.interface";
 
 type Props = {
   bgUrl: string;
   bgOnLoad: boolean;
   setBgOnLoad: React.Dispatch<React.SetStateAction<boolean>>;
+  monsterList: Array<IMonsterData>;
 };
 
-const BattleComponent: React.FC<Props> = ({ bgUrl, bgOnLoad, setBgOnLoad }) => {
+const BattleComponent: React.FC<Props> = ({
+  bgUrl,
+  bgOnLoad,
+  setBgOnLoad,
+  monsterList,
+}) => {
   const { account, logIn } = useWeb3();
   const [formationList, setFormationList] = useState<Array<string>>([]);
   const [characterList, setCharacterList] = useState<Array<InftData | any>>([]);
@@ -55,38 +63,7 @@ const BattleComponent: React.FC<Props> = ({ bgUrl, bgOnLoad, setBgOnLoad }) => {
     }
   }, [formationList]);
 
-  useEffect(() => {
-    console.log(characterList);
-  }, [characterList]);
-
-  const xBase = 10;
-  const yBase = 45;
-  const positionConfig: Array<Iposition> = [
-    { x: xBase + 0, y: yBase + 0 },
-    { x: xBase + 0, y: yBase + 20 },
-    { x: xBase + 10, y: yBase + 30 },
-    { x: xBase + 20, y: yBase + 20 },
-    { x: xBase + 10, y: yBase + 10 },
-    { x: xBase + 0, y: yBase + 40 },
-  ];
-
-  const MxBase = 70;
-  const MyBase = 35;
-  const MpositionConfig: Array<Iposition> = [
-    { x: MxBase + 10, y: MyBase - 10, m: true },
-    { x: MxBase + 10, y: MyBase + 10, m: true },
-    { x: MxBase + 10, y: MyBase + 30, m: true },
-    { x: MxBase + 10, y: MyBase + 50, m: true },
-    { x: MxBase + 0, y: MyBase + 0, m: true },
-    { x: MxBase + 0, y: MyBase + 20, m: true },
-    { x: MxBase + 0, y: MyBase + 40, m: true },
-    { x: MxBase - 10, y: MyBase + 10, m: true },
-    { x: MxBase - 10, y: MyBase + 30, m: true },
-  ];
-
-const Attack = () => {
-  return {x:}
-}
+  useEffect(() => {}, [characterList]);
 
   return (
     <BattleBox bgUrl={bgUrl}>
@@ -96,7 +73,6 @@ const Attack = () => {
         <div>2번으로</div>
       </BtnBox>
       {positionConfig.map((item, index) => {
-        console.log(characterList);
         return (
           <BattleSlotComponent
             key={`battleSlot-${index}`}
@@ -114,7 +90,7 @@ const Attack = () => {
             position={item}
             index={index}
             account={account}
-            character={characterList[index]}
+            character={monsterList[index]}
           ></BattleSlotComponent>
         );
       })}
