@@ -33,30 +33,30 @@
     "slot9": ""
   },
   {
-    "slot1": "curseEye",
-    "slot2": "curseEye",
-    "slot3": "forestGlimmerfox",
-    "slot4": "forestGlimmerfox",
-    "slot5": "forestGlimmerfox",
-    "slot6": "forestGlimmerfox",
-    "slot7": "royalFairy",
-    "slot8": "royalFairy",
-    "slot9": "royalFairy"
-  },
-  {
-    "slot1": "slime",
-    "slot2": "slime",
-    "slot3": "slime",
-    "slot4": "slime",
-    "slot5": "slime",
-    "slot6": "slime",
-    "slot7": "slime",
-    "slot8": "slime",
-    "slot9": "slime"
-  },
-  {
     "slot1": "forestGlimmerfox",
     "slot2": "forestGlimmerfox",
+    "slot3": "forestGlimmerfox",
+    "slot4": "",
+    "slot5": "forestGlimmerfox",
+    "slot6": "",
+    "slot7": "royalFairy",
+    "slot8": "royalFairy",
+    "slot9": ""
+  },
+  {
+    "slot1": "",
+    "slot2": "",
+    "slot3": "",
+    "slot4": "kingSlime",
+    "slot5": "",
+    "slot6": "",
+    "slot7": "",
+    "slot8": "",
+    "slot9": ""
+  },
+  {
+    "slot1": "",
+    "slot2": "",
     "slot3": "forestGlimmerfox",
     "slot4": "forestGlimmerfox",
     "slot5": "forestGlimmerfox",
@@ -67,47 +67,47 @@
   },
   {
     "slot1": "fireflySlime",
-    "slot2": "fairySlime",
+    "slot2": "fireflySlime",
     "slot3": "fireflySlime",
     "slot4": "fairySlime",
     "slot5": "fireflySlime",
-    "slot6": "fairySlime",
-    "slot7": "fireflySlime",
+    "slot6": "",
+    "slot7": "fairySlime",
     "slot8": "fairySlime",
-    "slot9": "fireflySlime"
+    "slot9": ""
   },
   {
     "slot1": "oniony",
     "slot2": "oniony",
     "slot3": "oniony",
-    "slot4": "oniony",
+    "slot4": "",
     "slot5": "oniony",
     "slot6": "oniony",
-    "slot7": "oniony",
-    "slot8": "oniony",
+    "slot7": "",
+    "slot8": "",
     "slot9": "oniony"
   },
   {
-    "slot1": "oniony",
-    "slot2": "turnipy",
+    "slot1": "",
+    "slot2": "",
     "slot3": "oniony",
-    "slot4": "turnipy",
+    "slot4": "oniony",
     "slot5": "oniony",
     "slot6": "turnipy",
-    "slot7": "oniony",
+    "slot7": "turnipy",
     "slot8": "turnipy",
-    "slot9": "oniony"
+    "slot9": "turnipy"
   },
   {
-    "slot1": "moleKing",
-    "slot2": "moleKing",
-    "slot3": "moleKing",
+    "slot1": "",
+    "slot2": "",
+    "slot3": "",
     "slot4": "moleKing",
-    "slot5": "moleKing",
-    "slot6": "moleKing",
-    "slot7": "moleKing",
-    "slot8": "moleKing",
-    "slot9": "moleKing"
+    "slot5": "",
+    "slot6": "",
+    "slot7": "",
+    "slot8": "",
+    "slot9": ""
   },
   {
     "slot1": "slime",
