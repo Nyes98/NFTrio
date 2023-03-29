@@ -2,8 +2,6 @@ import { useState } from "react";
 import styled from "styled-components";
 import InftData from "../../../../interfaces/NftData.interface";
 import Iposition from "../../../../interfaces/Position.interface";
-import CharacterComponent from "./Character/Component";
-import FSM from "../../fsm/Component";
 
 type Props = {
   position: Iposition;
@@ -20,18 +18,7 @@ const BattleSlotComponent: React.FC<Props> = ({ position, character }) => {
 
   return (
     <SlotBox position={position} className={"bg-melon fg-dark"}>
-      <CharacterComponent
-        position={position}
-        character={character}
-      ></CharacterComponent>
-      {/* <img src={character?.img} alt="" /> */}
-      {/* <img src={character?.img} alt="" /> */}
-      <FSM
-        state={state}
-        isMonster={position.m}
-        monsterName={monsterName}
-        character={character}
-      ></FSM>
+      <img src={character?.img} alt="" />
     </SlotBox>
   );
 };
