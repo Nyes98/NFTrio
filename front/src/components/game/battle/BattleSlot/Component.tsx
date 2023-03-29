@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import InftData from "../../../../interfaces/NftData.interface";
 import Iposition from "../../../../interfaces/Position.interface";
+import CharacterComponent from "./Character/Component";
 
 type Props = {
   position: Iposition;
@@ -12,7 +13,11 @@ type Props = {
 const BattleSlotComponent: React.FC<Props> = ({ position, character }) => {
   return (
     <SlotBox position={position} className={"bg-melon fg-dark"}>
-      <img src={character?.img} alt="" />
+      <CharacterComponent
+        position={position}
+        character={character}
+      ></CharacterComponent>
+      {/* <img src={character?.img} alt="" /> */}
     </SlotBox>
   );
 };

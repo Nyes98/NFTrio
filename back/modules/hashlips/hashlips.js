@@ -85,50 +85,48 @@ const genCreate = async (_imageName) => {
   console.log(create, gen.buffers[0]);
   const bucketName = "nftrio-bucket2";
   const bufferPromise = new Promise((resolve, reject) => {
-    gen.imgLists.map((item, index) => {
-      const key = item;
-      const bufferImage = gen.buffers[index];
-      const params = {
-        Bucket: bucketName,
-        Key: key + ".png",
-        Body: bufferImage,
-      };
-      s3.putObject(params, (err, data) => {
-        if (err) {
-          console.log("ERRRRRRRRRRR", err);
-        } else {
-          console.log("ELSASASAELSA");
-          s3.putObject(
-            {
-              Bucket: bucketName,
-              Key: gen.imgLists[0] + ".json",
-              Body: JSON.stringify(gen.metaDataList, null, 2),
-            },
-            (err, data) => {
-              if (data) {
-                let count = 0;
-                const checkMetaData = () => {
-                  count++;
-                  console.log("metadataPut Sucess", bufferImage);
-                  if (bufferImage) {
-                    return true;
-                  } else return false;
-                };
-                const timeOutId = setTimeout(() => {
-                  if (checkMetaData()) {
-                    resolve(bufferImage);
-                    clearTimeout(timeOutId);
-                  } else {
-                    if (count >= 10) reject(bufferImage);
-                  }
-                }, 1000);
-              } else {
-                reject(bufferImage);
-              }
+    const key = gen.imgLists[0];
+    const bufferImage = gen.buffers[0];
+    const params = {
+      Bucket: bucketName,
+      Key: key + ".png",
+      Body: bufferImage,
+    };
+    s3.putObject(params, (err, data) => {
+      if (err) {
+        console.log("ERRRRRRRRRRR", err);
+      } else {
+        console.log("ELSASASAELSA");
+        s3.putObject(
+          {
+            Bucket: bucketName,
+            Key: gen.imgLists[0] + ".json",
+            Body: JSON.stringify(gen.metaDataList, null, 2),
+          },
+          (err, data) => {
+            if (data) {
+              let count = 0;
+              const checkMetaData = () => {
+                count++;
+                console.log("metadataPut Sucess", bufferImage);
+                if (bufferImage) {
+                  return true;
+                } else return false;
+              };
+              const timeOutId = setTimeout(() => {
+                if (checkMetaData()) {
+                  resolve(bufferImage);
+                  clearTimeout(timeOutId);
+                } else {
+                  if (count >= 10) reject(bufferImage);
+                }
+              }, 1000);
+            } else {
+              reject(bufferImage);
             }
-          );
-        }
-      });
+          }
+        );
+      }
     });
   });
   return bufferPromise;
