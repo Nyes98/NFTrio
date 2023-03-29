@@ -69,9 +69,45 @@ const BattleComponent: React.FC<Props> = ({ bgUrl, bgOnLoad, setBgOnLoad }) => {
     { x: xBase + 10, y: yBase + 10 },
     { x: xBase + 0, y: yBase + 40 },
   ];
+
+  const MxBase = 70;
+  const MyBase = 35;
+  const MpositionConfig: Array<Iposition> = [
+    { x: MxBase + 10, y: MyBase - 10, m: true },
+    { x: MxBase + 10, y: MyBase + 10, m: true },
+    { x: MxBase + 10, y: MyBase + 30, m: true },
+    { x: MxBase + 10, y: MyBase + 50, m: true },
+    { x: MxBase + 0, y: MyBase + 0, m: true },
+    { x: MxBase + 0, y: MyBase + 20, m: true },
+    { x: MxBase + 0, y: MyBase + 40, m: true },
+    { x: MxBase - 10, y: MyBase + 10, m: true },
+    { x: MxBase - 10, y: MyBase + 30, m: true },
+  ];
+
+const Attack = () => {
+  return {x:}
+}
+
   return (
     <BattleBox bgUrl={bgUrl}>
+      <BtnBox>
+        <div>공격</div>
+        <div>1번으로</div>
+        <div>2번으로</div>
+      </BtnBox>
       {positionConfig.map((item, index) => {
+        console.log(characterList);
+        return (
+          <BattleSlotComponent
+            key={`battleSlot-${index}`}
+            position={item}
+            index={index}
+            account={account}
+            character={characterList[index]}
+          ></BattleSlotComponent>
+        );
+      })}
+      {MpositionConfig.map((item, index) => {
         return (
           <BattleSlotComponent
             key={`battleSlot-${index}`}
@@ -87,6 +123,17 @@ const BattleComponent: React.FC<Props> = ({ bgUrl, bgOnLoad, setBgOnLoad }) => {
 };
 
 export default BattleComponent;
+
+const BtnBox = styled.div`
+  div {
+    background-color: blue;
+    width: 100px;
+    margin: 5px;
+  }
+  position: absolute;
+  display: flex;
+  top: 0;
+`;
 
 const BattleBox = styled.div<{ bgUrl: string }>`
   width: 100%;
