@@ -12,21 +12,26 @@ import { enqueue, dequeue } from "../../../redux/Action";
 
 type Props = {
   stage: number;
+  actionQueue: IAction[];
+  setActionQueue: React.Dispatch<React.SetStateAction<IAction[]>>;
+  setGameState: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const BattleContainer: React.FC<Props> = ({ stage }) => {
+const BattleContainer: React.FC<Props> = ({
+  stage,
+  actionQueue,
+  setActionQueue,
+  setGameState,
+}) => {
   const [bgUrl, setBgUrl] = useState("");
   const [bgOnLoad, setBgOnLoad] = useState(false);
   const [battleState, setBattleState] = useState();
   const [timer, setTimer] = useState(0);
-  const [monsterList, setMonsterList] = useState<Array<IMonsterData>>([]);
-  const [characterList, setCharacterList] = useState<Array<InftData>>([]);
+  const [monsterList, setMonsterList] = useState<
+    Array<IMonsterData | undefined>
+  >([]);
 
   const { account, logIn } = useWeb3();
-
-  const ActionQueue = useAppSelector((state) => state.action);
-
-  const dispatch = useDispatch();
 
   const genAIPaint = () => {
     axios
@@ -45,25 +50,21 @@ const BattleContainer: React.FC<Props> = ({ stage }) => {
     [slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9].map(
       async (item, index) => {
         const data = await getMonsterData(item);
-        pushMonsterList(data, index);
+        if (data) {
+          pushMonsterList(data, index);
+        } else {
+          pushMonsterList(undefined, index);
+        }
       }
     );
   };
 
-  const pushMonsterList = (_item: IMonsterData, index: number) => {
+  const pushMonsterList = (_item: IMonsterData | undefined, index: number) => {
     const tempList = monsterList;
     tempList[index] = _item;
     setMonsterList(tempList);
   };
 
-  const callCharacter = async () => {
-    if (account) {
-      const {
-        data: { Characters },
-      } = await getCharaterList(account);
-      setCharacterList(Characters);
-    }
-  };
   function attack(_from: number, _to: number) {
     // dispatch();
   }
@@ -80,20 +81,23 @@ const BattleContainer: React.FC<Props> = ({ stage }) => {
   }, [stage]);
 
   useEffect(() => {
-    callCharacter();
-  }, [account]);
-
-  useEffect(() => {}, [monsterList]);
-
-  useEffect(() => {
     setTimeout(() => {
-      if (timer >= 100) {
+      if (timer + 1 >= 100) {
         setTimer(0);
       } else {
-        if (!ActionQueue.length) setTimer(timer + 1);
+        if (!actionQueue.length) setTimer(timer + 1);
+        else {
+          setTimeout(() => {
+            setTimer(timer + 1);
+          }, 1100);
+        }
       }
     }, 1000 / 10);
-  }, [timer, ActionQueue]);
+  }, [timer]);
+
+  useEffect(() => {
+    console.log(monsterList.filter((item) => item != undefined).length);
+  }, [monsterList]);
 
   return (
     <BattleComponent
@@ -101,7 +105,12 @@ const BattleContainer: React.FC<Props> = ({ stage }) => {
       bgOnLoad={bgOnLoad}
       setBgOnLoad={setBgOnLoad}
       monsterList={monsterList}
+      setMonsterList={setMonsterList}
       timer={timer}
+      actionQueue={actionQueue}
+      setActionQueue={setActionQueue}
+      setGameState={setGameState}
+      stage={stage}
     />
   );
 };

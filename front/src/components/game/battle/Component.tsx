@@ -9,21 +9,32 @@ import { positionConfig, MpositionConfig } from "../data/positionData";
 import IMonsterData from "../../../interfaces/Monster.interface";
 import { useDispatch } from "react-redux";
 import { setWidth, setHeight } from "../../../redux/width";
+import IAction from "../../../interfaces/Action.interface";
 
 type Props = {
   bgUrl: string;
   bgOnLoad: boolean;
   setBgOnLoad: React.Dispatch<React.SetStateAction<boolean>>;
-  monsterList: Array<IMonsterData>;
+  monsterList: Array<IMonsterData | undefined>;
   timer: number;
+  actionQueue: IAction[];
+  setActionQueue: React.Dispatch<React.SetStateAction<IAction[]>>;
+  setMonsterList: React.Dispatch<
+    React.SetStateAction<(IMonsterData | undefined)[]>
+  >;
+  setGameState: React.Dispatch<React.SetStateAction<string>>;
+  stage: number;
 };
 
 const BattleComponent: React.FC<Props> = ({
   bgUrl,
-  bgOnLoad,
-  setBgOnLoad,
   monsterList,
   timer,
+  actionQueue,
+  setActionQueue,
+  setMonsterList,
+  setGameState,
+  stage,
 }) => {
   const { account, logIn } = useWeb3();
   const [formationList, setFormationList] = useState<Array<string>>([]);
@@ -46,16 +57,18 @@ const BattleComponent: React.FC<Props> = ({
   };
 
   const getCharacterList = async () => {
+    let tempList = [...characterList];
     if (formationList.length) {
       for (let i = 0; i < formationList.length; ++i) {
         if (formationList[i]) {
           const curCharacter = await NftInfo(formationList[i]);
-          const curList = characterList;
-          curList[i] = curCharacter.data;
-          setCharacterList(() => [...curList]);
+          tempList[i] = curCharacter.data;
+        } else {
+          tempList[i] = "";
         }
       }
     }
+    setCharacterList(tempList);
   };
 
   useEffect(() => {
@@ -91,6 +104,11 @@ const BattleComponent: React.FC<Props> = ({
               character={characterList[index]}
               characterList={monsterList}
               timer={timer}
+              actionQueue={actionQueue}
+              setActionQueue={setActionQueue}
+              setMonsterList={setMonsterList}
+              setGameState={setGameState}
+              stage={stage}
             ></BattleSlotComponent>
           );
       })}
@@ -105,6 +123,11 @@ const BattleComponent: React.FC<Props> = ({
               character={monsterList[index]}
               characterList={characterList}
               timer={timer}
+              actionQueue={actionQueue}
+              setActionQueue={setActionQueue}
+              setMonsterList={setMonsterList}
+              setGameState={setGameState}
+              stage={stage}
             ></BattleSlotComponent>
           );
       })}

@@ -17,4 +17,5 @@ export default interface InftData {
   Character?: InftData;
   cost: number;
   tokenId: number;
+  rarity: number;
 }

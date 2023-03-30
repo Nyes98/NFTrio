@@ -2,6 +2,7 @@ import styled from "styled-components";
 import StageContainer from "./stage/Container";
 import BattleContainer from "./battle/Container";
 import ReadyContainer from "./ready/Container";
+import IAction from "../../interfaces/Action.interface";
 
 type Props = {
   move: (where: string) => void;
@@ -9,6 +10,8 @@ type Props = {
   setGameState: React.Dispatch<React.SetStateAction<string>>;
   stage: number;
   setStage: React.Dispatch<React.SetStateAction<number>>;
+  actionQueue: IAction[];
+  setActionQueue: React.Dispatch<React.SetStateAction<IAction[]>>;
 };
 const GameComponent: React.FC<Props> = ({
   move,
@@ -16,13 +19,22 @@ const GameComponent: React.FC<Props> = ({
   setGameState,
   stage,
   setStage,
+  actionQueue,
+  setActionQueue,
 }) => {
   const curView = () => {
     switch (gameState) {
       case "ready":
         return <ReadyContainer />;
       case "battle":
-        return <BattleContainer stage={stage} />;
+        return (
+          <BattleContainer
+            stage={stage}
+            actionQueue={actionQueue}
+            setActionQueue={setActionQueue}
+            setGameState={setGameState}
+          />
+        );
       case "stage":
         return (
           <StageContainer

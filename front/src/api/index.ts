@@ -166,3 +166,7 @@ export const getMonsterData = async (monsterName: string) => {
 export const getCharaterList = async (account: string) => {
   return await request.post("/user/getCharacterList", { account: account });
 };
+
+export const setUserFrontLine = async (account: string, stage: number) => {
+  return await request.post("/user/setFrontLine", { account, stage });
+};

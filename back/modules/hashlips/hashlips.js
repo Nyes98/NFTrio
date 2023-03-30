@@ -94,9 +94,7 @@ const genCreate = async (_imageName) => {
     };
     s3.putObject(params, (err, data) => {
       if (err) {
-        console.log("ERRRRRRRRRRR", err);
       } else {
-        console.log("ELSASASAELSA");
         s3.putObject(
           {
             Bucket: bucketName,

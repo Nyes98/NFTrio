@@ -1,8 +1,6 @@
-import { Action } from "@remix-run/router";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { transform } from "typescript";
 import IMonsterData from "../../../interfaces/Monster.interface";
 import InftData from "../../../interfaces/NftData.interface";
 import Iposition from "../../../interfaces/Position.interface";
@@ -10,13 +8,25 @@ import { dequeue, enqueue } from "../../../redux/Action";
 import { useAppSelector } from "../../../redux/hooks";
 import { setWidth, WidthState } from "../../../redux/width";
 import { positionConfig, MpositionConfig } from "../data/positionData";
+import { IActionState } from "../../../redux/Action";
+import IAction from "../../../interfaces/Action.interface";
+import { setUserFrontLine } from "../../../api";
 
 type Props = {
   isMonster?: boolean;
-  character: InftData | IMonsterData;
+  character: InftData | IMonsterData | undefined;
   index: number;
-  characterList?: Array<InftData> | Array<IMonsterData>;
+  characterList: Array<InftData> | Array<IMonsterData | undefined>;
   timer: number;
+  position: Iposition;
+  actionQueue: IAction[];
+  setActionQueue: React.Dispatch<React.SetStateAction<IAction[]>>;
+  setMonsterList: React.Dispatch<
+    React.SetStateAction<(IMonsterData | undefined)[]>
+  >;
+  setGameState: React.Dispatch<React.SetStateAction<string>>;
+  account?: string;
+  stage: number;
 };
 
 interface styledProps {
@@ -26,50 +36,68 @@ interface styledProps {
   isMonster?: boolean;
 }
 
+interface hpProps {
+  maxHealth: number;
+  health: number;
+}
+
 const FSM: React.FC<Props> = ({
   isMonster,
   character,
   index,
   characterList,
   timer,
+  position,
+  actionQueue,
+  setActionQueue,
+  setMonsterList,
+  setGameState,
+  account,
+  stage,
 }) => {
-  const ActionIndex = useAppSelector((state) => state.action);
-  const dispatch = useDispatch();
   const [anima, setAnima] = useState(0);
-  const [location, setLocation] = useState<Iposition>();
   const [target, setTarget] = useState<Iposition>();
   const [gauge, setGauge] = useState(0);
   const [charSpd, setCharSpd] = useState(0);
+  const [targetPool, setTargetPool] = useState<Array<number>>([]);
+  const [health, setHealth] = useState<number>(100);
 
-  const Attack = async (_to: number) => {
-    dispatch(
-      enqueue({
+  const Attack = async () => {
+    const _to = findIndexFunction();
+
+    setActionQueue((state) => [
+      ...state,
+      {
         index: isMonster ? index + 6 : index,
         to: _to,
         from: index,
         name: "attack",
-      })
-    );
+      },
+    ]);
   };
 
   const clientWidth = useAppSelector((state) => state.setWidth);
 
   const dequeueFunction = () => {
-    dispatch(dequeue({}));
+    setActionQueue(actionQueue.slice(1));
   };
 
   useEffect(() => {
     if (character) {
       let jobModifier = 1;
+      let healthModifier = 1;
       if (character.job) {
         switch (character.job) {
           case 1:
             jobModifier = 0.7;
+            healthModifier = 1.5;
             break;
           case 2:
             jobModifier = 1.5;
+            healthModifier = 0.8;
             break;
           case 3:
+            healthModifier = 0.8;
             break;
           case 4:
             jobModifier = 2;
@@ -77,15 +105,18 @@ const FSM: React.FC<Props> = ({
           default:
             break;
         }
+        setHealth(character.health * healthModifier);
         setCharSpd((character.speed + 1) * jobModifier);
       } else {
         jobModifier = 0.5;
         setCharSpd(character.speed * jobModifier);
+        setHealth(character.health);
       }
     }
   }, [character]);
 
   useEffect(() => {
+    if (gauge == 100) return;
     if (isMonster) {
       if (gauge < 100) {
         setGauge(gauge + charSpd);
@@ -102,38 +133,28 @@ const FSM: React.FC<Props> = ({
   }, [timer]);
 
   useEffect(() => {
-    if (
-      characterList &&
-      gauge == 100 &&
-      !ActionIndex.find((item) => item.from == index)
-    ) {
-      let targetIndex;
-
-      while (characterList[Math.floor(Math.random() * 9)]) {
-        targetIndex = Math.floor(Math.random() * 9);
-        console.log(
-          "누가누가",
-          character.name,
-          "찾는중이얌",
-          characterList[targetIndex]?.name
-        );
-      }
-
-      if (targetIndex) {
-        Attack(targetIndex);
-      }
+    if (gauge == 100 && !actionQueue.find((item) => item.from == index)) {
+      Attack();
     }
   }, [gauge]);
 
+  useEffect(() => {
+    let tempPool: Array<number> = [];
+    characterList?.map((item, index) => {
+      if (item) {
+        tempPool.push(index);
+      }
+    });
+    setTargetPool([...tempPool]);
+  }, [characterList, actionQueue]);
+
   const findIndexFunction = () => {
-    let curNum = Math.floor(Math.random() * 8);
-    if (characterList && characterList[curNum]) {
-      return curNum;
-    }
+    const randomNum = Math.floor(Math.random() * targetPool.length);
+    return targetPool[randomNum];
   };
 
   useEffect(() => {
-    if (ActionIndex[0]?.from == index) {
+    if (actionQueue[0]?.from == index) {
       if (!target) {
         setTimeout(() => {
           dequeueFunction();
@@ -147,32 +168,58 @@ const FSM: React.FC<Props> = ({
   }, [target]);
 
   useEffect(() => {
+    if (!actionQueue.length) return;
     if (
-      ActionIndex.length &&
-      ActionIndex[0].from == index &&
-      characterList &&
-      ((isMonster && ActionIndex[0].index >= 6) ||
-        (!isMonster && ActionIndex[0].index < 6))
+      actionQueue[0].from == index &&
+      ((isMonster && actionQueue[0].index >= 6) ||
+        (!isMonster && actionQueue[0].index < 6))
     ) {
-      const toIdx = ActionIndex[0].to;
-      const curTarget = characterList[toIdx];
-      let myConfig;
+      const toIdx = actionQueue[0].to;
       let targetConfig;
 
       if (isMonster) {
-        myConfig = MpositionConfig;
         targetConfig = positionConfig;
       } else {
-        myConfig = positionConfig;
         targetConfig = MpositionConfig;
       }
       const targetPosition = targetConfig[toIdx];
-      const myLocation = myConfig[index];
 
-      setTarget(() => targetPosition);
-      setLocation(myLocation);
+      setTarget(targetPosition);
     }
-  }, [ActionIndex]);
+
+    if (
+      actionQueue[0].to == index &&
+      ((isMonster && actionQueue[0].index < 6) ||
+        (!isMonster && actionQueue[0].index >= 6))
+    ) {
+      const attacker = characterList[actionQueue[0].from];
+
+      if (!attacker) return;
+      if (actionQueue[0].from < 6 && isMonster) {
+        setTimeout(() => {
+          setHealth(health - attacker?.attack);
+        }, 500);
+      } else if (actionQueue[0].from >= 6 && !isMonster) {
+        setTimeout(() => {
+          setHealth(health - attacker?.attack);
+        }, 500);
+      }
+    }
+  }, [actionQueue]);
+
+  useEffect(() => {
+    // console.log(health);
+    if (health <= 0) {
+      setMonsterList((state) => {
+        state[index] = undefined;
+        if (!state.filter((item) => item != undefined).length && account) {
+          setUserFrontLine(account, stage);
+          setGameState("stage");
+        }
+        return state;
+      });
+    }
+  }, [health]);
 
   useEffect(() => {
     if (anima) {
@@ -180,7 +227,7 @@ const FSM: React.FC<Props> = ({
         setAnima(0);
       }, 900);
     } else {
-      setTarget((_) => undefined);
+      setTarget(() => undefined);
     }
   }, [anima]);
 
@@ -192,7 +239,7 @@ const FSM: React.FC<Props> = ({
     return (
       <MonsterBox
         className={anima ? "on2" : ""}
-        myPosition={location}
+        myPosition={position}
         targetPosition={target}
         clientWidth={clientWidth}
       >
@@ -201,6 +248,7 @@ const FSM: React.FC<Props> = ({
           alt={character?.name}
         />
         <GaugeBox gauge={gauge}></GaugeBox>
+        <HpBox health={health}></HpBox>
       </MonsterBox>
     );
   } else {
@@ -211,12 +259,13 @@ const FSM: React.FC<Props> = ({
     return (
       <CharBox
         className={anima ? "on" : ""}
-        myPosition={location}
+        myPosition={position}
         targetPosition={target}
         clientWidth={clientWidth}
       >
         <img src={character?.img} alt="솩" />
         <GaugeBox gauge={gauge}></GaugeBox>
+        <HpBox health={health}></HpBox>
       </CharBox>
     );
   }
@@ -464,5 +513,18 @@ const GaugeBox = styled.div<{ gauge: number }>`
   position: absolute;
   bottom: 0;
   right: 25px;
+  border-radius: 2px;
   z-index: 10;
+`;
+
+const HpBox = styled.div<{ health: number }>`
+  transition: all 0.2s;
+  width: ${({ health }) => health}px;
+  border-radius: 2px;
+  position: absolute;
+  background-color: red;
+  height: 10px;
+  bottom: 15px;
+  z-index: 10;
+  right: 25px;
 `;

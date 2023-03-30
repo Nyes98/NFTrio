@@ -373,16 +373,22 @@ router.post("/nftMint", async (req, res) => {
       break;
   }
   const owner_address = from;
+  const tempAttack =
+    12 + rarity * 8 + (Math.floor(Math.random() * 15 * rarity) - 30);
   const characterTokenConfig = {
     hash: imgResult.IpfsHash,
     img: `https://nftrio-bucket2.s3.ap-northeast-2.amazonaws.com/${imgResult.IpfsHash}.png`,
     name: characterName,
     job: job,
     gender: Math.floor(Math.random() * 2),
-    attack: Math.floor(Math.random() * 2),
-    health: Math.floor(Math.random() * 2),
-    speed: Math.floor(Math.random() * 2),
-    skill: rarity, //rarity
+    attack: tempAttack >= 5 ? tempAttack : 5,
+    health:
+      50 +
+      rarity * 30 +
+      (Math.floor(Math.random() * rarity) - 3) * (5 + 5 * rarity),
+    speed: 5 + rarity * 2 + (Math.floor(Math.random() * rarity) - 3) * rarity,
+    skill: job.toString(), //rarity
+    rarity: rarity,
     price: 0,
     tokenId: TOKENCOUNT,
   };
