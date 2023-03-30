@@ -5,9 +5,10 @@ import StageComponent from "./Component";
 type Props = {
   stage: number;
   setStage: React.Dispatch<React.SetStateAction<number>>;
+  setGameState: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const StageContainer: React.FC<Props> = ({ stage, setStage }) => {
+const StageContainer: React.FC<Props> = ({ stage, setStage, setGameState }) => {
   const [curStage, setCurStage] = useState({
     slot1: "",
     slot2: "",
@@ -21,12 +22,20 @@ const StageContainer: React.FC<Props> = ({ stage, setStage }) => {
   });
 
   const [skillList, setSkillList] = useState([]);
+  const [stageInfolist, setStageInfolist] = useState([]);
   const getSkillInfo = async () => {
     const result = (await axios.post("http://localhost:8080/api/game/getSkill"))
       .data;
     setSkillList(result);
   };
   // getSkillInfo();
+
+  const getStageInfo = async () => {
+    const result = (
+      await axios.post("http://localhost:8080/api/game/getStageInfo")
+    ).data;
+    setStageInfolist(result);
+  };
 
   const getMonsterByName = async (_name: string) => {
     const data = (
@@ -60,6 +69,9 @@ const StageContainer: React.FC<Props> = ({ stage, setStage }) => {
       getMonsterByName={getMonsterByName}
       skillList={skillList}
       getSkillInfo={getSkillInfo}
+      stageInfolist={stageInfolist}
+      getStageInfo={getStageInfo}
+      setGameState={setGameState}
     />
   );
 };

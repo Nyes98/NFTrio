@@ -24,9 +24,21 @@ const GameComponent: React.FC<Props> = ({
       case "battle":
         return <BattleContainer />;
       case "stage":
-        return <StageContainer stage={stage} setStage={setStage} />;
+        return (
+          <StageContainer
+            stage={stage}
+            setStage={setStage}
+            setGameState={setGameState}
+          />
+        );
       default:
-        return <StageContainer stage={stage} setStage={setStage} />;
+        return (
+          <StageContainer
+            stage={stage}
+            setStage={setStage}
+            setGameState={setGameState}
+          />
+        );
     }
   };
 

@@ -1,0 +1,62 @@
+[
+  {
+    "stage": 0,
+    "totalMonster": "5마리",
+    "monsterType": "thornyBramble",
+    "clearHint": "저렙 단계는 큰 문제없이 클리어가 가능합니다."
+  },
+  {
+    "stage": 1,
+    "totalMonster": "7마리",
+    "monsterType": "thornyBramble, curseEye",
+    "clearHint": "저렙 단계는 큰 문제없이 클리어가 가능합니다."
+  },
+  {
+    "stage": 2,
+    "totalMonster": "7마리",
+    "monsterType": "thornyBramble, curseEye, royalFairy",
+    "clearHint": "다수 공격을 시전하는 몬스터가 처음으로 등장합니다. 전방이 든든하다면 후방은 편하게 딜을 넣을 것입니다."
+  },
+  {
+    "stage": 3,
+    "totalMonster": "6마리",
+    "monsterType": "forestGlimmerfox, royalFairy",
+    "clearHint": "2stage를 클리어했다면 무리없이 클리어가 가능합니다."
+  },
+  {
+    "stage": 4,
+    "totalMonster": "1마리",
+    "monsterType": "kingSlime",
+    "clearHint": "보스 스테이지입니다. 클리어를 위해선 NFT Rare 등급 이상을 요구합니다."
+  },
+  {
+    "stage": 5,
+    "totalMonster": "7마리",
+    "monsterType": "forestGlimmerfox, fireflySlime",
+    "clearHint": "슬슬 몬스터들의 체력이 올라가고 있습니다. 그에 맞게 여러분들의 덱도 강력해질 필요가 있겠습니다."
+  },
+  {
+    "stage": 6,
+    "totalMonster": "7마리",
+    "monsterType": "fireflySlime, fairySlime",
+    "clearHint": "5stage를 클리어했다면 무리없이 진행이 가능합니다."
+  },
+  {
+    "stage": 7,
+    "totalMonster": "6마리",
+    "monsterType": "oniony",
+    "clearHint": "새로운 몬스터가 등장했네요! 끝에 다다르고 있습니다. 여러분들의 강해진 덱이라면 충분히 클리어가 가능합니다."
+  },
+  {
+    "stage": 8,
+    "totalMonster": "7마리",
+    "monsterType": "oniony, turnipy",
+    "clearHint": "이제 정말 끝이 보입니다. 7stage 클리어때보다 강해졌다면 무리 없이 클리어가 가능합니다."
+  },
+  {
+    "stage": 9,
+    "totalMonster": "1마리",
+    "monsterType": "moleKing",
+    "clearHint": "마지막 스테이지입니다! 강력한 회복력을 보유하고 있으니 그에 맞는 강력한 공격이 필요합니다. "
+  }
+]

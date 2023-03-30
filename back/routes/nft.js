@@ -28,7 +28,7 @@ const mint = async ({
     attack,
     health,
     speed,
-    skill,
+    skill, // rarity
   });
   const curOwner = await User.findOne({
     where: {
@@ -327,6 +327,7 @@ router.post("/nftMint", async (req, res) => {
   console.log(jsonResult);
   let characterName;
   let job = json[4].value.split(" ")[1];
+  let rarity = json[4].value.split(" ")[0];
 
   switch (job) {
     case "Axe":
@@ -350,6 +351,27 @@ router.post("/nftMint", async (req, res) => {
       job = 0;
       break;
   }
+
+  switch (rarity) {
+    case "Common":
+      rarity = 1;
+      break;
+    case "Uncommon":
+      rarity = 2;
+      break;
+    case "Rare":
+      rarity = 3;
+      break;
+    case "Super":
+      rarity = 4;
+      break;
+    case "Ultra":
+      rarity = 5;
+      break;
+    default:
+      rarity = 0;
+      break;
+  }
   const owner_address = from;
   console.log("ADDRESSS", owner_address);
   const characterTokenConfig = {
@@ -361,7 +383,7 @@ router.post("/nftMint", async (req, res) => {
     attack: Math.floor(Math.random() * 2),
     health: Math.floor(Math.random() * 2),
     speed: Math.floor(Math.random() * 2),
-    skill: Math.floor(Math.random() * 2),
+    skill: rarity, //rarity
     price: 0,
     tokenId: TOKENCOUNT,
   };

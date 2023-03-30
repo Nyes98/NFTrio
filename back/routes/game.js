@@ -12,6 +12,13 @@ router.post("/getSkill", async (req, res) => {
   res.send(skillList);
 });
 
+router.post("/getStageInfo", async (req, res) => {
+  const stageInfolist = await JSON.parse(
+    fs.readFileSync(basePath + "/config/stageInfo.json")
+  );
+  res.send(stageInfolist);
+});
+
 const setMonsterDB = () => {
   const monster = JSON.parse(
     fs.readFileSync(basePath + "/config/monster.json")

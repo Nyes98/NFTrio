@@ -3,21 +3,21 @@
     "username": "test",
     "password": "1234",
     "database": "NFTrio",
-    "host": "15.164.104.235",
+    "host": "13.125.128.223",
     "dialect": "mysql"
   },
   "test": {
     "username": "test",
     "password": "1234",
     "database": "NFTrio",
-    "host": "15.164.104.235",
+    "host": "13.125.128.223",
     "dialect": "mysql"
   },
   "production": {
     "username": "test",
     "password": "1234",
     "database": "NFTrio",
-    "host": "15.164.104.235",
+    "host": "13.125.128.223",
     "dialect": "mysql"
   }
 }
