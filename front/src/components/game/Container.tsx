@@ -21,7 +21,7 @@ const GameContainer = () => {
       .post("http://localhost:8080/api/user/getStage", { account: account })
       .then(({ data }) => {
         console.log(data);
-        if (data) setStage(data);
+        if (data) setStage(data.stage);
         else setStage(0);
       });
   }, [account]);
