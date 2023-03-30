@@ -373,7 +373,6 @@ router.post("/nftMint", async (req, res) => {
       break;
   }
   const owner_address = from;
-  console.log("ADDRESSS", owner_address);
   const characterTokenConfig = {
     hash: imgResult.IpfsHash,
     img: `https://nftrio-bucket2.s3.ap-northeast-2.amazonaws.com/${imgResult.IpfsHash}.png`,

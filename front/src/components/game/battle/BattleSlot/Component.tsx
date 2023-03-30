@@ -10,24 +10,29 @@ type Props = {
   position: Iposition;
   index: number;
   account?: string;
-  character: IMonsterData | InftData;
+  character: InftData | IMonsterData;
+  characterList?: Array<InftData> | Array<IMonsterData>;
+  timer: number;
 };
 
 const BattleSlotComponent: React.FC<Props> = ({
   position,
   character,
   index,
+  characterList,
+  timer,
 }) => {
   const [state, setState] = useState("stand");
   const [monsterName, setMonsterName] = useState("curseEye");
 
-  const Attack = () => {};
   return (
     <SlotBox position={position} className={"bg-melon fg-dark"}>
       <CharacterComponent
         position={position}
         character={character}
         index={index}
+        characterList={characterList}
+        timer={timer}
       ></CharacterComponent>
       {/* <img src={character?.img} alt="" /> */}
       {/* <img src={character?.img} alt="" /> */}

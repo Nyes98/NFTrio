@@ -3,6 +3,7 @@ import moveReducer from "./move";
 import mordalReducer from "./mordal";
 import metaAddressReducer from "./metaAddress";
 import actionReducer from "./Action";
+import widthReducer from "./width";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,8 @@ export const store = configureStore({
     metaAddress: metaAddressReducer,
     loadingMordalOpen: mordalReducer,
     action: actionReducer,
+    mintResultMordalOpen: mordalReducer,
+    setWidth: widthReducer,
   },
 });
 

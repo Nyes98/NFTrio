@@ -7,12 +7,15 @@ import { useWeb3 } from "../../../modules/useWeb3";
 import BattleSlotComponent from "./BattleSlot/Component";
 import { positionConfig, MpositionConfig } from "../data/positionData";
 import IMonsterData from "../../../interfaces/Monster.interface";
+import { useDispatch } from "react-redux";
+import { setWidth, setHeight } from "../../../redux/width";
 
 type Props = {
   bgUrl: string;
   bgOnLoad: boolean;
   setBgOnLoad: React.Dispatch<React.SetStateAction<boolean>>;
   monsterList: Array<IMonsterData>;
+  timer: number;
 };
 
 const BattleComponent: React.FC<Props> = ({
@@ -20,10 +23,13 @@ const BattleComponent: React.FC<Props> = ({
   bgOnLoad,
   setBgOnLoad,
   monsterList,
+  timer,
 }) => {
   const { account, logIn } = useWeb3();
   const [formationList, setFormationList] = useState<Array<string>>([]);
   const [characterList, setCharacterList] = useState<Array<InftData | any>>([]);
+
+  const dispatch = useDispatch();
 
   const callUserFunction = async () => {
     if (account) {
@@ -53,6 +59,15 @@ const BattleComponent: React.FC<Props> = ({
   };
 
   useEffect(() => {
+    const cliWidth = document.getElementById("BattleBox")?.clientWidth;
+    const cliHeight = document.getElementById("BattleBox")?.clientHeight;
+    if (cliWidth && cliHeight) {
+      dispatch(setWidth(cliWidth));
+      dispatch(setHeight(cliHeight));
+    }
+  }, []);
+
+  useEffect(() => {
     if (!account) logIn();
     callUserFunction();
   }, [account]);
@@ -63,53 +78,41 @@ const BattleComponent: React.FC<Props> = ({
     }
   }, [formationList]);
 
-  useEffect(() => {}, [characterList]);
-
   return (
-    <BattleBox bgUrl={bgUrl}>
-      <BtnBox>
-        <div>공격</div>
-        <div>1번으로</div>
-        <div>2번으로</div>
-      </BtnBox>
+    <BattleBox bgUrl={bgUrl} id={"BattleBox"}>
       {positionConfig.map((item, index) => {
-        return (
-          <BattleSlotComponent
-            key={`battleSlot-${index}`}
-            position={item}
-            index={index}
-            account={account}
-            character={characterList[index]}
-          ></BattleSlotComponent>
-        );
+        if (characterList[index])
+          return (
+            <BattleSlotComponent
+              key={`battleSlot-${index}`}
+              position={item}
+              index={index}
+              account={account}
+              character={characterList[index]}
+              characterList={monsterList}
+              timer={timer}
+            ></BattleSlotComponent>
+          );
       })}
       {MpositionConfig.map((item, index) => {
-        return (
-          <BattleSlotComponent
-            key={`battleSlot-${index}`}
-            position={item}
-            index={index}
-            account={account}
-            character={monsterList[index]}
-          ></BattleSlotComponent>
-        );
+        if (monsterList[index])
+          return (
+            <BattleSlotComponent
+              key={`battleSlot-${index}`}
+              position={item}
+              index={index}
+              account={account}
+              character={monsterList[index]}
+              characterList={characterList}
+              timer={timer}
+            ></BattleSlotComponent>
+          );
       })}
     </BattleBox>
   );
 };
 
 export default BattleComponent;
-
-const BtnBox = styled.div`
-  div {
-    background-color: blue;
-    width: 100px;
-    margin: 5px;
-  }
-  position: absolute;
-  display: flex;
-  top: 0;
-`;
 
 const BattleBox = styled.div<{ bgUrl: string }>`
   width: 100%;

@@ -26,6 +26,9 @@ type Props = {
   callNftList: () => void;
   ListFilter: (list: number) => void;
   listSel: number;
+  page: number;
+  nextPage: () => void;
+  prevPage: () => void;
 };
 
 const SaleComponent: React.FC<Props> = ({
@@ -50,6 +53,9 @@ const SaleComponent: React.FC<Props> = ({
   callNftList,
   ListFilter,
   listSel,
+  page,
+  nextPage,
+  prevPage,
 }) => {
   console.log(registedNft);
 
@@ -108,15 +114,19 @@ const SaleComponent: React.FC<Props> = ({
             </div>
           </Categori>
           <Sort>
-            <img src="./imgs/right.svg" alt="" />
-            {/* {page} */}
-            <img src="./imgs/left.svg" alt="" />
-            Items
-            <select onChange={handleSelect}>
-              <option value={25}>25</option>
-              <option value={50}>50</option>
-              <option value={100}>100</option>
-            </select>
+            <div>
+              <img src="./imgs/left.svg" alt="prev" onClick={prevPage} />
+              {page + 1}
+              <img src="./imgs/right.svg" alt="next" onClick={nextPage} />
+            </div>
+            <div>Items</div>
+            <div>
+              <select onChange={handleSelect}>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </div>
           </Sort>
         </FilterBox>
 
@@ -411,13 +421,25 @@ const NftImg = styled.div`
 const Sort = styled.div`
   display: flex;
   flex-direction: row-reverse;
+  align-items: center;
+
+  div {
+    display: flex;
+    margin: 0 10px;
+  }
+
+  div:first-child {
+    display: flex;
+    justify-content: space-around;
+    width: 60px;
+  }
 
   select {
     font-size: 1rem;
   }
 
   img {
-    width: 20px;
+    width: 15px;
   }
 `;
 

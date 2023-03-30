@@ -9,7 +9,7 @@ export default interface InftData {
   deletedAt?: string;
   hash: string;
   img: string;
-  job: string;
+  job: number;
   name: string;
   owner_address?: string;
   skill: string;

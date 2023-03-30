@@ -90,10 +90,10 @@ const BattleContainer: React.FC<Props> = ({ stage }) => {
       if (timer >= 100) {
         setTimer(0);
       } else {
-        setTimer(timer + 1);
+        if (!ActionQueue.length) setTimer(timer + 1);
       }
-    }, 10000);
-  }, [timer]);
+    }, 1000 / 10);
+  }, [timer, ActionQueue]);
 
   return (
     <BattleComponent
@@ -101,6 +101,7 @@ const BattleContainer: React.FC<Props> = ({ stage }) => {
       bgOnLoad={bgOnLoad}
       setBgOnLoad={setBgOnLoad}
       monsterList={monsterList}
+      timer={timer}
     />
   );
 };
