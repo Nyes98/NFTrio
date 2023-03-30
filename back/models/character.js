@@ -45,6 +45,9 @@ module.exports = class Character extends Sequelize.Model {
           type: Sequelize.INTEGER,
           allowNull: true,
         },
+        rarity: {
+          type: Sequelize.INTEGER,
+        },
       },
       {
         sequelize,

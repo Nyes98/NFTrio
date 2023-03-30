@@ -4,14 +4,22 @@ import InftData from "../../../../interfaces/NftData.interface";
 import Iposition from "../../../../interfaces/Position.interface";
 import CharacterComponent from "./Character/Component";
 import IMonsterData from "../../../../interfaces/Monster.interface";
+import IAction from "../../../../interfaces/Action.interface";
 
 type Props = {
   position: Iposition;
   index: number;
   account?: string;
-  character: InftData | IMonsterData;
-  characterList?: Array<InftData> | Array<IMonsterData>;
+  character: InftData | IMonsterData | undefined;
+  characterList: Array<InftData> | Array<IMonsterData | undefined>;
   timer: number;
+  actionQueue: IAction[];
+  setActionQueue: React.Dispatch<React.SetStateAction<IAction[]>>;
+  setMonsterList: React.Dispatch<
+    React.SetStateAction<(IMonsterData | undefined)[]>
+  >;
+  setGameState: React.Dispatch<React.SetStateAction<string>>;
+  stage: number;
 };
 
 const BattleSlotComponent: React.FC<Props> = ({
@@ -20,6 +28,12 @@ const BattleSlotComponent: React.FC<Props> = ({
   index,
   characterList,
   timer,
+  actionQueue,
+  setActionQueue,
+  setMonsterList,
+  setGameState,
+  account,
+  stage,
 }) => {
   return (
     <SlotBox position={position} className={"bg-melon fg-dark"}>
@@ -29,6 +43,12 @@ const BattleSlotComponent: React.FC<Props> = ({
         index={index}
         characterList={characterList}
         timer={timer}
+        actionQueue={actionQueue}
+        setActionQueue={setActionQueue}
+        setMonsterList={setMonsterList}
+        setGameState={setGameState}
+        account={account}
+        stage={stage}
       ></CharacterComponent>
       {/* <img src={character?.img} alt="" /> */}
     </SlotBox>

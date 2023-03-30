@@ -9,7 +9,7 @@ const MyResponsiveRadar = ({ nftData }) => {
         data={[
           {
             taste: "attack",
-            stat: nftData?.attack,
+            stat: nftData?.attack * 3.25,
           },
           {
             taste: "health",
@@ -17,7 +17,7 @@ const MyResponsiveRadar = ({ nftData }) => {
           },
           {
             taste: "speed",
-            stat: nftData?.speed,
+            stat: nftData?.speed * 16,
           },
         ]}
         keys={["stat"]}
@@ -29,7 +29,6 @@ const MyResponsiveRadar = ({ nftData }) => {
         dotSize={5}
         dotColor={{ theme: "background" }}
         dotBorderWidth={2}
-        enableDotLabel={true}
         dotLabel="value"
         colors={{ scheme: "nivo" }}
         blendMode="multiply"
@@ -39,7 +38,7 @@ const MyResponsiveRadar = ({ nftData }) => {
             anchor: "top-left",
             direction: "column",
             translateX: -50,
-            translateY: -40,
+            translateY: -90,
             itemWidth: 80,
             itemHeight: 50,
             itemTextColor: "#999",

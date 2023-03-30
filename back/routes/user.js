@@ -155,4 +155,16 @@ router.post("/getCharacterList", async (req, res) => {
   res.send(data);
 });
 
+router.post("/setFrontLine", async (req, res) => {
+  const data = await User.update(
+    { frontLine: req.body.stage },
+    {
+      where: {
+        address: req.body.account,
+      },
+    }
+  );
+  res.send(data);
+});
+
 module.exports = router;

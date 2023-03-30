@@ -29,13 +29,13 @@ const NftInfoComponent: React.FC<Props> = ({
           <NftImg
             style={{
               background: `${
-                nftData?.skill == "1"
+                nftData?.rarity == 1
                   ? `url('/imgs/Background/Normal.png')`
-                  : nftData?.skill == "2"
+                  : nftData?.rarity == 2
                   ? `url('/imgs/Background/UnCommon.png')`
-                  : nftData?.skill == "3"
+                  : nftData?.rarity == 3
                   ? `url('/imgs/Background/Rare.png')`
-                  : nftData?.skill == "4"
+                  : nftData?.rarity == 4
                   ? `url('/imgs/Background/SuperRare.png')`
                   : `url('/imgs/Background/UltraSuperRare.gif')`
               }`,
@@ -169,15 +169,15 @@ const NftInfoComponent: React.FC<Props> = ({
           </div>
         ) : (
           <div>
-            {nftData?.skill == "1" ? (
+            {nftData?.rarity == 1 ? (
               <div>Rarity : Common</div>
-            ) : nftData?.skill == "2" ? (
+            ) : nftData?.rarity == 2 ? (
               <div>Rarity : Uncommon</div>
-            ) : nftData?.skill == "3" ? (
+            ) : nftData?.rarity == 3 ? (
               <div>Rarity : Rare</div>
-            ) : nftData?.skill == "4" ? (
+            ) : nftData?.rarity == 4 ? (
               <div>Rarity : Super</div>
-            ) : nftData?.skill == "5" ? (
+            ) : nftData?.rarity == 5 ? (
               <div>Rarity : Ultra</div>
             ) : (
               <></>

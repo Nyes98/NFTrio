@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useWeb3 } from "../../modules/useWeb3";
 import GameComponent from "./Component";
+import IAction from "../../interfaces/Action.interface";
 
 const GameContainer = () => {
   const navigate = useNavigate();
   const [gameState, setGameState] = useState("ready");
   const [stage, setStage] = useState(0);
   const { account, logIn } = useWeb3();
+  const [actionQueue, setActionQueue] = useState<Array<IAction>>([]);
 
   useEffect(() => {
     logIn();
@@ -34,6 +36,8 @@ const GameContainer = () => {
       setGameState={setGameState}
       stage={stage}
       setStage={setStage}
+      actionQueue={actionQueue}
+      setActionQueue={setActionQueue}
     ></GameComponent>
   );
 };
