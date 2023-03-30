@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useWeb3 } from "./useWeb3";
 import { AbiItem } from "web3-utils";
-import EthSwap from "../../Swap";
 import { Mint } from "./Mint";
 import { List } from "./List";
 import axios from "axios";
