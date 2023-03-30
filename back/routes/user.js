@@ -45,14 +45,13 @@ router.post("/regist", async (req, res) => {
 });
 
 router.post("/getStage", async (req, res) => {
-  console.log(req.body);
+  console.log("bodybody", req.body);
   const curUser = await User.findOne({
     where: {
       address: req.body.account,
     },
   });
-  console.log(curUser);
-  res.send(curUser?.frontLine);
+  res.send({ stage: curUser?.frontLine });
 });
 
 router.post("/useTicket", async (req, res) => {
