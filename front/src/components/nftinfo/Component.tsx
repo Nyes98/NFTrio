@@ -26,7 +26,21 @@ const NftInfoComponent: React.FC<Props> = ({
     <MainBoard>
       <InfoWrap>
         {nftData ? (
-          <NftImg>
+          <NftImg
+            style={{
+              background: `${
+                nftData?.skill == "1"
+                  ? `url('/imgs/Background/Normal.png')`
+                  : nftData?.skill == "2"
+                  ? `url('/imgs/Background/UnCommon.png')`
+                  : nftData?.skill == "3"
+                  ? `url('/imgs/Background/Rare.png')`
+                  : nftData?.skill == "4"
+                  ? `url('/imgs/Background/SuperRare.png')`
+                  : `url('/imgs/Background/UltraSuperRare.gif')`
+              }`,
+            }}
+          >
             <img src={`${nftData?.img}`} alt="nftImg" />
           </NftImg>
         ) : (
@@ -78,13 +92,107 @@ const NftInfoComponent: React.FC<Props> = ({
           <MyResponsiveRadar nftData={nftData} />
         </div>
         {nftData?.job == "1" ? (
-          <div>Class : 전사</div>
+          <div>
+            {nftData?.skill == "1" ? (
+              <div>Rarity: Common</div>
+            ) : nftData?.skill == "2" ? (
+              <div>Rarity: Uncommon</div>
+            ) : nftData?.skill == "3" ? (
+              <div>Rarity: Rare</div>
+            ) : nftData?.skill == "4" ? (
+              <div>Super</div>
+            ) : nftData?.skill == "5" ? (
+              <div>Ultra</div>
+            ) : (
+              <></>
+            )}
+            <div>Class : 전사</div>
+            <div>Passive : 체력 단련</div>
+            <div className="description fg-melon">
+              꾸준한 체력 단련을 기반으로 다른 직업보다 높은 체력을 보유하고
+              있다.
+            </div>
+            <div>Active : 내가 지킨다</div>
+            <div className="description fg-melon">
+              등급에 비례하여 일정 시간동안 아군이 받는 피해량을 감소시킨다.
+            </div>
+          </div>
         ) : nftData?.job == "2" ? (
-          <div>Class : 법사</div>
+          <div>
+            {nftData?.skill == "1" ? (
+              <div>Rarity: Common</div>
+            ) : nftData?.skill == "2" ? (
+              <div>Rarity: Uncommon</div>
+            ) : nftData?.skill == "3" ? (
+              <div>Rarity: Rare</div>
+            ) : nftData?.skill == "4" ? (
+              <div>Super</div>
+            ) : nftData?.skill == "5" ? (
+              <div>Ultra</div>
+            ) : (
+              <></>
+            )}
+            <div>Class : 법사</div>
+            <div>Passive : 귀족</div>
+            <div className="description fg-melon">
+              기본 공격이 없는 대신 스킬의 쿨타임이 다른 직업에 비해 짧다.
+            </div>
+            <div>Active : 메테오</div>
+            <div className="description fg-melon">
+              하늘로부터 운석을 소환하여 다수의 적에게 공격을 시전한다.
+            </div>
+          </div>
         ) : nftData?.job == "3" ? (
-          <div>Class : 궁수</div>
+          <div>
+            {nftData?.skill == "1" ? (
+              <div>Rarity : Common</div>
+            ) : nftData?.skill == "2" ? (
+              <div>Rarity : Uncommon</div>
+            ) : nftData?.skill == "3" ? (
+              <div>Rarity : Rare</div>
+            ) : nftData?.skill == "4" ? (
+              <div>Rarity : Super</div>
+            ) : nftData?.skill == "5" ? (
+              <div>Rarity : Ultra</div>
+            ) : (
+              <></>
+            )}
+            <div>Class : 궁수</div>
+            <div>Passive : 선제 공격</div>
+            <div className="description fg-melon">
+              전투시작 시 쿨타임 없이 기본공격을 1회 시전한다.
+            </div>
+            <div>Active : 비장의 한발</div>
+            <div className="description fg-melon">
+              단일 타겟의 강력한 공격을 시전한다.
+            </div>
+          </div>
         ) : (
-          <div>Class : 도적</div>
+          <div>
+            {nftData?.skill == "1" ? (
+              <div>Rarity : Common</div>
+            ) : nftData?.skill == "2" ? (
+              <div>Rarity : Uncommon</div>
+            ) : nftData?.skill == "3" ? (
+              <div>Rarity : Rare</div>
+            ) : nftData?.skill == "4" ? (
+              <div>Rarity : Super</div>
+            ) : nftData?.skill == "5" ? (
+              <div>Rarity : Ultra</div>
+            ) : (
+              <></>
+            )}
+            <div>Class : 도적</div>
+            <div>Passive : 본능</div>
+            <div className="description fg-melon">
+              등급에 따라 확률적으로 기본 공격과 Active 스킬에 치명타가
+              적용됩니다. 치명타 적용 시 보다 강력한 데미지를 입힐 수 있습니다.
+            </div>
+            <div>Active : 암살</div>
+            <div className="description fg-melon">
+              가장 체력이 낮은 적에게 강력한 단일 공격을 시전합니다.
+            </div>
+          </div>
         )}
       </NftStat>
 
@@ -115,6 +223,10 @@ const NftStat = styled.div`
     border-radius: 20px;
     padding: 20px;
   }
+
+  .description {
+    font-size: 0.8rem;
+  }
 `;
 
 const MainBoard = styled.div`
@@ -133,7 +245,7 @@ const NftImg = styled.div`
   border-radius: 15px;
   display: flex;
   justify-content: center;
-
+  position: relative;
   img {
     width: 60%;
   }
