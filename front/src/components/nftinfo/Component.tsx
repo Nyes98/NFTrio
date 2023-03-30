@@ -91,7 +91,7 @@ const NftInfoComponent: React.FC<Props> = ({
         <div>
           <MyResponsiveRadar nftData={nftData} />
         </div>
-        {nftData?.job == "1" ? (
+        {nftData?.job == 1 ? (
           <div>
             {nftData?.skill == "1" ? (
               <div>Rarity: Common</div>
@@ -117,7 +117,7 @@ const NftInfoComponent: React.FC<Props> = ({
               등급에 비례하여 일정 시간동안 아군이 받는 피해량을 감소시킨다.
             </div>
           </div>
-        ) : nftData?.job == "2" ? (
+        ) : nftData?.job == 2 ? (
           <div>
             {nftData?.skill == "1" ? (
               <div>Rarity: Common</div>
@@ -142,7 +142,7 @@ const NftInfoComponent: React.FC<Props> = ({
               하늘로부터 운석을 소환하여 다수의 적에게 공격을 시전한다.
             </div>
           </div>
-        ) : nftData?.job == "3" ? (
+        ) : nftData?.job == 3 ? (
           <div>
             {nftData?.skill == "1" ? (
               <div>Rarity : Common</div>

@@ -9,17 +9,19 @@ type Props = {
   character: InftData | IMonsterData;
   position: Iposition;
   index: number;
+  characterList?: Array<InftData> | Array<IMonsterData>;
+  timer: number;
 };
 
 const CharacterComponent: React.FC<Props> = ({
   character,
   position,
   index,
+  characterList,
+  timer,
 }) => {
   const [curPosition, setCurPosition] = useState<Iposition>(position);
   const [curIntervalId, setCurIntervalId] = useState<NodeJS.Timer>();
-
-  console.log(character);
 
   return (
     <CharacterBox>
@@ -29,6 +31,8 @@ const CharacterComponent: React.FC<Props> = ({
         // monsterName={monsterName}
         index={index}
         character={character}
+        characterList={characterList}
+        timer={timer}
       ></FSM>
     </CharacterBox>
   );

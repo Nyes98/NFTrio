@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import "../../nftrio.css";
 import LoadingModalComponent from "../mordal/loading/Components";
+import MintResultContainer from "../mordal/mintResult/Container";
 import NoTicketMordalComponent from "../mordal/noTicket/Component";
 import NoTicketMordalContainer from "../mordal/noTicket/Container";
 
@@ -10,6 +11,8 @@ type Props = {
   userTicket: number;
   noTicket: boolean;
   setNoTicket: React.Dispatch<React.SetStateAction<boolean>>;
+  ResultMordal: boolean;
+  ResultMordalControl: () => void;
 };
 
 const PickComponent: React.FC<Props> = ({
@@ -18,9 +21,12 @@ const PickComponent: React.FC<Props> = ({
   userTicket,
   noTicket,
   setNoTicket,
+  ResultMordal,
+  ResultMordalControl,
 }) => {
   return (
     <Background className="bg-melon">
+      <div onClick={ResultMordalControl}>잠깐만</div>
       <TicketBox>
         <div>
           <img src="../imgs/ticket.svg" alt="" />
@@ -44,6 +50,7 @@ const PickComponent: React.FC<Props> = ({
       ) : (
         <></>
       )}
+      {ResultMordal ? <MintResultContainer></MintResultContainer> : <></>}
     </Background>
   );
 };

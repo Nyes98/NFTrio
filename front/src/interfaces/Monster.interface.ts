@@ -5,4 +5,5 @@ export default interface IMonsterData {
   speed: number;
   skill: number;
   img: string;
+  job?: number;
 }

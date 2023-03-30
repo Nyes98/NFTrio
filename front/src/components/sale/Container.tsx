@@ -10,7 +10,7 @@ const SaleContainer = () => {
   const [pricedd, setPriceDd] = useState(false);
   const [classdd, setClassDd] = useState(false);
   const [buyBtn, setBuyBtn] = useState("0");
-  const [nftCount, setNftCount] = useState();
+  const [nftCount, setNftCount] = useState(0);
   const [priceSort, setPriceSort] = useState(0);
   const [classSort, setClassSort] = useState(0);
   const [page, setPage] = useState(0);
@@ -74,9 +74,15 @@ const SaleContainer = () => {
     });
   };
 
-  // const MovePage = () => {
-  //   setPage;
-  // };
+  const nextPage = () => {
+    if (nftCount <= page * pageLen) return;
+    setPage(page + 1);
+  };
+
+  const prevPage = () => {
+    if (page == 0) return;
+    setPage(page - 1);
+  };
 
   const PriceSort = (select: number) => {
     setPriceSort(select);
@@ -142,6 +148,9 @@ const SaleContainer = () => {
       registedNft={registedNft}
       callNftList={callNftList}
       listSel={listSel}
+      page={page}
+      nextPage={nextPage}
+      prevPage={prevPage}
     ></SaleComponent>
   );
 };

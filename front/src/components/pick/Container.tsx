@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import Web3 from "web3";
 import { PickNft, UseTicket, InsertTokenId, CallUser } from "../../api";
 import { useAppSelector } from "../../redux/hooks";
-import { loadingMordalOpen } from "../../redux/mordal";
+import { loadingMordalOpen, mintResultMordalOpen } from "../../redux/mordal";
 import PickComponent from "./Component";
 
 type Props = {
@@ -16,6 +16,14 @@ const PickContainer: React.FC<Props> = ({ web3, account }) => {
   const [tokenId, setTokenId] = useState<string | undefined>("");
   const [userTicket, setUserTicket] = useState(0);
   const [noTicket, setNoTicket] = useState(false);
+
+  const ResultMordal = useAppSelector(
+    (state) => state.mintResultMordalOpen.mintResultMordal
+  );
+
+  const ResultMordalControl = async () => {
+    await dispatch(mintResultMordalOpen());
+  };
 
   const callUser = async () => {
     if (account) {
@@ -72,6 +80,8 @@ const PickContainer: React.FC<Props> = ({ web3, account }) => {
       userTicket={userTicket}
       noTicket={noTicket}
       setNoTicket={setNoTicket}
+      ResultMordal={ResultMordal}
+      ResultMordalControl={ResultMordalControl}
     ></PickComponent>
   );
 };
