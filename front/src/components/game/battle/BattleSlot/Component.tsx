@@ -51,6 +51,7 @@ const BattleSlotComponent: React.FC<Props> = ({
         stage={stage}
       ></CharacterComponent>
       {/* <img src={character?.img} alt="" /> */}
+      {/* <img src={character?.img} alt="" /> */}
     </SlotBox>
   );
 };
